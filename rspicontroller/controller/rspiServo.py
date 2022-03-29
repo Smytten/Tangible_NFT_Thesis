@@ -6,12 +6,12 @@ class TowerPro(servo_interface.ServoStrategy):
 
     def __init__(self, pin) -> None:
         super().__init__()
-        _pin = pin
+        self._pin = pin
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(11,GPIO.OUT)
+        GPIO.setup(pin,GPIO.OUT)
 
-        _servo = GPIO.PWM(11,50) # pin 11 for servo1, pulse 50Hz
-        _servo.start(0)
+        self._servo = GPIO.PWM(pin,50) # pin 11 for servo1, pulse 50Hz
+        self._servo.start(0)
 
     def rotationMethod(self,rotationAmount):
 
