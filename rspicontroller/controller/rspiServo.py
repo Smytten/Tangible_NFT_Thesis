@@ -1,8 +1,8 @@
-from servo_interface import ServoStrategy
+from controller import servo_interface 
 import RPi.GPIO as GPIO #Requires that it is run on a RSPI with GPIO
 import time
 
-class TowerPro(ServoStrategy):
+class TowerPro(servo_interface.ServoStrategy):
 
     def __init__(self, pin) -> None:
         super().__init__()
