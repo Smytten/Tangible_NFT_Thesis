@@ -1,25 +1,13 @@
-
 from controller import servo_interface 
-from controller import rspiServo
+from controller import stubServo
+from controller import multipleServoController
 
-command = servo_interface.Servo(rspiServo.TowerPro(11))
-command1 = servo_interface.Servo(rspiServo.TowerPro(13))
+command = servo_interface.Servo(stubServo.StubServo())
+command1 = servo_interface.Servo(stubServo.StubServo())
 
-servos = []
-servos.append(command)
-servos.append(command1)
+mc = multipleServoController.MultiController([command,command1])
 
-for servo in servos:
-    servo.rotate(0)
-
-for servo in servos:
-    servo.rotate(180)
-
-for servo in servos:
-    servo.rotate(0)
-
-for servo in servos:
-    servo.rotate(180)
-
-for servo in servos:
-    servo.cleanUp()
+mc.simpleRotate(180)
+mc.simpleRotate(0)
+mc.simpleRotate(180)
+mc.simpleRotate(0)

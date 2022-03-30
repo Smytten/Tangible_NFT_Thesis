@@ -8,13 +8,16 @@ class ServoStrategy():
         pass
 
     @abstractmethod
-    def cleanUp(self):
+    def cleanUp(self,pin):
+        pass
+    
+    @abstractmethod
+    def bareRoation(self,cycleAmount):
         pass
 
 class Servo():
 
     def __init__(self, servoStragegy: ServoStrategy) -> None:
-        
         self._servoImplementation = servoStragegy
 
     def servoStrategy(self) -> ServoStrategy:
@@ -23,5 +26,8 @@ class Servo():
     def rotate(self,rotationAmount) -> None:
         self._servoImplementation.rotationMethod(rotationAmount)
 
-    def clearnUp(self) -> None:
-        self._servoImplementation.cleanUp()
+    def bareRotation(self,cycleAmount) -> None:
+        self._servoImplementation.bareRoation(cycleAmount)
+
+    def clearnUp(self,pin) -> None:
+        self._servoImplementation.cleanUp(pin)
