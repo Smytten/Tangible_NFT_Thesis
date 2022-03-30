@@ -11,8 +11,10 @@ class MultiController():
     def addActuationPattern(self):
         pass
 
-    def actuatePattern(self):
-        pass
+    def actuatePattern(self,pattern:list):
+        for current in range(len(pattern)):
+            self._servos[current].rotate(pattern[current])
+        
 
     def simpleRotate(self, rotationAmount):
         for servo in self._servos:
@@ -24,4 +26,5 @@ class MultiController():
     def cleanup(self):
         for servo in self._servos:
             servo.cleanUp()
+            time.sleep(0.01)
         print("Goodbye!")
