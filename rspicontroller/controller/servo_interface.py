@@ -12,7 +12,7 @@ class ServoStrategy():
         pass
     
     @abstractmethod
-    def bareRoation(self,cycleAmount):
+    def bareRoationMethod(self,cycleAmount):
         pass
 
 class Servo():
@@ -27,7 +27,7 @@ class Servo():
         self._servoImplementation.rotationMethod(rotationAmount)
 
     def bareRotation(self,cycleAmount) -> None:
-        self._servoImplementation.bareRoation(cycleAmount)
+        self._servoImplementation.bareRoationMethod(cycleAmount)
 
     def cleanUp(self) -> None:
         self._servoImplementation.cleanUp()

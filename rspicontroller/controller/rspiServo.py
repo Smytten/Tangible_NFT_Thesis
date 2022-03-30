@@ -18,7 +18,7 @@ class TowerPro(servo_interface.ServoStrategy):
         time.sleep(0.5)
         self._servo.ChangeDutyCycle(0)
     
-    def bareRotation(self, cycleAmount):
+    def bareRoationMethod(self, cycleAmount):
         self._servo.ChangeDutyCycle(cycleAmount)
 
     def cleanUp(self):
