@@ -11,8 +11,8 @@ rotationPattern1 = [180,0]
 rotationPattern2 = [0,180]
 
 mc.actuatePattern(rotationPattern1)
-mc.actuatePattern(rotationPattern2)
-mc.actuatePattern(rotationPattern1)
-mc.actuatePattern(rotationPattern2)
+mc.actuatePattern([180,180])
+mc.actuatePattern([0,180])
+mc.actuatePattern([0,90])
 
 mc.cleanup()
