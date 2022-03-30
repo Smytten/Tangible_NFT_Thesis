@@ -29,5 +29,5 @@ class Servo():
     def bareRotation(self,cycleAmount) -> None:
         self._servoImplementation.bareRoation(cycleAmount)
 
-    def cleanUp(self,pin) -> None:
-        self._servoImplementation.cleanUp(pin)
+    def cleanUp(self) -> None:
+        self._servoImplementation.cleanUp()
