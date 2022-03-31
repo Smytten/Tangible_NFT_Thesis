@@ -18,6 +18,6 @@ led1 = led_interface.LEDStrip(neopixel_impl.NEOPixel(12,10))
 
 p1 = panel.Panel(led1)
 
-grass = led_interface.LEDPattern('grassland',data['grassland']['panel'])
+grass = led_interface.LEDPattern('grassland',data['grassland']['pattern'])
 
 p1.update(grass)
