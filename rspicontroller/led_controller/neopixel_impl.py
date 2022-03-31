@@ -1,4 +1,3 @@
-from ast import pattern
 from led_controller import led_interface
 import board
 import neopixel
