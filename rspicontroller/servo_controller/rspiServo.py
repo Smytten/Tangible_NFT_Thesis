@@ -1,4 +1,4 @@
-from controller import servo_interface 
+from servo_controller import servo_interface 
 import RPi.GPIO as GPIO #Requires that it is run on a RSPI with GPIO
 import time
 
