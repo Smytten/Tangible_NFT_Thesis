@@ -2,8 +2,11 @@
 # SPDX-License-Identifier: MIT
 
 import board
+import busio
 from adafruit_cap1188.i2c import CAP1188_I2C
 
+i2c = busio.I2C(board.SCL, board.SDA)
+cap = CAP1188_I2C(i2c)
 i2c = busio.I2C(board.SCL, board.SDA)
 cap = CAP1188_I2C(i2c)
 
