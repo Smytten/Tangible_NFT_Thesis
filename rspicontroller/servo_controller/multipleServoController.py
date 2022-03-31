@@ -1,4 +1,4 @@
-from controller import servo_interface 
+from servo_controller import servo_interface 
 import time
 
 class MultiController():

@@ -1,6 +1,6 @@
-from controller import servo_interface 
-from controller import stubServo
-from controller import multipleServoController
+from servo_controller import servo_interface 
+from servo_controller import stubServo
+from servo_controller import multipleServoController
 
 command = servo_interface.Servo(stubServo.StubServo())
 command1 = servo_interface.Servo(stubServo.StubServo())

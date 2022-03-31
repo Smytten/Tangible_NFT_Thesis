@@ -1,6 +1,6 @@
-from controller import servo_interface 
-from controller import rspiServo
-from controller import multipleServoController
+from servo_controller import servo_interface 
+from servo_controller import rspiServo
+from servo_controller import multipleServoController
 
 command = servo_interface.Servo(rspiServo.TowerPro(11))
 command1 = servo_interface.Servo(rspiServo.TowerPro(13))
