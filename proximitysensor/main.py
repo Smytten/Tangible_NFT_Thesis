@@ -37,6 +37,6 @@ while True:
             previous_captured_pin = i
             
         #If all values are false reset previous captured pin to none
-        if any(cap) == False:
-            previous_captured_pin = None
+        #if any(cap) == False:
+        #   previous_captured_pin = None
             
