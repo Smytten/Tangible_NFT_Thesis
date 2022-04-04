@@ -21,6 +21,9 @@ while True:
         
         # if a pin is touched
         if cap[i].value:
+            
+            if previous_captured_pin == None:
+                previous_captured_pin = i
 
             # check if previous pin was touched before the current active pin
             if previous_captured_pin < i:
