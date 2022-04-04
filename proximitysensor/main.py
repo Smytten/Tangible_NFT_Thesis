@@ -44,8 +44,8 @@ while True:
             counter = 0
             
         #avoid multiple resets if no interaction is happening
-        if previous_captured_pin == None:
-            break
+        #if previous_captured_pin == None:
+        #    break
         
         #Increment counter because no acitivity
         if counter > 2000:
