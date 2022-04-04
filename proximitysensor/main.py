@@ -25,19 +25,21 @@ while True:
         # if a pin is touched
         if cap[i].value:
             
+            #If it is the first pin during interaction
             if previous_captured_pin == None:
                 previous_captured_pin = i
 
-            # check if previous pin was touched before the current active pin
+            # check if gesture is going up
             if previous_captured_pin < i:
                 print("Sun has risen! Your planet is warming up")
                 
-
+            #Check if gesture is going down
             if previous_captured_pin > i:
                 print("Sun has set! Your planet is cooling down")
             
             #set latest captured pin to the activated pin
             previous_captured_pin = i
+            
             #Reset counter since there has been activity
             counter = 0
             
@@ -47,4 +49,6 @@ while True:
         if counter > 10000:
             print("Interaction reset - previous pin set to None")
             previous_captured_pin = None
+            #Reset counter after reset
+            counter = 0
             
