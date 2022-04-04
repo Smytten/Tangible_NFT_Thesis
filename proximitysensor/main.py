@@ -19,21 +19,16 @@ previous_captured_pin = None
 while True:
     for i in range(1, 9):
         print(cap[i])
-    
-    
-        #if a pin is touched
-        if cap[i].value:
-            
-            #check if previous pin was touched before the current active pin
-            #if previous_captured_pin < cap[i]:
-                #print("Sun has risen! Your planet is warming up")
-            
-            #if previous_captured_pin > cap[i]:
-                #print("Sun has set! Your planet is cooling down")
-            
-            #set latest captured pin to the activated pin
-            #previous_captured_pin = cap[i]
-            
-    
-        
 
+        # if a pin is touched
+        #if cap[i].value:
+
+            # check if previous pin was touched before the current active pin
+            # if previous_captured_pin < cap[i]:
+            #print("Sun has risen! Your planet is warming up")
+
+            # if previous_captured_pin > cap[i]:
+            #print("Sun has set! Your planet is cooling down")
+
+            # set latest captured pin to the activated pin
+            #previous_captured_pin = cap[i]
