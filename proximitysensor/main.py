@@ -25,9 +25,13 @@ while True:
             # check if previous pin was touched before the current active pin
             if previous_captured_pin < i:
                 print("Sun has risen! Your planet is warming up")
+                #set latest captured pin to the activated pin
 
             if previous_captured_pin > i:
                 print("Sun has set! Your planet is cooling down")
-
-            #set latest captured pin to the activated pin
+                #set latest captured pin to the activated pin
+            
             previous_captured_pin = i
+            
+
+        
