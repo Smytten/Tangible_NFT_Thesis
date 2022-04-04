@@ -14,7 +14,7 @@ cap = CAP1188_I2C(i2c)
 # cs = DigitalInOut(board.D5)
 # cap = CAP1188_SPI(spi, cs)
 
-previous_captured_pin = 0
+previous_captured_pin = None
 
 while True:
     for i in range(1, 9):
@@ -33,5 +33,7 @@ while True:
             
             previous_captured_pin = i
             
-
-        
+        #If all values are false reset previous captured pin to none
+        if any(cap) == False:
+            previous_captured_pin = None
+            
