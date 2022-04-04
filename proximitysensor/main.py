@@ -43,8 +43,10 @@ while True:
             #Reset counter since there has been activity
             counter = 0
             
-        #If all values are false reset previous captured pin to none
-        #if any(cap) == False:
+        #avoid multiple resets if no interaction is happening
+        if previous_captured_pin == None:
+            break
+        
         #Increment counter because no acitivity
         if counter > 2000:
             print("Interaction reset - previous pin set to None")
