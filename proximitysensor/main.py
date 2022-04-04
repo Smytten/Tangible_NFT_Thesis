@@ -19,7 +19,9 @@ counter = 0
 
 while True:
     for i in range(1, 9):
-        
+    
+        counter +=1
+    
         # if a pin is touched
         if cap[i].value:
             
@@ -40,8 +42,8 @@ while True:
             counter = 0
             
         #If all values are false reset previous captured pin to none
-        if any(cap) == False:
-            #Increment counter because no acitivity
-            counter +=1
+        #if any(cap) == False:
+        #Increment counter because no acitivity
+        if counter > 10000:
             previous_captured_pin = None
             
