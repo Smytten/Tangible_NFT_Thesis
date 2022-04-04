@@ -49,7 +49,7 @@ while True:
         
         #Increment counter because no acitivity
         if counter > 2000:
-            print("Interaction reset - previous pin set to None")
+            #print("Interaction reset - previous pin set to None")
             previous_captured_pin = None
             #Reset counter after reset
             counter = 0
