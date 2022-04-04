@@ -15,6 +15,7 @@ cap = CAP1188_I2C(i2c)
 # cap = CAP1188_SPI(spi, cs)
 
 previous_captured_pin = None
+counter = 0
 
 while True:
     for i in range(1, 9):
@@ -28,15 +29,19 @@ while True:
             # check if previous pin was touched before the current active pin
             if previous_captured_pin < i:
                 print("Sun has risen! Your planet is warming up")
-                #set latest captured pin to the activated pin
+                
 
             if previous_captured_pin > i:
                 print("Sun has set! Your planet is cooling down")
-                #set latest captured pin to the activated pin
             
+            #set latest captured pin to the activated pin
             previous_captured_pin = i
+            #Reset counter since there has been activity
+            counter = 0
             
         #If all values are false reset previous captured pin to none
-        #if any(cap) == False:
-        #   previous_captured_pin = None
+        if any(cap) == False:
+            #Increment counter because no acitivity
+            counter +=1
+            previous_captured_pin = None
             
