@@ -14,21 +14,20 @@ cap = CAP1188_I2C(i2c)
 # cs = DigitalInOut(board.D5)
 # cap = CAP1188_SPI(spi, cs)
 
-previous_captured_pin = None
+previous_captured_pin = cap[1]
 
 while True:
     for i in range(1, 9):
-        print(cap[i])
-
+        
         # if a pin is touched
-        #if cap[i].value:
+        if cap[i].value:
 
             # check if previous pin was touched before the current active pin
-            # if previous_captured_pin < cap[i]:
-            #print("Sun has risen! Your planet is warming up")
+            if previous_captured_pin < cap[i]:
+                print("Sun has risen! Your planet is warming up")
 
-            # if previous_captured_pin > cap[i]:
-            #print("Sun has set! Your planet is cooling down")
+            if previous_captured_pin > cap[i]:
+                print("Sun has set! Your planet is cooling down")
 
-            # set latest captured pin to the activated pin
-            #previous_captured_pin = cap[i]
+            #set latest captured pin to the activated pin
+            previous_captured_pin = cap[i]
