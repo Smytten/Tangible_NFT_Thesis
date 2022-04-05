@@ -14,5 +14,8 @@ class NEOPixel(led_interface.LEDStrategy):
         for count in range(len(pattnern.getPattern())):
             self._pixels[count] = pattnern.getPattern()[count]
 
+    def setParticalPattern(self, pattern: led_interface.LEDPattern):
+        pass
+
     def active(self):
         self._pixels.show()

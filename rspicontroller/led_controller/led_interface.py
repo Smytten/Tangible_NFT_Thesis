@@ -16,6 +16,10 @@ class LEDStrategy():
     def setPattern(self, pattnern: LEDPattern):
         pass
 
+    @abstractmethod
+    def setParticalPattern(self, pattern: LEDPattern):
+        pass
+
     def active(self):
         pass
 
