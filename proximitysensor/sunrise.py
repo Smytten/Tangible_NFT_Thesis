@@ -55,17 +55,13 @@ class sunController():
                 pixels[i] = wheel(pixel_index & 255)
             pixels.show()
             time.sleep(wait)
-            
-            
-    def Color(r,g,b):
-        return(r/255, g/255, b/255)
     
     def sunrise(self):
         print("sunrise")
         while True:
             for i in range(self.num_pixels-1):
                 for j in range(255):
-                    self.pixels.setPixelColor(i, Color(j,100,50))
+                    self.pixels[i].setPixelColor(i, j,150,150)
                     self.pixels.show()
                     #time.sleep(1)
         
