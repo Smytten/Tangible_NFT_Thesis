@@ -24,7 +24,7 @@ class sunController():
         self.pixels = neopixel.NeoPixel(
             self.pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER)
 
-    def wheel(pos):
+    def wheel(self, pos):
         # Input a value 0 to 255 to get a color value.
         # The colours are a transition r - g - b - back to r.
         if pos < 0 or pos > 255:
@@ -46,7 +46,7 @@ class sunController():
         return (r, g, b) if ORDER in (neopixel.RGB, neopixel.GRB) else (r, g, b, 0)
 
 
-    def rainbow_cycle(wait):
+    def rainbow_cycle(self, wait):
         for j in range(255):
             for i in range(num_pixels):
                 pixel_index = (i * 256 // num_pixels) + j
@@ -54,7 +54,7 @@ class sunController():
             pixels.show()
             time.sleep(wait)
 
-    def run():
+    def run(self):
         while True:
             # Comment this line out if you have RGBW/GRBW NeoPixels
             pixels.fill((255, 0, 0))
