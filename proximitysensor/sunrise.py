@@ -58,7 +58,7 @@ def rainbow_cycle(wait):
 
 while True:
     for i in range(num_pixels):
-        pixels.setPixelColor(i-1,0,0,0)
+        #pixels.setPixelColor(i-1,0,0,0)
         for j in range(255):
             pixels.setPixelColor(i,100,j,100)
             pixels.show()
