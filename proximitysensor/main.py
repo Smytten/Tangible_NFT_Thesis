@@ -19,7 +19,7 @@ counter = 0
 
 while True:
     for i in range(1, 9):
-    
+        
         counter +=1
     
         # if a pin is touched
