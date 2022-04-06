@@ -58,8 +58,10 @@ class sunController():
         print("sunrise")
         while True:
             self.pixels.fill((255, 234, 209))
+            self.pixels.show()
             time.sleep(3)
             self.pixels.fill((255, 141, 9))
+            self.pixels.show()
         
         
     def sunset(self):
