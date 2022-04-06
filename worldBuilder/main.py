@@ -1,20 +1,50 @@
-class tile():
-    def __init__():
+
+import worldBuilder.CONST as CONST
+
+
+class Tile():
+    def __init__(self, type):
+        self.__type = type
+
+class World():
+
+    def __init__(self, id, flowers, binders):
+        self.__flowers = flowers 
+        self.__binders = binders 
+        self.__id = id
+
+    def getFace(self):
         pass
 
-class world():
+    def getFlowerAsData(self,id) -> list:
+        return None 
 
-    def __init__():
+    def turnWorldLft(self):
         pass
 
-    def getFace():
+    def turnWorldRgt(self):
         pass
 
-    def turnWorldLft():
+    def updateWorld(self):
         pass
 
-    def turnWorldRgt():
-        pass
+class Flower():
 
-    def updateWorld():
-        pass
+    def __init__(self, edges,midTile,location) -> None:
+        self.__edges = edges
+        self.__midTile = midTile
+        self.__location = location
+
+class Binder():
+
+    def __init__(self, location, edges) -> None:
+        self.__location = location
+        self.__edges = edges
+
+
+
+flowers = [Flower(None, Tile(CONST.DeepWater),0)]
+binders = []
+testWorld = World("3hch1",flowers,binders )
+
+testWorld.getFace()
