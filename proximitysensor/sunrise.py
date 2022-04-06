@@ -53,6 +53,16 @@ class sunController():
                 pixels[i] = wheel(pixel_index & 255)
             pixels.show()
             time.sleep(wait)
+            
+    def sunrise():
+        print("sunrise")
+        self.pixels.fill((255, 234, 209))
+        time.sleep(3)
+        
+        
+    def sunset():
+        print("sunset")
+        
 
     def run(self):
         while True:
@@ -63,21 +73,8 @@ class sunController():
             self.pixels.show()
             time.sleep(1)
 
-            # Comment this line out if you have RGBW/GRBW NeoPixels
-            self.pixels.fill((0, 255, 0))
-            # Uncomment this line if you have RGBW/GRBW NeoPixels
-            # pixels.fill((0, 255, 0, 0))
-            self.pixels.show()
-            time.sleep(1)
-
-            # Comment this line out if you have RGBW/GRBW NeoPixels
-            self.pixels.fill((0, 0, 255))
-            # Uncomment this line if you have RGBW/GRBW NeoPixels
-            # pixels.fill((0, 0, 255, 0))
-            self.pixels.show()
-            time.sleep(1)
 
             self.rainbow_cycle(0.001)  # rainbow cycle with 1ms delay per step
 
 obj = sunController()
-obj.run()
+obj.sunrise()
