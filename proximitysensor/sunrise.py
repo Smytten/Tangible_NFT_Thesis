@@ -63,6 +63,7 @@ class sunController():
                     self.pixels[i] = (255,50,j)
                     self.pixels.show()
                     time.sleep(3)
+                self.pixels.show()
         
         #while True:
         #    #self.pixels.fill((255, 234, 209))
