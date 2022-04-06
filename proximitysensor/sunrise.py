@@ -23,6 +23,8 @@ class sunController():
 
         self.pixels = neopixel.NeoPixel(
             self.pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER)
+        
+        print(self.pixels)
 
     def wheel(self, pos):
         # Input a value 0 to 255 to get a color value.
@@ -59,7 +61,7 @@ class sunController():
         while True:
             for i in range(self.num_pixels-1):
                 for j in range(255):
-                    self.pixels.setPixelColor(i,(255,100,j))
+                    self.pixels.setPixelColor(i,255,100,j)
                     self.pixels.show()
                     #time.sleep(1)
         
