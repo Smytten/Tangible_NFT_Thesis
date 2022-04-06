@@ -31,6 +31,10 @@ class sunController():
             for i in range(self.num_pixels):
                 if i > 3:
                     self.pixels[i-3] = (255,183,38)
+                if i > 5:
+                    self.pixels[i-5] = (0,0,0)
+                if i < self.num_pixels:
+                    self.pixels[i+1] = (255,183,38)
                 
                 for j in range (135,30,-1):
                     self.pixels[i] = (255,j,0)
