@@ -1,5 +1,5 @@
 
-import worldBuilder.CONST as CONST
+import worldBuilder.WORLDCONST as WORLDCONST
 
 
 class Tile():
@@ -14,6 +14,9 @@ class World():
         self.__id = id
 
     def getFace(self):
+        pass
+
+    def pubFace(self):
         pass
 
     def getFlowerAsData(self,id) -> list:
@@ -43,7 +46,7 @@ class Binder():
 
 
 
-flowers = [Flower(None, Tile(CONST.DeepWater),0)]
+flowers = [Flower(None, Tile(WORLDCONST.DeepWater),0)]
 binders = []
 testWorld = World("3hch1",flowers,binders )
 

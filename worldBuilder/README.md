@@ -19,7 +19,12 @@ The tile types are as follows
     <ol>
       <li>Snowy Mountain</li>
       <li>Rock Mointain</li>
-      <li></li>
+    </ol>
+  </li>
+   <li>Valley Tile</li>
+    <ol>
+      <li>Deep Valley</li>
+      <li>Shallow Valley</li>
     </ol>
   </li>
 </ul>
