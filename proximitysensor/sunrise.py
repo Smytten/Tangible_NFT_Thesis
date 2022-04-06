@@ -61,7 +61,7 @@ class sunController():
         for i in range(self.num_pixels):
             self.pixels[i] = (75,255,63)
             self.pixels.show()
-            time.sleep(3)
+            time.sleep(1)
             
         self.pixels.fill(0,0,0)
         
