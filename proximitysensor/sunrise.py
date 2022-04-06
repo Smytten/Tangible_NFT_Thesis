@@ -22,7 +22,7 @@ class sunController():
         self.ORDER = neopixel.GRB
 
         self.pixels = neopixel.NeoPixel(
-            pixel_pin, num_pixels, brightness=0.2, auto_write=False, pixel_order=ORDER)
+            self.pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER)
 
     def wheel(pos):
         # Input a value 0 to 255 to get a color value.
