@@ -58,12 +58,11 @@ class sunController():
     
     def sunrise(self):
         print("sunrise")
-        while True:
-            for i in range(self.num_pixels):
-                for j in range(255):
-                    pixels[i].setPixelColor(j,150,150)
-                    pixels.show()
-                    #time.sleep(1)
+        for j in range(255):
+            for i in range(num_pixels):
+                pixel_index = (i * 256 // num_pixels) + j
+                pixels[i] = setPixelColor(j,50,100)
+            pixels.show()
         
         #while True:
         #    #self.pixels.fill((255, 234, 209))
