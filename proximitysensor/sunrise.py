@@ -61,7 +61,7 @@ class sunController():
         while True:
             for i in range(self.num_pixels-1):
                 for j in range(255):
-                    self.pixels.setPixelColor(i,255,100,j)
+                    self.pixels.setPixelColor(i,255,100,j,0)
                     self.pixels.show()
                     #time.sleep(1)
         
