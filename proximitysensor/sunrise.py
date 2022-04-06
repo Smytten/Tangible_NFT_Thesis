@@ -29,7 +29,7 @@ class sunController():
         
         while True:
             for i in range(self.num_pixels):
-                self.pixels[i] = (246,87,38)
+                self.pixels[i] = (255,43,0)
                 self.pixels.show()
                 time.sleep(0.5)
                 
