@@ -47,7 +47,7 @@ class sunController():
                 #Get turned off color by reducing 100% 
                 r,g,b = self.controlBrightness(255,85,0,-1)
 
-                for j in range(0,1,0.01):
+                for j in range(0,100,1):
                     #place the values in self.pixels[i] self.pixels[i] = (controlBrightness(...,..,...,..))
                     self.pixels[i] = (self.controlBrightness(r,g,b,0.01))
                     self.pixels.show()
