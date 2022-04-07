@@ -26,7 +26,7 @@ class sunController():
             self.pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER)
         
         
-    def controlBrightness(r,g,b,amount):
+    def controlBrightness(self,r,g,b,amount):
         h,s,v = colorsys.rgb_to_hsv(r, g, b)
         v = v + amount
         new_r, new_g, new_b = colorsys.hsv_to_rgb(h, s, v)
@@ -45,11 +45,11 @@ class sunController():
                     self.pixels[i+1] = (255, 183, 38)
                     
                 #Get turned off color by reducing 100% 
-                r,g,b = controlBrightness(255,85,0,-1)
+                r,g,b = self.controlBrightness(255,85,0,-1)
 
                 for j in range(0,1,0.01):
                     #place the values in self.pixels[i] self.pixels[i] = (controlBrightness(...,..,...,..))
-                    self.pixels[i] = (controlBrightness(r,g,b,0.01))
+                    self.pixels[i] = (self.controlBrightness(r,g,b,0.01))
                     self.pixels.show()
                     time.sleep(0.5)
 
