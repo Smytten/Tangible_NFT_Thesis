@@ -70,7 +70,7 @@ class sunController():
                 for j in reversed(self.FRAMES):
                     self.pixels[i] = (j)
                     self.pixels.show()
-                    time.sleep(0.5)
+                    time.sleep(0.2)
                     
                 """#Get turned off color by reducing 100% 
                 r,g,b = self.controlBrightness(255,85,0,-1)
