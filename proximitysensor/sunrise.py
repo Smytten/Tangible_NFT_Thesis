@@ -37,7 +37,7 @@ class sunController():
         print("sunrise")
         
         for i in range(self.num_pixels):
-            self.pixels[i] = ColorHSV(12,100,100)
+            self.pixels[i].ColorHSV(12,100,100)
 
 #        while True:
 #            for i in range(self.num_pixels):
