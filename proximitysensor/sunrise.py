@@ -104,7 +104,3 @@ class sunController():
             
     def sunset(self):
         print("sunset")
-
-
-obj = sunController()
-obj.sunrise()
