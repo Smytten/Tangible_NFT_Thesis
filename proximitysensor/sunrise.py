@@ -5,6 +5,7 @@
 import time
 import board
 import neopixel
+import colorsys
 
 
 class sunController():
@@ -23,41 +24,45 @@ class sunController():
 
         self.pixels = neopixel.NeoPixel(
             self.pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER)
-
-        self.KEYFRAMES_RISING = [20, 21, 22, 24, 26, 28, 31, 34, 38, 41, 45, 50, 55, 60, 66, 73, 80, 87, 95,
-                                 103, 112, 121, 131, 141, 151, 161, 172, 182, 192, 202, 211, 220, 228, 236,
-                                 242, 247, 251, 254, 255]
         
-        self.KEYFRAMES_SETTING = [254, 251, 247, 242, 236, 228, 220, 211, 202, 192, 182, 172, 161, 151, 141,
-                                  131, 121, 112, 103, 95, 87, 80, 73, 66, 60, 55, 50, 45, 41, 38, 34, 31, 28,
-                                  26, 24, 22, 21, 20,
-                                  20, 20, 20, 20, 20, 20, 20, 20, 20, 20]
+        
+    def controlBrightness(r,g,b,amount):
+        h,s,v = colorsys.rgb_to_hsv(r, g, b)
+        v = v + amount
+        new_r, new_g, new_b = colorsys.hsv_to_rgb(h, s, v)
+        return new_r, new_g, new_b        
 
     def sunrise(self):
         print("sunrise")
-        
-        for i in range(self.num_pixels):
-            self.pixels[i].ColorHSV(12,100,100)
 
-#        while True:
-#            for i in range(self.num_pixels):
-#                if i > 3:
-#                    self.pixels[i-3] = (255, 183, 38)
-#                if i > 5:
-#                    self.pixels[i-5] = (0, 0, 0)
-#                if i < self.num_pixels-1:
-#                    self.pixels[i+1] = (255, 183, 38)
-#
-#                for j in range(135, 30, -1):
-#                    self.pixels[i] = (255, j, 0)
-#                    self.pixels.show()
-#                    # time.sleep(0.5)
+        while True:
+            for i in range(self.num_pixels):
+                if i > 3:
+                    self.pixels[i-3] = (255, 183, 38)
+                if i > 5:
+                    self.pixels[i-5] = (0, 0, 0)
+                if i < self.num_pixels-1:
+                    self.pixels[i+1] = (255, 183, 38)
+                    
+                #Get turned off color by reducing 100% 
+                r,g,b = controlBrightness(255,85,0,-1)
 
-#                time.sleep(0.5)
+                for j in range(0,1,0.01):
+                    #place the values in self.pixels[i] self.pixels[i] = (controlBrightness(...,..,...,..))
+                    self.pixels[i] = (controlBrightness(r,g,b,0.01))
+                    self.pixels.show()
+                    time.sleep(0.5)
 
-#            self.pixels.fill((0, 0, 0))
-#            self.pixels.show()
+                """for j in range(135, 30, -1):
+                    self.pixels[i] = (255, j, 0)
+                    self.pixels.show()
+                    time.sleep(0.5)"""
 
+                time.sleep(0.5)
+
+            self.pixels.fill((0, 0, 0))
+            self.pixels.show()
+            
     def sunset(self):
         print("sunset")
 
