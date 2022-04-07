@@ -65,7 +65,7 @@ class sunController():
 
                 for j in range(0,100,1):
                     #place the values in self.pixels[i] self.pixels[i] = (controlBrightness(...,..,...,..))
-                    self.pixels[i] = (self.controlBrightness(r,g,b,0.01))
+                    self.pixels[i] = (self.controlBrightness(r,g,b,1))
                     self.pixels.show()
                     time.sleep(0.5)
 
