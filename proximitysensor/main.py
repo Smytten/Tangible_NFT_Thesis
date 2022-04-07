@@ -3,6 +3,7 @@
 
 import board
 from adafruit_cap1188.i2c import CAP1188_I2C
+from sunrise import sunController
 
 i2c = board.I2C()  # uses board.SCL and board.SDA
 cap = CAP1188_I2C(i2c)

@@ -35,27 +35,28 @@ class sunController():
 
     def sunrise(self):
         print("sunrise")
+        
+        for i in range(self.num_pixels):
+            self.pixels[i] = ColorHSV(12,100,100)
 
-        while True:
-            for i in range(self.num_pixels):
-                if i > 3:
-                    for frame in self.KEYFRAMES_RISING:
-                        self.pixels[i-3] = (frame, 183, 38)
-                if i > 5:
-                    for frame in self.KEYFRAMES_SETTING:
-                        self.pixels[i-5] = (frame, 183, 38)
-                if i < self.num_pixels-1:
-                    self.pixels[i+1] = (255, 183, 38)
+#        while True:
+#            for i in range(self.num_pixels):
+#                if i > 3:
+#                    self.pixels[i-3] = (255, 183, 38)
+#                if i > 5:
+#                    self.pixels[i-5] = (0, 0, 0)
+#                if i < self.num_pixels-1:
+#                    self.pixels[i+1] = (255, 183, 38)
+#
+#                for j in range(135, 30, -1):
+#                    self.pixels[i] = (255, j, 0)
+#                    self.pixels.show()
+#                    # time.sleep(0.5)
 
-                for j in range(135, 30, -1):
-                    self.pixels[i] = (255, j, 0)
-                    self.pixels.show()
-                    # time.sleep(0.5)
+#                time.sleep(0.5)
 
-                time.sleep(0.5)
-
-            self.pixels.fill((0, 0, 0))
-            self.pixels.show()
+#            self.pixels.fill((0, 0, 0))
+#            self.pixels.show()
 
     def sunset(self):
         print("sunset")
