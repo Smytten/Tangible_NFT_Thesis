@@ -31,7 +31,7 @@ class sunController():
         r = r/1000
         g = g/1000
         b = b/1000
-        amount = amount/1000
+        amount = amount/100
         
         
         h,s,v = colorsys.rgb_to_hsv(r, g, b)
