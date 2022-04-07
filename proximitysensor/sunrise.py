@@ -25,8 +25,8 @@ class sunController():
         self.pixels = neopixel.NeoPixel(
             self.pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER)
         
-        self.SUN_FRAMES = [(255,85,0), (228,98,33), (205,105,56), (175,96,57), (139,90,65), (107,80,66), (75,62,55), (0,0,0)]#, (54,47,43), (25,25,25), (0,0,0)]
-        self.ACCENT_FRAMES = [(255,179,0), (230,133,36), (198,126,54), (203,157,111), (213,198,156), (225,218,198), (0,0,0)]
+        self.SUN_FRAMES = [(255,85,0), (228,98,33), (205,105,56), (175,96,57), (139,90,65), (107,80,66), (75,62,55), (54,47,43), (25,25,25), (0,0,0)]
+        self.ACCENT_FRAMES = [(255,179,0), (230,133,36), (198,126,54), (203,157,111), (213,198,156), (225,218,198), (255,255,255), (0,0,0)]
         
     def controlBrightness(self,r,g,b,amount):
         #Convert values to float between 0 and 1
@@ -61,23 +61,28 @@ class sunController():
                     for j in reversed(self.ACCENT_FRAMES):
                         self.pixels[i+1] = (j)
                         self.pixels.show()
+                        time.sleep(0.2)
                 
                 #turn on accent color under i through steps
-                if i > 2:
+                #change this number for increasing sun size
+                if i > 4:
                     for j in reversed(self.ACCENT_FRAMES):
-                        self.pixels[i-2] = (j)
+                        self.pixels[i-4] = (j)
                         self.pixels.show()
+                        time.sleep(0.2)
                 #turn off colors under reverse steps 
                 if i > 5:
                     for j in self.ACCENT_FRAMES:
                         self.pixels[i] = (j)
                         self.pixels.show()
+                        time.sleep(0.2)
+
                     
                 #Control color of i    
                 for j in reversed(self.SUN_FRAMES):
                     self.pixels[i] = (j)
                     self.pixels.show()
-                    #time.sleep(0.2)
+                    time.sleep(0.1)
                     
                 """#Get turned off color by reducing 100% 
                 r,g,b = self.controlBrightness(255,85,0,-1)
