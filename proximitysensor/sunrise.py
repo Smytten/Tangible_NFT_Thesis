@@ -55,14 +55,19 @@ class sunController():
 
         while True:
             for i in range(self.num_pixels):
+                
+                #turn on accent color under i
                 if i > 3:
-                    self.pixels[i-3] = (255, 183, 38)
+                    self.pixels[i-3] = (255, 140, 38)
+                #turn of colors under    
                 if i > 5:
                     self.pixels[i-5] = (0, 0, 0)
+                #turn on accent color above i
                 if i < self.num_pixels-1:
-                    self.pixels[i+1] = (255, 183, 38)
+                    self.pixels[i+1] = (255, 140, 38)
                     
-                for j in self.FRAMES:
+                #Control color of i    
+                for j in reversed(self.FRAMES):
                     self.pixels[i] = (j)
                     self.pixels.show()
                     time.sleep(0.5)
@@ -81,7 +86,7 @@ class sunController():
                     self.pixels.show()
                     time.sleep(0.5)"""
 
-                time.sleep(0.5)
+                time.sleep(0.2)
 
             self.pixels.fill((0, 0, 0))
             self.pixels.show()
