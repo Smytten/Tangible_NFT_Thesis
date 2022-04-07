@@ -27,9 +27,25 @@ class sunController():
         
         
     def controlBrightness(self,r,g,b,amount):
+        #Convert values to float between 0 and 1
+        r = r/1000
+        g = g/1000
+        b = b/1000
+        amount = amount/1000
+        
+        
         h,s,v = colorsys.rgb_to_hsv(r, g, b)
         v = v + amount
         new_r, new_g, new_b = colorsys.hsv_to_rgb(h, s, v)
+        
+        #convert back to real rgb values
+        new_r = new_r * 1000
+        new_g = new_g * 1000
+        new_b = new_b * 1000
+        
+        
+        print("new rgb values are:")
+        print(new_r, new_g, new_b)
         return new_r, new_g, new_b        
 
     def sunrise(self):
