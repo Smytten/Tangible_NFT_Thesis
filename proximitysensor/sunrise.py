@@ -25,6 +25,8 @@ class sunController():
         self.pixels = neopixel.NeoPixel(
             self.pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER)
         
+        self.FRAMES = [(255,85,0), (228,98,33), (205,105,56), (175,96,57), (139,90,65), (107,80,66), (75,62,55), (54,47,43), (25,25,25), (0,0,0)]
+        
         
     def controlBrightness(self,r,g,b,amount):
         #Convert values to float between 0 and 1
@@ -60,14 +62,19 @@ class sunController():
                 if i < self.num_pixels-1:
                     self.pixels[i+1] = (255, 183, 38)
                     
-                #Get turned off color by reducing 100% 
+                for j in self.FRAMES:
+                    self.pixels[i] = (j)
+                    self.pixels.show()
+                    time.sleep(0.5)
+                    
+                """#Get turned off color by reducing 100% 
                 r,g,b = self.controlBrightness(255,85,0,-1)
 
                 for j in range(0,100,1):
                     #place the values in self.pixels[i] self.pixels[i] = (controlBrightness(...,..,...,..))
                     self.pixels[i] = (self.controlBrightness(r,g,b,1))
                     self.pixels.show()
-                    time.sleep(0.5)
+                    time.sleep(0.5)"""
 
                 """for j in range(135, 30, -1):
                     self.pixels[i] = (255, j, 0)
