@@ -136,7 +136,6 @@ void animation() {
   if (time_now + millisdelay < millis()) {
     time_now = millis();
 
-    ah
     // Do increnment animation
     if (aniCounter < 30) {
       for (int i = 0; i < 11; i++)
