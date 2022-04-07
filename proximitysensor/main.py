@@ -7,6 +7,7 @@ from sunrise import sunController
 
 i2c = board.I2C()  # uses board.SCL and board.SDA
 cap = CAP1188_I2C(i2c)
+sun = sunController()
 
 # SPI setup
 # from digitalio import DigitalInOut, Direction
@@ -17,6 +18,7 @@ cap = CAP1188_I2C(i2c)
 
 previous_captured_pin = None
 counter = 0
+
 
 while True:
     for i in range(1, 9):
@@ -33,6 +35,8 @@ while True:
             # check if gesture is going up
             if previous_captured_pin < i:
                 print("Sun has risen! Your planet is warming up")
+                sun.sunrise()
+                
                 
             #Check if gesture is going down
             if previous_captured_pin > i:
