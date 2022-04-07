@@ -39,9 +39,9 @@ class sunController():
         new_r, new_g, new_b = colorsys.hsv_to_rgb(h, s, v)
         
         #convert back to real rgb values
-        new_r = new_r * 1000
-        new_g = new_g * 1000
-        new_b = new_b * 1000
+        new_r = int(new_r * 1000)
+        new_g = int(new_g * 1000)
+        new_b = int(new_b * 1000)
         
         
         print("new rgb values are:")
