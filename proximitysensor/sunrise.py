@@ -56,7 +56,7 @@ class sunController():
         while True:
             for i in range(self.num_pixels):
                 
-                if i+1 == self.num_pixels:
+                if i == self.num_pixels:
                     break
             
                  #turn on accent color above i
