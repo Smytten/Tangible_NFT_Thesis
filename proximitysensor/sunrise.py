@@ -61,7 +61,7 @@ class sunController():
                     for j in reversed(self.ACCENT_FRAMES):
                         self.pixels[i+1] = (j)
                         self.pixels.show()
-                        time.sleep(0.2)
+                        #time.sleep(0.2)
                 
                 #turn on accent color under i through steps
                 #change this number for increasing sun size
@@ -69,20 +69,20 @@ class sunController():
                     for j in reversed(self.ACCENT_FRAMES):
                         self.pixels[i-4] = (j)
                         self.pixels.show()
-                        time.sleep(0.1)
+                        #time.sleep(0.1)
                 #turn off colors under reverse steps 
                 if i > 5:
                     for j in self.ACCENT_FRAMES:
                         self.pixels[i-5] = (j)
                         self.pixels.show()
-                        time.sleep(0.1)
+                        #time.sleep(0.1)
 
                     
                 #Control color of i    
                 for j in reversed(self.SUN_FRAMES):
                     self.pixels[i] = (j)
                     self.pixels.show()
-                    time.sleep(0.1)
+                    #time.sleep(0.1)
                     
                 """#Get turned off color by reducing 100% 
                 r,g,b = self.controlBrightness(255,85,0,-1)
