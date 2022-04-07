@@ -56,6 +56,9 @@ class sunController():
         while True:
             for i in range(self.num_pixels):
                 
+                if i+1 == self.num_pixels:
+                    break
+            
                  #turn on accent color above i
                 if i < self.num_pixels-1:
                     for j in reversed(self.ACCENT_FRAMES):
