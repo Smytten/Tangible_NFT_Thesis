@@ -53,8 +53,7 @@ class sunController():
     def sunrise(self):
         print("sunrise")
 
-        while True:
-            for i in range(self.num_pixels):
+        for i in range(self.num_pixels):
                 
                  #turn on accent color above i
                 if i < self.num_pixels-1:
@@ -100,8 +99,8 @@ class sunController():
 
                 time.sleep(0.2)
 
-            self.pixels.fill((0, 0, 0))
-            self.pixels.show()
+        self.pixels.fill((0, 0, 0))
+        self.pixels.show()
             
     def sunset(self):
         print("sunset")
