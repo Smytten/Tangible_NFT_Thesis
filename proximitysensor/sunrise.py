@@ -106,9 +106,10 @@ class sunController():
                 self.pixels.show()
             
             #Move accent above down
-            for j in self.ACCENT_FRAMES:
-                self.pixels[i+1] = (j)
-                self.pixels.show()
+            if i < self.num_pixels-1:
+                for j in self.ACCENT_FRAMES:
+                    self.pixels[i+1] = (j)
+                    self.pixels.show()
 
 obj = sunController()
 sunController().sunrise()
