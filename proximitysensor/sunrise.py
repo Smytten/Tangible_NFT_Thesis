@@ -123,8 +123,3 @@ class sunController():
                     self.pixels[i+5] = (0,0,0)
                     self.pixels[self.num_pixels-1] = (0,0,0)
                     self.pixels.show()
-
-
-obj = sunController()
-sunController().sunrise()
-sunController().sunset()
