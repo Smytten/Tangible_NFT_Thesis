@@ -70,11 +70,15 @@ class sunController():
                 for j in reversed(self.ACCENT_FRAMES):
                     self.pixels[i-4] = (j)
                     self.pixels.show()
+                    #Turn of end pixel
+                    self.pixels[self.num_pixels-1] = (0,0,0)
                     # time.sleep(0.1)
             # turn off colors under reverse steps
             if i > 6:
                 for j in self.ACCENT_FRAMES:
                     self.pixels[i-6] = (0,0,0)
+                    #turn off end pixel
+                    self.pixels[self.num_pixels-1] = (0,0,0)
                     self.pixels.show()
                     # time.sleep(0.1)
 
