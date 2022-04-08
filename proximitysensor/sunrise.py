@@ -96,22 +96,19 @@ class sunController():
         #Starts on 12 down to 0
         for i in range(self.num_pixels-1,0,-1):
             #Turn on accent downwards -> Already on?
-            if i < self.num_pixels-1:
-                for j in (self.ACCENT_FRAMES):
-                    self.pixels[i-3] = (j)
-                    self.pixels.show()
+            for j in reversed(self.ACCENT_FRAMES):
+                self.pixels[i-1] = (j)
+                self.pixels.show()
             
             #Move sun with i
-            if i > self.num_pixels-4:
-                for j in self.SUN_FRAMES:
-                    self.pixels[i] = (j)
-                    self.pixels.show()
+            for j in reversed(self.SUN_FRAMES):
+                self.pixels[i] = (j)
+                self.pixels.show()
             
             #Move accent above down
-            if i > self.num_pixels-1:
-                for j in self.ACCENT_FRAMES:
-                    self.pixels[i+1] = (j)
-                    self.pixels.show()
+            for j in self.ACCENT_FRAMES:
+                self.pixels[i+1] = (j)
+                self.pixels.show()
 
 obj = sunController()
 sunController().sunrise()
