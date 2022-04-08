@@ -108,12 +108,12 @@ class sunController():
                 self.pixels.show()
 
             # Move accent above down
-            if i < 2:
+            if i < 10:
                 for j in self.ACCENT_FRAMES:
                     self.pixels[i-2] = (j)
                     self.pixels.show()
             #turn off after accent
-            if i < 3:
+            if i < 8:
                 for j in self.ACCENT_FRAMES:
                     self.pixels[i-3] = (0,0,0)
                     self.pixels.show()
