@@ -108,7 +108,7 @@ class sunController():
                 self.pixels.show()
 
             # Move accent above down
-            if i < 4:
+            if i < 8:
                 for j in self.ACCENT_FRAMES:
                     self.pixels[i-1] = (j)
                     self.pixels.show()
