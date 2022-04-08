@@ -102,13 +102,13 @@ class sunController():
                     self.pixels.show()
             
             #Move sun with i
-            if i > num_pixels-4:
+            if i > self.num_pixels-4:
                 for j in self.SUN_FRAMES:
                     self.pixels[i] = (j)
                     self.pixels.show()
             
             #Move accent above down
-            if i > num_pixels-1:
+            if i > self.num_pixels-1:
                 for j in self.ACCENT_FRAMES:
                     self.pixels[i+1] = (j)
                     self.pixels.show()
