@@ -94,7 +94,7 @@ class sunController():
         self.pixels.show()
         #Starts on 12 down to 0
         for i in reversed(range(self.num_pixels-1)):
-            timer.sleep(0.1)
+            time.sleep(0.1)
             #Turn on accent downwards -> Already on?
             if i > self.num_pixels-1:
                 for j in (self.ACCENT_FRAMES):
