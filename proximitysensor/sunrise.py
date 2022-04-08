@@ -94,8 +94,8 @@ class sunController():
     def sunset(self):
         print("sunset")
 
-        #self.pixels.fill((0, 0, 0))
-        # self.pixels.show()
+        self.pixels.fill((0, 0, 0))
+        self.pixels.show()
 
         # Starts on 12 down to 0
         for i in range(self.num_pixels-1, 0, -1):
