@@ -28,7 +28,7 @@ class sunController():
         self.SUN_FRAMES = [(255, 85, 0), (228, 98, 33),
                            (205, 105, 56), (175, 96, 57), (139, 90, 65)]
         self.ACCENT_FRAMES = [(255, 179, 0), (230, 133, 36), (198, 126, 54), (
-            203, 157, 111), (213, 198, 156), (225, 218, 198), (0,0,0)]
+            203, 157, 111), (213, 198, 156), (225, 218, 198)]
 
     """def controlBrightness(self,r,g,b,amount):
         #Convert values to float between 0 and 1
@@ -89,28 +89,30 @@ class sunController():
 
     def sunset(self):
         print("sunset")
-        
+
         #self.pixels.fill((0, 0, 0))
-        #self.pixels.show()
-        
-        #Starts on 12 down to 0
-        for i in range(self.num_pixels-1,0,-1):
-            #Turn on accent downwards -> Already on?
+        # self.pixels.show()
+
+        # Starts on 12 down to 0
+        for i in range(self.num_pixels-1, 0, -1):
+            # Turn on accent downwards -> Already on?
             if i > 1:
                 for j in reversed(self.ACCENT_FRAMES):
                     self.pixels[i-1] = (j)
                     self.pixels.show()
-            
-            #Move sun with i
+                    time.sleep(0.1)
+
+            # Move sun with i
             for j in reversed(self.SUN_FRAMES):
                 self.pixels[i] = (j)
                 self.pixels.show()
-            
-            #Move accent above down
+
+            # Move accent above down
             if i < self.num_pixels-1:
                 for j in self.ACCENT_FRAMES:
                     self.pixels[i+1] = (j)
                     self.pixels.show()
+
 
 obj = sunController()
 sunController().sunrise()
