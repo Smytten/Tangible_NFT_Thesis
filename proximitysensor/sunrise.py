@@ -83,9 +83,9 @@ class sunController():
                 self.pixels[i] = (j)
                 self.pixels.show()
                 # time.sleep(0.1)
-            time.sleep(0.2)
         #self.pixels.fill((0, 0, 0))
         self.pixels.show()
+        time.sleep(5)
 
     def sunset(self):
         print("sunset")
