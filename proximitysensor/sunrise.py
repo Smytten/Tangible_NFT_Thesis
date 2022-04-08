@@ -90,11 +90,11 @@ class sunController():
     def sunset(self):
         print("sunset")
         
-        self.pixels.fill((0, 0, 0))
-        self.pixels.show()
+        #self.pixels.fill((0, 0, 0))
+        #self.pixels.show()
+        
         #Starts on 12 down to 0
         for i in reversed(range(self.num_pixels-1)):
-            time.sleep(0.1)
             #Turn on accent downwards -> Already on?
             if i > self.num_pixels-1:
                 for j in (self.ACCENT_FRAMES):
@@ -114,4 +114,5 @@ class sunController():
                     self.pixels.show()
 
 obj = sunController()
+sunController().sunrise()
 sunController().sunset()
