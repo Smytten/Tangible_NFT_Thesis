@@ -1,26 +1,84 @@
 
-import worldBuilder.WORLDCONST as WORLDCONST
+from abc import abstractmethod
+import WORLDCONST as WORLDCONST
 
 
 class Tile():
-    def __init__(self, type):
+    def __init__(self, type: str):
         self.__type = type
+
+    def getType(self):
+        return self.__type
+
+class Pane():
+
+    @abstractmethod
+    def getIdentifyer(self):
+        pass
+
+    @abstractmethod
+    def getTiles(self):
+        pass
+
+class Flower(Pane):
+
+    def __init__(self, edges,midTile : Tile,location) -> None:
+        self.__edges = edges
+        self.__midTile = midTile
+        self.__location = location
+
+    def getIdentifyer(self,id):
+        return WORLDCONST.PROJECT + "/" + str(id) + "/f" + str(self.__location)
+
+    def getTiles(self):
+        stringifyedTileSet = self.__midTile.getType()
+        for e in self.__edges:
+            stringifyedTileSet = stringifyedTileSet + e.getType()
+        return stringifyedTileSet
+
+
+class Binder(Pane):
+
+    def __init__(self, location, edges) -> None:
+        self.__location = location
+        self.__edges = edges
+
 
 class World():
 
-    def __init__(self, id, flowers, binders):
-        self.__flowers = flowers 
-        self.__binders = binders 
+    def __init__(self, id, panes : list):
+        self.__panes = panes  
         self.__id = id
+        self._observers = [] 
 
-    def getFace(self):
-        pass
+    def notify(self, modifier = None):
+        for observer in self._observers:
+            if modifier != observer:
+                observer.update(self.publishPanes())
 
-    def pubFace(self):
-        pass
+    def attach(self, observer):
+        if observer not in self._observers:
+            self._observers.append(observer)
+ 
+    def detach(self, observer):
+        try:
+            self._observers.remove(observer)
+        except ValueError:
+            pass 
 
-    def getFlowerAsData(self,id) -> list:
-        return None 
+    def getFace(self) -> str:
+        for p in self.__panes:
+            pass
+
+    def publishPanes(self) -> list:
+        returnList = []
+        for pane in self.__panes:
+            pass
+    
+        return returnList
+
+    def getPaneTileSet(self,id):
+        return self.__panes[id].getTiles()
 
     def turnWorldLft(self):
         pass
@@ -31,23 +89,23 @@ class World():
     def updateWorld(self):
         pass
 
-class Flower():
 
-    def __init__(self, edges,midTile,location) -> None:
-        self.__edges = edges
-        self.__midTile = midTile
-        self.__location = location
-
-class Binder():
-
-    def __init__(self, location, edges) -> None:
-        self.__location = location
-        self.__edges = edges
+class mqttclientboi():
+    def update(self, data):
+        print(data)
+        for d in data:
+            print("imma publish this: " + str(d))
 
 
+flowers = [
+    Flower([Tile(WORLDCONST.NormalWater),Tile(WORLDCONST.NormalWater),Tile(WORLDCONST.NormalWater),Tile(WORLDCONST.NormalWater),Tile(WORLDCONST.ShallowWater)], Tile(WORLDCONST.DeepWater),0),
+    Flower(None,None,1)
+    ]
 
-flowers = [Flower(None, Tile(WORLDCONST.DeepWater),0)]
-binders = []
-testWorld = World("3hch1",flowers,binders )
+testWorld = World("3hch1",flowers)
 
-testWorld.getFace()
+mqttClien = mqttclientboi()
+
+testWorld.attach(mqttClien)
+
+testWorld.notify()
