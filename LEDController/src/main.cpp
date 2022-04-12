@@ -12,7 +12,7 @@ const char* topic = "mworld/6dh2/f0";
 
 
 // How many leds in your strip?
-#define NUM_LEDS 11 
+#define NUM_LEDS 64
 
 // For led chips like WS2812, which have a data line, ground, and power, you just
 // need to define DATA_PIN.  For led chipsets that are SPI based (four wires - data, clock,
@@ -22,6 +22,10 @@ const char* topic = "mworld/6dh2/f0";
 
 // The amount of panels the WEMOS control.
 #define PANELS 6
+
+// Define the type of panel
+#define PANELTYPE "flower"
+
 
 // Define the array of leds
 CRGB leds[NUM_LEDS];
@@ -35,6 +39,8 @@ unsigned long time_now = 0;
 int aniCounter = 0;
 
 int panelTileState[PANELS];
+
+int panelLEDIndex[PANELS];
 
 
 WiFiClient espClient;
@@ -70,7 +76,7 @@ void fillPixel(int from, int to, int r, int g, int b){
   } 
 }
 
-void fillPixelWithPattern(int from, int to, const int (&pattern)[11][3]){
+void fillPixelWithPattern(int from, int to, int patternType){
   for (int i = from; i < to; i++){ 
     leds[i].setRGB(pattern[i][1],pattern[i][0],pattern[i][2]);
     FastLED.show();
@@ -135,34 +141,46 @@ void reconnect() {
 void animation() {
   if (time_now + millisdelay < millis()) {
     time_now = millis();
+    
+    int currentPosition = 0;
 
-    // Do increnment animation
-    if (aniCounter < 30) {
-      for (int i = 0; i < 11; i++)
-      {
-        if (WavePatterns[currentWavePattern][i] == 1) {
-          int r = NormalWaterTile[i][0]+(((waveRgb[0]-NormalWaterTile[i][0])/30)*aniCounter);
-          int g = NormalWaterTile[i][1]+(((waveRgb[1]-NormalWaterTile[i][1])/30)*aniCounter);
-          int b = NormalWaterTile[i][2]+(((waveRgb[2]-NormalWaterTile[i][2])/30)*aniCounter); 
-          leds[i].setRGB(r,g,b);
-          FastLED.show();
+    // Check if tileset should be animated
+    for (int panel = 0; panel < PANELS; panel ++){ //Iterate through each panel
+      
+      if ( panelTileState[panel] == DeepWater || panelTileState[panel] == NormalWater || panelTileState[panel] == ShallowWater ) { // Water Panel, Wave Animation     
+        // Do increnment animation for 30 frames
+        if (aniCounter < 30) {
+          for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++)
+          {
+            if (WavePatterns[currentWavePattern][i] == 1) {
+              int r = NormalWaterTile[i][0]+(((waveRgb[0]-NormalWaterTile[i][0])/30)*aniCounter);
+              int g = NormalWaterTile[i][1]+(((waveRgb[1]-NormalWaterTile[i][1])/30)*aniCounter);
+              int b = NormalWaterTile[i][2]+(((waveRgb[2]-NormalWaterTile[i][2])/30)*aniCounter); 
+              leds[i].setRGB(r,g,b);
+              FastLED.show();
+            }
+          }
         }
+
+        // Do return animation for 30 frames af the first 30 frames till 61 frame
+        if (aniCounter > 30 && aniCounter < 61) {
+         for (int i = panelLEDIndex[panel]; i < panelLEDIndex[panel]; i++)
+          {
+            if (WavePatterns[currentWavePattern][i] == 1) {
+              int r = waveRgb[0]+(((NormalWaterTile[i][0]-waveRgb[0])/30)*(aniCounter-30));
+              int g = waveRgb[1]+(((NormalWaterTile[i][1]-waveRgb[1])/30)*(aniCounter-30));
+              int b = waveRgb[2]+(((NormalWaterTile[i][2]-waveRgb[2])/30)*(aniCounter-30));
+              leds[i].setRGB(r,g,b);
+              FastLED.show();
+            }
+          } 
+        }
+
+        currentPosition = currentPosition + panelLEDIndex[panel];
+
       }
     }
 
-    // Do return animation
-    if (aniCounter > 30 && aniCounter < 61) {
-     for (size_t i = 0; i < 11; i++)
-      {
-        if (WavePatterns[currentWavePattern][i] == 1) {
-          int r = waveRgb[0]+(((NormalWaterTile[i][0]-waveRgb[0])/30)*(aniCounter-30));
-          int g = waveRgb[1]+(((NormalWaterTile[i][1]-waveRgb[1])/30)*(aniCounter-30));
-          int b = waveRgb[2]+(((NormalWaterTile[i][2]-waveRgb[2])/30)*(aniCounter-30));
-          leds[i].setRGB(r,g,b);
-          FastLED.show();
-        }
-      } 
-    }
 
     aniCounter ++; 
     if (aniCounter == 240) {
@@ -175,29 +193,49 @@ void animation() {
 
 }
 
+void fillPanels(){
+  int curPos = 0;
+  for (int i = 0; i < PANELS; i++) 
+  {
+    fillPixelWithPattern(curPos,panelLEDIndex[i],panelTileState);
+  }
+
+  
+}
+
 void setup() {
   // Uncomment/edit one of the following lines for your leds arrangement.
   // ## Clockless types ##
   //FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);  // GRB ordering is assumed
   FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);  // GRB ordering is typical
 
-  FastLED.setBrightness(40);
-  fillPixel(0,11,220,20,60);
+  FastLED.setBrightness(255);
+  fillPixel(0,NUM_LEDS,220,20,60);
 
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
   delay(500);
+
     
-  fillPixelWithPattern(0,11,NormalWaterTile);
+  fillPixelWithPattern(0,8,DeepWaterTile);
+  // fillPixelWithPattern(9,NUM_LEDS,NormalWaterTile);
 
-  panelTileState[0] = NormalWater;
+  panelLEDIndex[0] = 9;
+  panelLEDIndex[1] = 11; 
+  panelLEDIndex[2] = 11;
+  panelLEDIndex[3] = 11;
+  panelLEDIndex[4] = 11;
+  panelLEDIndex[5] = 11;
 
+  panelTileState[0] = DeepWater; 
+  panelTileState[1] = NormalWater;
+  panelTileState[2] = NormalWater;  
+  panelTileState[3] = NormalWater; 
+  panelTileState[4] = NormalWater; 
+  panelTileState[5] = NormalWater; 
 
-  // Serial.println();
-  // Serial.print("MAC: ");
-  // Serial.println(WiFi.macAddress());
-  
+  Serial.println(panelTileState[0]);
   // WiFi.begin(ssid, password);             // Connect to the network
   // Serial.print("Connecting to ");
   // Serial.print(ssid); Serial.println(" ...");
@@ -224,9 +262,10 @@ void setup() {
 void loop() {
   // confirm still connected to mqtt server
   // if (!client.connected()) {
-  //   fillPixel(0,11,255,255,0);
+  //   fillPixel(0,NUM_LEDS,255,255,0);
   //   reconnect();
   // }
   // client.loop();
+  fillPanels();
   animation();
 }
