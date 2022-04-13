@@ -77,8 +77,10 @@ void fillPixel(int from, int to, int r, int g, int b){
 }
 
 void fillPixelWithPattern(int from, int to, int patternType){
+  int toUse = patternType - 1;
+
   for (int i = from; i < to; i++){ 
-    leds[i].setRGB(pattern[i][1],pattern[i][0],pattern[i][2]);
+    leds[i].setRGB(tileSet[toUse][i-from][1],tileSet[toUse][i-from][0],tileSet[toUse][i-from][2]);
     FastLED.show();
   }
 }
@@ -94,7 +96,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   if ((char)payload[0] == NormalWater) {
     panelTileState[0] = NormalWater;
-    fillPixelWithPattern(0,11,NormalWaterTile);
+    fillPixelWithPattern(0,11,NormalWater);
     Serial.print("normalWater");
   }
   if ((char)payload[0] == '2') {
@@ -146,17 +148,18 @@ void animation() {
 
     // Check if tileset should be animated
     for (int panel = 0; panel < PANELS; panel ++){ //Iterate through each panel
-      
-      if ( panelTileState[panel] == DeepWater || panelTileState[panel] == NormalWater || panelTileState[panel] == ShallowWater ) { // Water Panel, Wave Animation     
+      int curTile = panelTileState[panel];
+      if ( curTile == DeepWater || curTile == NormalWater || curTile == ShallowWater ) { // Water Panel, Wave Animation     
         // Do increnment animation for 30 frames
+        curTile = curTile - 1;
         if (aniCounter < 30) {
           for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++)
           {
-            if (WavePatterns[currentWavePattern][i] == 1) {
-              int r = NormalWaterTile[i][0]+(((waveRgb[0]-NormalWaterTile[i][0])/30)*aniCounter);
-              int g = NormalWaterTile[i][1]+(((waveRgb[1]-NormalWaterTile[i][1])/30)*aniCounter);
-              int b = NormalWaterTile[i][2]+(((waveRgb[2]-NormalWaterTile[i][2])/30)*aniCounter); 
-              leds[i].setRGB(r,g,b);
+            if (WavePatterns[currentWavePattern][i-currentPosition] == 1) {
+              int r = tileSet[curTile][i-currentPosition][0]+(((waveRgb[0]-tileSet[curTile][i-currentPosition][0])/30)*aniCounter);
+              int g = tileSet[curTile][i-currentPosition][1]+(((waveRgb[1]-tileSet[curTile][i-currentPosition][1])/30)*aniCounter);
+              int b = tileSet[curTile][i-currentPosition][2]+(((waveRgb[2]-tileSet[curTile][i-currentPosition][2])/30)*aniCounter); 
+              leds[i].setRGB(g,r,b);
               FastLED.show();
             }
           }
@@ -164,13 +167,13 @@ void animation() {
 
         // Do return animation for 30 frames af the first 30 frames till 61 frame
         if (aniCounter > 30 && aniCounter < 61) {
-         for (int i = panelLEDIndex[panel]; i < panelLEDIndex[panel]; i++)
+          for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++)
           {
-            if (WavePatterns[currentWavePattern][i] == 1) {
-              int r = waveRgb[0]+(((NormalWaterTile[i][0]-waveRgb[0])/30)*(aniCounter-30));
-              int g = waveRgb[1]+(((NormalWaterTile[i][1]-waveRgb[1])/30)*(aniCounter-30));
-              int b = waveRgb[2]+(((NormalWaterTile[i][2]-waveRgb[2])/30)*(aniCounter-30));
-              leds[i].setRGB(r,g,b);
+            if (WavePatterns[currentWavePattern][i-currentPosition] == 1) {
+              int r = waveRgb[0]+(((tileSet[curTile][i-currentPosition][0]-waveRgb[0])/30)*(aniCounter-30));
+              int g = waveRgb[1]+(((tileSet[curTile][i-currentPosition][1]-waveRgb[1])/30)*(aniCounter-30));
+              int b = waveRgb[2]+(((tileSet[curTile][i-currentPosition][2]-waveRgb[2])/30)*(aniCounter-30));
+              leds[i].setRGB(g,r,b);
               FastLED.show();
             }
           } 
@@ -197,7 +200,12 @@ void fillPanels(){
   int curPos = 0;
   for (int i = 0; i < PANELS; i++) 
   {
-    fillPixelWithPattern(curPos,panelLEDIndex[i],panelTileState);
+    Serial.print("curPos: ");
+    Serial.println(curPos);
+    Serial.print("endPos: ");
+    Serial.println(curPos + panelLEDIndex[i]);
+    fillPixelWithPattern(curPos,curPos + panelLEDIndex[i],panelTileState[i]);
+    curPos = curPos + panelLEDIndex[i];
   }
 
   
@@ -218,7 +226,7 @@ void setup() {
   delay(500);
 
     
-  fillPixelWithPattern(0,8,DeepWaterTile);
+  // fillPixelWithPattern(0,8,DeepWater);
   // fillPixelWithPattern(9,NUM_LEDS,NormalWaterTile);
 
   panelLEDIndex[0] = 9;
@@ -232,8 +240,8 @@ void setup() {
   panelTileState[1] = NormalWater;
   panelTileState[2] = NormalWater;  
   panelTileState[3] = NormalWater; 
-  panelTileState[4] = NormalWater; 
-  panelTileState[5] = NormalWater; 
+  panelTileState[4] = DessertTile; 
+  panelTileState[5] = DessertTile; 
 
   Serial.println(panelTileState[0]);
   // WiFi.begin(ssid, password);             // Connect to the network
@@ -257,6 +265,7 @@ void setup() {
   // client.subscribe(topic);
 
   // fillPixel(0,11,255,255,0);
+  fillPanels();
 }
 
 void loop() {
@@ -266,6 +275,6 @@ void loop() {
   //   reconnect();
   // }
   // client.loop();
-  fillPanels();
+  // fillPanels();
   animation();
 }
