@@ -155,31 +155,27 @@ void animation() {
         
         
         for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++) {
-          if (aniCounter < animationDuration) {
+          int skewedAniCounter = ((i-currentPosition) * animationSkewing);
+          if (aniCounter > skewedAniCounter && aniCounter < skewedAniCounter + animationDuration) {
             if (WavePatterns[currentWavePattern][i-currentPosition] == 1) {             
-              int r = tileSet[curTile][i-currentPosition][0]+(((waveRgb[0]-tileSet[curTile][i-currentPosition][0])/animationDuration)*aniCounter);
-              int g = tileSet[curTile][i-currentPosition][1]+(((waveRgb[1]-tileSet[curTile][i-currentPosition][1])/animationDuration)*aniCounter);
-              int b = tileSet[curTile][i-currentPosition][2]+(((waveRgb[2]-tileSet[curTile][i-currentPosition][2])/animationDuration)*aniCounter); 
+              int r = tileSet[curTile][i-currentPosition][0]+(((waveRgb[0]-tileSet[curTile][i-currentPosition][0])/animationDuration)*(aniCounter - skewedAniCounter));
+              int g = tileSet[curTile][i-currentPosition][1]+(((waveRgb[1]-tileSet[curTile][i-currentPosition][1])/animationDuration)*(aniCounter - skewedAniCounter));
+              int b = tileSet[curTile][i-currentPosition][2]+(((waveRgb[2]-tileSet[curTile][i-currentPosition][2])/animationDuration)*(aniCounter - skewedAniCounter)); 
               leds[i].setRGB(g,r,b);
               FastLED.show();
             }
           }
-        }
-
-        // Do return animation for 30 frames af the first 30 frames till 61 frame
-        if (aniCounter > animationDuration && aniCounter < (animationDuration * 2) + 1) {
-          for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++)
-          {
+          if (aniCounter > skewedAniCounter + animationDuration && aniCounter < (skewedAniCounter + (animationDuration * 2)) + 1) {
             if (WavePatterns[currentWavePattern][i-currentPosition] == 1) {
-              int r = waveRgb[0]+(((tileSet[curTile][i-currentPosition][0]-waveRgb[0])/animationDuration)*(aniCounter-animationDuration));
-              int g = waveRgb[1]+(((tileSet[curTile][i-currentPosition][1]-waveRgb[1])/animationDuration)*(aniCounter-animationDuration));
-              int b = waveRgb[2]+(((tileSet[curTile][i-currentPosition][2]-waveRgb[2])/animationDuration)*(aniCounter-animationDuration));
+              int r = waveRgb[0]+(((tileSet[curTile][i-currentPosition][0]-waveRgb[0])/animationDuration)*(aniCounter - skewedAniCounter - animationDuration));
+              int g = waveRgb[1]+(((tileSet[curTile][i-currentPosition][1]-waveRgb[1])/animationDuration)*(aniCounter - skewedAniCounter - animationDuration));
+              int b = waveRgb[2]+(((tileSet[curTile][i-currentPosition][2]-waveRgb[2])/animationDuration)*(aniCounter - skewedAniCounter - animationDuration));
               leds[i].setRGB(g,r,b);
               FastLED.show();
             }
           } 
         }
-
+        
         currentPosition = currentPosition + panelLEDIndex[panel];
 
       }
