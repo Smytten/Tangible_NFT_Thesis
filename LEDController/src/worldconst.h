@@ -98,8 +98,8 @@ const int WavePatterns[10][11] = {
 const int waveRgb[3] = {255,255,255};
 
 
-const int animationDuration = 20;
-const int animationPause = 420;
+const int animationDuration = 40;
+const int animationPause = 500;
 
 const int animationSkewing = 10;
 #endif 

@@ -32,7 +32,7 @@ CRGB leds[NUM_LEDS];
 
 int currentWavePattern = 0;
 
-long millisdelay = 8;
+long millisdelay = 4;
 
 unsigned long time_now = 0;
 
@@ -139,6 +139,7 @@ void reconnect() {
   }
 }
 
+int animationSkewingBinder[PANELS][11];
 
 void animation() {
   if (time_now + millisdelay < millis()) {
@@ -155,7 +156,7 @@ void animation() {
         
         
         for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++) {
-          int skewedAniCounter = ((i-currentPosition) * animationSkewing);
+          int skewedAniCounter = animationSkewingBinder[panel][i];
           if (aniCounter > skewedAniCounter && aniCounter < skewedAniCounter + animationDuration) {
             if (WavePatterns[currentWavePattern][i-currentPosition] == 1) {             
               int r = tileSet[curTile][i-currentPosition][0]+(((waveRgb[0]-tileSet[curTile][i-currentPosition][0])/animationDuration)*(aniCounter - skewedAniCounter));
@@ -187,6 +188,11 @@ void animation() {
       aniCounter = 0;
       // Choose new wave animation Pattern
       currentWavePattern = random(3);
+      for (int i = 0; i < PANELS; i++) { // init random skewing pattern
+        for (int j = 0; j < 11; j ++) {
+          animationSkewingBinder[i][j] = random( animationPause - ( animationDuration * 2 ) );
+        }
+      } 
       Serial.print(currentWavePattern);
     }
   }
@@ -234,11 +240,11 @@ void setup() {
   panelLEDIndex[5] = 11;
 
   panelTileState[0] = DeepWater; 
-  panelTileState[1] = NormalWater;
-  panelTileState[2] = NormalWater;  
+  panelTileState[1] = DessertTile;
+  panelTileState[2] = DessertTile;  
   panelTileState[3] = NormalWater; 
-  panelTileState[4] = DessertTile; 
-  panelTileState[5] = DessertTile; 
+  panelTileState[4] = DeepWater; 
+  panelTileState[5] = DeepWater; 
 
   Serial.println(panelTileState[0]);
   // WiFi.begin(ssid, password);             // Connect to the network
