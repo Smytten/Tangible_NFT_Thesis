@@ -32,7 +32,7 @@ CRGB leds[NUM_LEDS];
 
 int currentWavePattern = 0;
 
-long millisdelay = 16;
+long millisdelay = 8;
 
 unsigned long time_now = 0;
 
@@ -152,13 +152,14 @@ void animation() {
       if ( curTile == DeepWater || curTile == NormalWater || curTile == ShallowWater ) { // Water Panel, Wave Animation     
         // Do increnment animation for 30 frames
         curTile = curTile - 1;
-        if (aniCounter < 30) {
-          for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++)
-          {
-            if (WavePatterns[currentWavePattern][i-currentPosition] == 1) {
-              int r = tileSet[curTile][i-currentPosition][0]+(((waveRgb[0]-tileSet[curTile][i-currentPosition][0])/30)*aniCounter);
-              int g = tileSet[curTile][i-currentPosition][1]+(((waveRgb[1]-tileSet[curTile][i-currentPosition][1])/30)*aniCounter);
-              int b = tileSet[curTile][i-currentPosition][2]+(((waveRgb[2]-tileSet[curTile][i-currentPosition][2])/30)*aniCounter); 
+        
+        
+        for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++) {
+          if (aniCounter < animationDuration) {
+            if (WavePatterns[currentWavePattern][i-currentPosition] == 1) {             
+              int r = tileSet[curTile][i-currentPosition][0]+(((waveRgb[0]-tileSet[curTile][i-currentPosition][0])/animationDuration)*aniCounter);
+              int g = tileSet[curTile][i-currentPosition][1]+(((waveRgb[1]-tileSet[curTile][i-currentPosition][1])/animationDuration)*aniCounter);
+              int b = tileSet[curTile][i-currentPosition][2]+(((waveRgb[2]-tileSet[curTile][i-currentPosition][2])/animationDuration)*aniCounter); 
               leds[i].setRGB(g,r,b);
               FastLED.show();
             }
@@ -166,13 +167,13 @@ void animation() {
         }
 
         // Do return animation for 30 frames af the first 30 frames till 61 frame
-        if (aniCounter > 30 && aniCounter < 61) {
+        if (aniCounter > animationDuration && aniCounter < (animationDuration * 2) + 1) {
           for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++)
           {
             if (WavePatterns[currentWavePattern][i-currentPosition] == 1) {
-              int r = waveRgb[0]+(((tileSet[curTile][i-currentPosition][0]-waveRgb[0])/30)*(aniCounter-30));
-              int g = waveRgb[1]+(((tileSet[curTile][i-currentPosition][1]-waveRgb[1])/30)*(aniCounter-30));
-              int b = waveRgb[2]+(((tileSet[curTile][i-currentPosition][2]-waveRgb[2])/30)*(aniCounter-30));
+              int r = waveRgb[0]+(((tileSet[curTile][i-currentPosition][0]-waveRgb[0])/animationDuration)*(aniCounter-animationDuration));
+              int g = waveRgb[1]+(((tileSet[curTile][i-currentPosition][1]-waveRgb[1])/animationDuration)*(aniCounter-animationDuration));
+              int b = waveRgb[2]+(((tileSet[curTile][i-currentPosition][2]-waveRgb[2])/animationDuration)*(aniCounter-animationDuration));
               leds[i].setRGB(g,r,b);
               FastLED.show();
             }
@@ -186,7 +187,7 @@ void animation() {
 
 
     aniCounter ++; 
-    if (aniCounter == 240) {
+    if (aniCounter == animationPause) {
       aniCounter = 0;
       // Choose new wave animation Pattern
       currentWavePattern = random(3);
