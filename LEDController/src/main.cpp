@@ -142,6 +142,7 @@ void reconnect() {
 int animationSkewingBinder[PANELS][11];
 
 void animation() {
+  // TODO FIX THE THE THE TILES IS STILL CHANGES "waved" even if it is not a water tile
   if (time_now + millisdelay < millis()) {
     time_now = millis();
     
