@@ -42,7 +42,7 @@ int panelTileState[PANELS];
 
 int panelLEDIndex[PANELS];
 
-boolean powered = false;
+boolean active = false;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -96,7 +96,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.println();
 
   if ((char)payload[0] == 'o') {
-    powered = !powered;
+    active = !active;
   }
 
   if ((char)payload[0] == NormalWater) {
@@ -122,7 +122,7 @@ void reconnect() {
     // Attempt to connect
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
-      fillPixel(0,11,173,216,230);
+        fillPixel(0,NUM_LEDS,173,216,230);
       // Once connected, publish an announcement...
       client.publish(topic, ("connected " + composeClientID()).c_str() , true );
       // ... and resubscribe
@@ -209,10 +209,6 @@ void fillPanels(){
   int curPos = 0;
   for (int i = 0; i < PANELS; i++) 
   {
-    Serial.print("curPos: ");
-    Serial.println(curPos);
-    Serial.print("endPos: ");
-    Serial.println(curPos + panelLEDIndex[i]);
     fillPixelWithPattern(curPos,curPos + panelLEDIndex[i],panelTileState[i]);
     curPos = curPos + panelLEDIndex[i];
   }
@@ -273,8 +269,7 @@ void setup() {
 
   client.subscribe(topic);
 
-  // fillPixel(0,11,255,255,0);
-  fillPanels();
+  fillPixel(0,NUM_LEDS,255,255,0);
 }
 
 void loop() {
@@ -285,7 +280,7 @@ void loop() {
   }
   client.loop();
   // fillPanels();
-  if(powered) {
+  if(active) {
     animation();
   }
 }
