@@ -42,6 +42,7 @@ int panelTileState[PANELS];
 
 int panelLEDIndex[PANELS];
 
+boolean powered = false;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -93,6 +94,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
     Serial.print((char)payload[i]);
   }
   Serial.println();
+
+  if ((char)payload[0] == 'o') {
+    powered = !powered;
+  }
 
   if ((char)payload[0] == NormalWater) {
     panelTileState[0] = NormalWater;
@@ -241,32 +246,32 @@ void setup() {
   panelLEDIndex[5] = 11;
 
   panelTileState[0] = DeepWater; 
-  panelTileState[1] = DessertTile;
-  panelTileState[2] = DessertTile;  
+  panelTileState[1] = NormalWater;
+  panelTileState[2] = NormalWater;  
   panelTileState[3] = NormalWater; 
-  panelTileState[4] = DeepWater; 
-  panelTileState[5] = DeepWater; 
+  panelTileState[4] = DessertTile; 
+  panelTileState[5] = DessertTile; 
 
   Serial.println(panelTileState[0]);
-  // WiFi.begin(ssid, password);             // Connect to the network
-  // Serial.print("Connecting to ");
-  // Serial.print(ssid); Serial.println(" ...");
+  WiFi.begin(ssid, password);             // Connect to the network
+  Serial.print("Connecting to ");
+  Serial.print(ssid); Serial.println(" ...");
 
-  // int i = 0;
-  // while (WiFi.status() != WL_CONNECTED) { // Wait for the Wi-Fi to connect
-  //   delay(1000);
-  //   Serial.print(++i); Serial.print(' ');
-  // }
+  int i = 0;
+  while (WiFi.status() != WL_CONNECTED) { // Wait for the Wi-Fi to connect
+    delay(1000);
+    Serial.print(++i); Serial.print(' ');
+  }
 
-  // Serial.println('\n');
-  // Serial.println("Connection established!");  
-  // Serial.print("IP address:\t");
-  // Serial.println(WiFi.localIP());  
+  Serial.println('\n');
+  Serial.println("Connection established!");  
+  Serial.print("IP address:\t");
+  Serial.println(WiFi.localIP());  
 
-  // client.setServer(mqtt_server, 1883);
-  // client.setCallback(callback);
+  client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);
 
-  // client.subscribe(topic);
+  client.subscribe(topic);
 
   // fillPixel(0,11,255,255,0);
   fillPanels();
@@ -274,11 +279,13 @@ void setup() {
 
 void loop() {
   // confirm still connected to mqtt server
-  // if (!client.connected()) {
-  //   fillPixel(0,NUM_LEDS,255,255,0);
-  //   reconnect();
-  // }
-  // client.loop();
+  if (!client.connected()) {
+     fillPixel(0,NUM_LEDS,255,255,0);
+     reconnect();
+  }
+  client.loop();
   // fillPanels();
-  animation();
+  if(powered) {
+    animation();
+  }
 }
