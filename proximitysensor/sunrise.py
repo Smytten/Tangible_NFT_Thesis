@@ -102,5 +102,5 @@ class sunController():
                     self.pixels[self.num_pixels-1] = (0,0,0)
                     self.pixels.show()
                     
-    self.pixels.fill((0, 0, 0))
-    self.pixels.show()
+        self.pixels.fill((0, 0, 0))
+        self.pixels.show()
