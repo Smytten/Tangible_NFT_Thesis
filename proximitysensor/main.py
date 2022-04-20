@@ -33,13 +33,13 @@ while True:
                 previous_captured_pin = i
 
             # check if gesture is going up
-            if previous_captured_pin < i:
+            if previous_captured_pin > i:
                 print("Sun has risen! Your planet is warming up")
                 sun.sunrise()
                 
                 
             #Check if gesture is going down
-            if previous_captured_pin > i:
+            if previous_captured_pin < i:
                 print("Sun has set! Your planet is cooling down")
                 sun.sunset()
             
