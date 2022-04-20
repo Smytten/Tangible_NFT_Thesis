@@ -30,28 +30,6 @@ class sunController():
         self.ACCENT_FRAMES = [(255, 179, 0), (230, 133, 36), (198, 126, 54), (
             203, 157, 111), (213, 198, 156), (225, 218, 198)]
 
-    """def controlBrightness(self,r,g,b,amount):
-        #Convert values to float between 0 and 1
-        r = r/1000
-        g = g/1000
-        b = b/1000
-        amount = amount/100
-        
-        
-        h,s,v = colorsys.rgb_to_hsv(r, g, b)
-        v = v + amount
-        new_r, new_g, new_b = colorsys.hsv_to_rgb(h, s, v)
-        
-        #convert back to real rgb values
-        new_r = int(new_r * 1000)
-        new_g = int(new_g * 1000)
-        new_b = int(new_b * 1000)
-        
-        
-        print("new rgb values are:")
-        print(new_r, new_g, new_b)
-        return new_r, new_g, new_b"""
-
     def sunrise(self):
         print("sunrise")
 
@@ -123,3 +101,6 @@ class sunController():
                     self.pixels[i+5] = (0,0,0)
                     self.pixels[self.num_pixels-1] = (0,0,0)
                     self.pixels.show()
+                    
+    self.pixels.fill((0, 0, 0))
+    self.pixels.show()
