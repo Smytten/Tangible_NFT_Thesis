@@ -2,13 +2,7 @@
 #include <ESP8266WiFi.h>        // Include the Wi-Fi library
 #include <PubSubClient.h>
 #include <worldconst.h>
-
-
-const char* ssid     = "AU-Gadget";         // The SSID (name) of the Wi-Fi network you want to connect to
-const char* password = "augadget";     // The password of the Wi-Fi network
-
-const char* mqtt_server = "public.mqtthq.com";
-const char* topic = "mworld/6dh2/f0";    
+#include <networking.h>
 
 
 // How many leds in your strip?
@@ -50,6 +44,7 @@ long lastMsg = 0;
 
 int status = WL_IDLE_STATUS;     // the starting Wifi radio's status
 
+
 String macToStr(const uint8_t* mac)
 {
   String result;
@@ -86,6 +81,31 @@ void fillPixelWithPattern(int from, int to, int patternType){
   }
 }
 
+void fillPanels(){
+  int curPos = 0;
+  for (int i = 0; i < PANELS; i++) 
+  {
+    fillPixelWithPattern(curPos,curPos + panelLEDIndex[i],panelTileState[i]);
+    curPos = curPos + panelLEDIndex[i];
+  }
+}
+
+boolean aReset = false;
+void activate(){
+  if ( aReset ) {
+    fillPanels();
+    aReset = false;
+  }
+}
+
+boolean dReset = false;
+void deactivate(){
+  if( dReset ) {
+    fillPixel(0,NUM_LEDS,0,0,0);
+    dReset = false;
+  }
+}
+
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(topic);
@@ -97,6 +117,11 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   if ((char)payload[0] == 'o') {
     active = !active;
+    if ( active ) {
+      aReset = true;
+    } else {
+      dReset = true;
+    }
   }
 
   if ((char)payload[0] == NormalWater) {
@@ -122,7 +147,14 @@ void reconnect() {
     // Attempt to connect
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
-        fillPixel(0,NUM_LEDS,173,216,230);
+      fillPixel(0,NUM_LEDS,0,0,0);
+      delay(50);
+      fillPixel(0,NUM_LEDS,255,255,255);
+      delay(50);
+      fillPixel(0,NUM_LEDS,0,0,0);
+      delay(50);
+      fillPixel(0,NUM_LEDS,255,255,255);
+      dReset = true;
       // Once connected, publish an announcement...
       client.publish(topic, ("connected " + composeClientID()).c_str() , true );
       // ... and resubscribe
@@ -205,16 +237,6 @@ void animation() {
 
 }
 
-void fillPanels(){
-  int curPos = 0;
-  for (int i = 0; i < PANELS; i++) 
-  {
-    fillPixelWithPattern(curPos,curPos + panelLEDIndex[i],panelTileState[i]);
-    curPos = curPos + panelLEDIndex[i];
-  }
-
-  
-}
 
 void setup() {
   // Uncomment/edit one of the following lines for your leds arrangement.
@@ -281,6 +303,9 @@ void loop() {
   client.loop();
   // fillPanels();
   if(active) {
+    activate();
     animation();
+  } else {
+    deactivate();
   }
 }
