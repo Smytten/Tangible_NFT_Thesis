@@ -110,8 +110,18 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
-  for (int i = 0; i < length; i++) {
-    Serial.print((char)payload[i]);
+  if ((char)payload[0] == '~'){
+   for (int i = 1; i < length; i++) {
+     char currentChar = (char)payload[i];
+     if(isdigit(currentChar)){
+       int value = currentChar - '0';
+       Serial.println(value);
+       panelTileState[i-1] = value;
+     }
+   }
+   if (active) {
+     aReset = true;
+   }
   }
   Serial.println();
 
@@ -122,16 +132,6 @@ void callback(char* topic, byte* payload, unsigned int length) {
     } else {
       dReset = true;
     }
-  }
-
-  if ((char)payload[0] == NormalWater) {
-    panelTileState[0] = NormalWater;
-    fillPixelWithPattern(0,11,NormalWater);
-    Serial.print("normalWater");
-  }
-  if ((char)payload[0] == '2') {
-    fillPixel(0,11,0,0,255);
-    Serial.print("do it :)");
   }
 }
 
@@ -156,7 +156,7 @@ void reconnect() {
       fillPixel(0,NUM_LEDS,255,255,255);
       dReset = true;
       // Once connected, publish an announcement...
-      client.publish(topic, ("connected " + composeClientID()).c_str() , true );
+      client.publish(topic, ("connected " + composeClientID()).c_str() , false );
       // ... and resubscribe
       // topic + clientID + in
       String subscription;
@@ -267,8 +267,8 @@ void setup() {
   panelTileState[1] = NormalWater;
   panelTileState[2] = NormalWater;  
   panelTileState[3] = NormalWater; 
-  panelTileState[4] = DessertTile; 
-  panelTileState[5] = DessertTile; 
+  panelTileState[4] = DesertTile; 
+  panelTileState[5] = DesertTile; 
 
   Serial.println(panelTileState[0]);
   WiFi.begin(ssid, password);             // Connect to the network

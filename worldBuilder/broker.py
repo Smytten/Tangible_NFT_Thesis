@@ -6,11 +6,7 @@ from paho.mqtt import client as mqtt_client
 
 broker = 'public.mqtthq.com'
 port = 1883
-topic = "mworld/6dh2/f0"
-# generate client ID with pub prefix randomly
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
-# username = 'emqx'
-# password = 'public'
 
 def connect_mqtt():
     def on_connect(client, userdata, flags, rc):
@@ -49,3 +45,15 @@ def run():
 
 if __name__ == '__main__':
     run()
+
+class MQTTBroker():
+    def __init__(self) -> None:
+        self.__client = connect_mqtt()
+        self.__client.loop_start()
+
+
+        pass
+
+    def update(self,data):
+        for d in data:
+            self.__client.publish(d.getIdentifyer(),d.getTiles(), retain = True)

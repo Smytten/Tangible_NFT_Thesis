@@ -20,15 +20,20 @@ class Pane():
     def getTiles(self):
         pass
 
+    @abstractmethod
+    def setIdentifyer(self, id):
+        pass
+
 class Flower(Pane):
 
     def __init__(self, edges,midTile : Tile,location) -> None:
         self.__edges = edges
         self.__midTile = midTile
         self.__location = location
+        self.__id = 'none'
 
-    def getIdentifyer(self,id):
-        return WORLDCONST.PROJECT + "/" + str(id) + "/f" + str(self.__location)
+    def getIdentifyer(self):
+        return WORLDCONST.PROJECT + "/" + self.__id + "/f" + str(self.__location)
 
     def getTiles(self):
         stringifyedTileSet = self.__midTile.getType()
@@ -36,6 +41,8 @@ class Flower(Pane):
             stringifyedTileSet = stringifyedTileSet + e.getType()
         return stringifyedTileSet
 
+    def setIdentifyer(self, id):
+        self.__id = id
 
 class Binder(Pane):
 
@@ -47,14 +54,17 @@ class Binder(Pane):
 class World():
 
     def __init__(self, id, panes : list):
-        self.__panes = panes  
+        self.__panes = [] 
+        for p in panes:
+            p.setIdentifyer(id)
+            self.__panes.append(p)
         self.__id = id
         self._observers = [] 
 
     def notify(self, modifier = None):
         for observer in self._observers:
             if modifier != observer:
-                observer.update(self.publishPanes())
+                observer.update(self.__panes)
 
     def attach(self, observer):
         if observer not in self._observers:
@@ -73,7 +83,8 @@ class World():
     def publishPanes(self) -> list:
         returnList = []
         for pane in self.__panes:
-            pass
+            returnList.append(pane.getTiles())
+            #returnList.append(pane.getIdentifyer(self.__id))
     
         return returnList
 
@@ -94,15 +105,14 @@ class mqttclientboi():
     def update(self, data):
         print(data)
         for d in data:
-            print("imma publish this: " + str(d))
+            print("imma publish this: " + d.getTiles() + " to: " + d.getIdentifyer())
 
 
-flowers = [
-    Flower([Tile(WORLDCONST.NormalWater),Tile(WORLDCONST.NormalWater),Tile(WORLDCONST.NormalWater),Tile(WORLDCONST.NormalWater),Tile(WORLDCONST.ShallowWater)], Tile(WORLDCONST.DeepWater),0),
-    Flower(None,None,1)
+panes = [
+    Flower([Tile(WORLDCONST.DeepWater),Tile(WORLDCONST.NormalWater),Tile(WORLDCONST.NormalWater),Tile(WORLDCONST.NormalWater),Tile(WORLDCONST.ShallowWater)], Tile(WORLDCONST.DeepWater),0)
     ]
 
-testWorld = World("3hch1",flowers)
+testWorld = World("6dh2",panes)
 
 mqttClien = mqttclientboi()
 
