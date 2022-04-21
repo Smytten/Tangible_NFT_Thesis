@@ -25,7 +25,7 @@ class sunController():
         self.pixels = neopixel.NeoPixel(
             self.pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER)
 
-        self.SUN_FRAMES = [(255, 85, 0), (228, 98, 33),
+        self.SUN_FRAMES = [(255, 51, 0), (228, 98, 33),
                            (205, 105, 56), (175, 96, 57), (139, 90, 65)]
         self.ACCENT_FRAMES = [(255, 179, 0), (230, 133, 36), (198, 126, 54), (
             203, 157, 111), (213, 198, 156), (225, 218, 198)]
