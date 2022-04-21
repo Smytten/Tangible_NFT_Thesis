@@ -21,9 +21,9 @@ counter = 0
 
 while True:
     input = input()
-    if input == 1:
+    if input == "1":
         sunController().sunrise()
-    if input == 2:
+    if input == "2":
         sunController().sunset()
 
 '''
