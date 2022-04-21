@@ -19,12 +19,15 @@ sun = sunController()
 previous_captured_pin = None
 counter = 0
 
-command = input()
+
 while input != 'quit':
+    command = input()
     if command == "1":
         sunController().sunrise()
     if command == "2":
         sunController().sunset()
+        
+    command = ''
         
 
 
