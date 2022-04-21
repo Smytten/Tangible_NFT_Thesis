@@ -40,7 +40,7 @@ class sunController():
                 for j in reversed(self.ACCENT_FRAMES):
                     self.pixels[i+1] = (j)
                     self.pixels.show()
-                    #time.sleep(0.1)
+                    time.sleep(0.1)
 
             # turn on accent color under i through steps
             # change this number for increasing sun size
