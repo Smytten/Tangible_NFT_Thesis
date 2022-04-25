@@ -41,3 +41,6 @@ class sunController():
                 self.pixels[i] = self.SUN_COLOR
                 self.pixel_pin [i-5] = (0,0,0)
                 self.pixels.show()
+                
+obj = sunController()
+sunController().sunclock()
