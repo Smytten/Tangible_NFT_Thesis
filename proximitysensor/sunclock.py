@@ -41,7 +41,7 @@ class sunController():
                 self.pixels[i] = self.SUN_COLOR
                 
                 if i>5:
-                    self.pixel_pin [i-5] = (0,0,0)
+                    self.pixels[i-5] = (0,0,0)
                     self.pixels.show()
                 
 obj = sunController()
