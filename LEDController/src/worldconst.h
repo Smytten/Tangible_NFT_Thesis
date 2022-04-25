@@ -15,6 +15,14 @@
 #define FLOWER 1
 #define BINDER 2
 
+struct Pane {
+  int start;
+  int end;
+  int firstRow[3][3];
+  int secondRow[5][3];
+  int thirdRow[3][3];
+};
+
 
 const int tileSet[9][11][3] = {
     {

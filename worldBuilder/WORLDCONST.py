@@ -8,6 +8,12 @@ RockMountain = "7"
 FrozenWater = "8"
 FrozenForrest = "9"
 
+WaterRange = (0,40)
+IceRange = (-200,-1)
+DesertRange = (26,300)
+ForrestRange = (0,25)
+
+
 PROJECT = "mworld"
 
 

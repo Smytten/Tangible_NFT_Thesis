@@ -45,6 +45,7 @@ long lastMsg = 0;
 int status = WL_IDLE_STATUS;     // the starting Wifi radio's status
 
 
+
 String macToStr(const uint8_t* mac)
 {
   String result;
@@ -176,6 +177,11 @@ void reconnect() {
   }
 }
 
+
+void bleed(){
+
+}
+
 int animationSkewingBinder[PANELS][11];
 
 void animation() {
@@ -184,6 +190,8 @@ void animation() {
     time_now = millis();
     
     int currentPosition = 0;
+
+    // bleed(); TODO implementet bleed between panels
 
     // Check if tileset should be animated
     for (int panel = 0; panel < PANELS; panel ++){ //Iterate through each panel
@@ -214,9 +222,7 @@ void animation() {
             }
           } 
         }
-        
         currentPosition = currentPosition + panelLEDIndex[panel];
-
       }
     }
 
