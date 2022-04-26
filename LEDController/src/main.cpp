@@ -222,8 +222,8 @@ void animation() {
             }
           } 
         }
-        currentPosition = currentPosition + panelLEDIndex[panel];
       }
+      currentPosition = currentPosition + panelLEDIndex[panel];
     }
 
 
