@@ -13,6 +13,9 @@ IceRange = (-200,-1)
 DesertRange = (26,300)
 ForrestRange = (0,25)
 
+WATER = 'water'
+LAND = 'land'
+
 
 PROJECT = "mworld"
 

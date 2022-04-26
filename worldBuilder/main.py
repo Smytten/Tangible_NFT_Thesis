@@ -5,15 +5,40 @@ import broker as broker
 
 
 class Tile():
-    def __init__(self, type: str):
+    def __init__(self, type: str, elevation = 0, occupent = WORLDCONST.LAND):
         self._type = type
-        self._state = 's'
+        self._occupent = occupent
+        self._polarity = 0
+        self._elevation = elevation
+        self._waterLevel = 0
+        self._neighbours = []
 
     def getType(self):
         return self._type
-    
-    def getState(self):
-        return self._state
+
+    def setType(self,tileType):
+        self._type = tileType 
+
+    def getPolarity(self):
+        return self._polarity
+
+    def setPolarity(self, polarity):
+        self._polarity = polarity
+
+    def getNeighbours(self):
+        return self._neighbours
+
+    def getWaterAmount(self):
+        return self._waterLevel
+
+    def getElevation(self):
+        return self._elevation
+
+    def getOccupent(self):
+        return self._occupent
+
+    def nearWater(self):
+        return True
 
 class Pane():
 
@@ -40,7 +65,7 @@ class Pane():
 class Flower(Pane):
 
     def __init__(self, tiles : list,location) -> None:
-        self._tiles = tiles
+        self._tiles = tiles 
         self._location = location
         self._id = 'none'
 
@@ -68,7 +93,6 @@ class Binder(Pane):
         self.__location = location
         self.__edges = edges
 
-
 class World():
 
     def __init__(self, id, panes : list):
@@ -82,7 +106,6 @@ class World():
         for pane in panels:
             pane.setIdentifyer(self.__id)
             self._panes.append(pane)
-
 
     def notify(self, modifier = None):
         for observer in self._observers:
@@ -128,26 +151,93 @@ class World():
             newTileList = []
 
             for tile in tiles: # Update Tile States       
+                
+                # Move water water to lowest state
 
-                if tile.getType() == WORLDCONST.FrozenWater:
-                    if self._temp > -1:
-                        newTileList.append(Tile(WORLDCONST.NormalWater))
-                    else:
+                # Evapurate Water
+
+                # Check if Water Amount > 100 and and change to WATERILE
+                if tile.getWaterLevel >= 100:
+                    tile.setOccupent(WORLDCONST.WATER)
+                else:
+                    tile.setOccupent(WORLDCONST.LAND)
+
+                if tile.getOccupent() == WORLDCONST.WATER: # HANDLE WATERY TILES
+                    if self._temp >= WORLDCONST.WaterRange[0] and self._temp < WORLDCONST.WaterRange[1]:
+
+                        if tile.getElevation() < 0 and tile.getElevation() > -10:
+                            tile.setType(WORLDCONST.ShallowWater)
+                            newTileList.append(tile)
+                            continue
+                        
+                        if tile.getElevation() < -10 and tile.getElevation() > -50:
+                            tile.setType(WORLDCONST.NormalWater)
+                            newTileList.append(tile)
+                            continue
+
+                        if tile.getElevation() < -50:
+                            tile.setType(WORLDCONST.DeepWater)
+                            newTileList.append(tile)
+                            continue
+
+                    if self._temp >= WORLDCONST.WaterRange[1]:
+                        tile.setType(WORLDCONST.DesertTile)
                         newTileList.append(tile)
+                        continue
+
+                    else:
+                        tile.setType(WORLDCONST.FrozenWater)
+                        newTileList.append(tile)
+                        continue
+
+                if tile.getOccupent() == WORLDCONST.LAND: # HANDLE LANDY TILES 
+                    if self._temp >= WORLDCONST.ForrestRange[0] and self._temp < WORLDCONST.ForrestRange[1] and tile.nearWater():
+                        tile.setType(WORLDCONST.ForrestTile)
+                        newTileList.append(tile)
+                        continue
+
+                    if self._temp < WORLDCONST.ForrestRange[0]:
+                        tile.setType(WORLDCONST.FrozenForrest)
+                        newTileList.append(tile)
+                        continue
+
+                    tile.setType(WORLDCONST.DesertTile)
+                    newTileList.append(tile)
+                    continue
+
+                
                 else:
                     newTileList.append(tile)
+
+
+                #simple tile change
+
+               # if tile.getType() == WORLDCONST.FrozenWater:
+               #     if self._temp > WORLDCONST.WaterRange[0]:
+               #         newTileList.append(Tile(WORLDCONST.NormalWater))
+               #         continue
+
+               # if tile.getType() == WORLDCONST.NormalWater:
+               #     if self._temp < WORLDCONST.WaterRange[0]:
+               #         newTileList.append(Tile(WORLDCONST.FrozenWater))
+               #         continue
+
+               #     if self._temp > WORLDCONST.WaterRange[1]:
+               #         newTileList.append(Tile(WORLDCONST.DesertTile))
+               #         continue
+
+               # if tile.getType() == WORLDCONST.DesertTile:
+               #     if self._temp < WORLDCONST.WaterRange[1]:
+               #         newTileList.append(Tile(WORLDCONST.NormalWater))
+               #         continue
+               # 
+               # newTileList.append(tile)
+
 
             p.setTiles(newTileList)
             paneList.append(p)
         self.setPanels(paneList)
         
-                 
-
-
-
-    def updateWorld(self):
-        pass
-
     def getPaneTileSet(self,id):
         return self._panes[id].getTilesToString()
 
@@ -165,7 +255,7 @@ class mqttclientboi():
 realBroker = broker.MQTTBroker()
 
 panels = [
-    Flower([Tile(WORLDCONST.FrozenWater),Tile(WORLDCONST.FrozenWater),Tile(WORLDCONST.FrozenForrest),Tile(WORLDCONST.FrozenForrest),Tile(WORLDCONST.FrozenForrest),Tile(WORLDCONST.FrozenForrest)],0)
+    Flower([Tile(WORLDCONST.FrozenWater,elevation=-200,occupent=WORLDCONST.WATER),Tile(WORLDCONST.FrozenWater,elevation=-40,occupent=WORLDCONST.WATER),Tile(WORLDCONST.FrozenForrest),Tile(WORLDCONST.FrozenForrest),Tile(WORLDCONST.FrozenForrest),Tile(WORLDCONST.FrozenForrest)],0)
     ]
 
 testWorld = World("6dh2",panels)
