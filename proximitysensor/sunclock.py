@@ -40,9 +40,11 @@ class sunController():
                 time.sleep(0.5)
                 self.pixels[i] = self.SUN_COLOR
                 
-                if i>5:
-                    self.pixels[i-5] = (0,0,0)
+                if i>3:
+                    self.pixels[i-3] = (0,0,0)
                     self.pixels.show()
+                    
+            self.pixels.fill(0,0,0)
                 
 obj = sunController()
 sunController().sunclock()
