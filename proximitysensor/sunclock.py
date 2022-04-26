@@ -35,6 +35,8 @@ class sunController():
                 self.pixels.fill((0,0,0))
                 time.sleep(0.5)
                 self.pixels[i] = self.SUN_COLOR
+                self.pixels[i+1] = self.SUN_COLOR
+                self.pixels[i+2] = self.SUN_COLOR
                 self.pixels.show()
 
                 
