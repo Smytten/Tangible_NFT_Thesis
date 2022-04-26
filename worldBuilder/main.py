@@ -1,5 +1,6 @@
 
 from abc import abstractmethod
+import re
 import WORLDCONST as WORLDCONST
 import broker as broker
 
@@ -106,12 +107,14 @@ class World():
         self.setPanels(panes)
         self._observers = [] 
         self._temp = -50
+        self.__convertToNeighbourhoodCoridnate(0)
 
     def setPanels(self, panels : list):
         self._panes = [] 
         for pane in panels:
             pane.setIdentifyer(self.__id)
             self._panes.append(pane)
+        self.__setupTileNeighbours()
 
     def notify(self, modifier = None):
         for observer in self._observers:
@@ -132,10 +135,6 @@ class World():
         except ValueError:
             pass 
 
-    def getFace(self) -> str:
-        for p in self._panes:
-            pass
-
     def publishPanes(self) -> list:
         returnList = []
         for pane in self._panes:
@@ -143,6 +142,46 @@ class World():
             #returnList.append(pane.getIdentifyer(self.__id))
     
         return returnList
+
+    def getTile(self,pane,position):
+        return self._panes[pane].getTiles()[position]
+
+    def __setupTileNeighbours(self):
+        for pane in self._panes:
+            pass
+
+    def __convertToNeighbourhoodCoridnate(self,panePosition):
+        returnList = []
+        if panePosition == 0:
+            curTile = 0
+            for pos in WORLDCONST.NEIGHBOURHOOD_CONST_TOP:
+                tempReturnList = []
+                #GENRATE NEIBOURHOOD
+                if len(pos) == 5:
+                    for tilePos in pos:
+                        tempReturnList.append((panePosition,tilePos))
+                
+                if len(pos) == 6:
+                    curPointer = 0
+                    for tilePos in pos:
+
+                        if curPointer > 2:
+                            tempReturnList.append((panePosition,tilePos))
+                        elif curPointer == 3:
+                            tempReturnList.append((6+(8+curTile)%5,tilePos))
+                        else:
+                            tempReturnList.append((curTile+5,tilePos))
+
+                        curPointer += 1
+                        pass
+
+                curTile += 1
+                returnList.append(tempReturnList)
+                
+
+        print (returnList)
+        return returnList 
+
 
     def heatWorld(self):
         self._temp = self._temp + 10
@@ -158,7 +197,7 @@ class World():
 
             for tile in tiles: # Update Tile States       
                 
-                # Move water water to lowest state
+                # Move water water to lowest low elvation
                 if tile.getWaterBody() > 0:
                     pass
 
@@ -216,11 +255,9 @@ class World():
                     tile.setType(WORLDCONST.DesertTile)
                     newTileList.append(tile)
                     continue
-
                 
                 else:
                     newTileList.append(tile)
-
 
                 #simple tile change
 
