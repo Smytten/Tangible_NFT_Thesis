@@ -31,9 +31,11 @@ class sunController():
         print("sunclock begin")
 
         while True:
-            for i in range(self.num_pixels-1):
+            for i in range(self.num_pixels):
+                self.pixels.fill((0,0,0))
                 time.sleep(0.5)
                 self.pixels[i] = self.SUN_COLOR
+                self.pixels.show()
 
                 
 obj = sunController()
