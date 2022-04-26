@@ -35,7 +35,7 @@ class sunController():
                 self.pixels.fill((0,0,0))
                 time.sleep(0.5)
                 
-                if i>=self.num_pixels:
+                if i>=self.num_pixels-1:
                     i = 0
                     
                 self.pixels[i] = self.SUN_COLOR
