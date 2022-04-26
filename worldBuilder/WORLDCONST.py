@@ -16,6 +16,8 @@ ForrestRange = (0,25)
 WATER = 'water'
 LAND = 'land'
 
+RAIN_AMOUNT = 2
+
 
 PROJECT = "mworld"
 

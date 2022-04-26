@@ -5,12 +5,12 @@ import broker as broker
 
 
 class Tile():
-    def __init__(self, type: str, elevation = 0, occupent = WORLDCONST.LAND):
+    def __init__(self, type: str, elevation = 0, occupent = WORLDCONST.LAND,waterBody=0):
         self._type = type
         self._occupent = occupent
         self._polarity = 0
         self._elevation = elevation
-        self._waterLevel = 0
+        self._waterBody = waterBody
         self._neighbours = []
 
     def getType(self):
@@ -28,14 +28,20 @@ class Tile():
     def getNeighbours(self):
         return self._neighbours
 
-    def getWaterAmount(self):
-        return self._waterLevel
+    def addWaterToBody(self,amount):
+        self._waterBody = self._waterBody + amount
+
+    def getWaterBody(self):
+        return self._waterBody
 
     def getElevation(self):
         return self._elevation
 
     def getOccupent(self):
         return self._occupent
+
+    def setOccupent(self,occupent):
+        self._occupent = occupent
 
     def nearWater(self):
         return True
@@ -153,29 +159,35 @@ class World():
             for tile in tiles: # Update Tile States       
                 
                 # Move water water to lowest state
+                if tile.getWaterBody() > 0:
+                    pass
 
                 # Evapurate Water
+                
+
 
                 # Check if Water Amount > 100 and and change to WATERILE
-                if tile.getWaterLevel >= 100:
+                if tile.getWaterBody () >= 5:
                     tile.setOccupent(WORLDCONST.WATER)
                 else:
                     tile.setOccupent(WORLDCONST.LAND)
-
+                
+                # Handle Tempature Changes
                 if tile.getOccupent() == WORLDCONST.WATER: # HANDLE WATERY TILES
                     if self._temp >= WORLDCONST.WaterRange[0] and self._temp < WORLDCONST.WaterRange[1]:
+                        waterDepth = tile.getWaterBody()
 
-                        if tile.getElevation() < 0 and tile.getElevation() > -10:
+                        if waterDepth > 5 and waterDepth < 10:
                             tile.setType(WORLDCONST.ShallowWater)
                             newTileList.append(tile)
                             continue
                         
-                        if tile.getElevation() < -10 and tile.getElevation() > -50:
+                        if waterDepth >= 10 and waterDepth < 50:
                             tile.setType(WORLDCONST.NormalWater)
                             newTileList.append(tile)
                             continue
 
-                        if tile.getElevation() < -50:
+                        if waterDepth >= 50:
                             tile.setType(WORLDCONST.DeepWater)
                             newTileList.append(tile)
                             continue
@@ -237,6 +249,17 @@ class World():
             p.setTiles(newTileList)
             paneList.append(p)
         self.setPanels(paneList)
+    
+    def rainfall(self,location):
+        rainPane = self._panes[location]
+        updatedList = []
+
+        for tile in rainPane.getTiles():
+            tile.addWaterToBody(WORLDCONST.RAIN_AMOUNT)
+            updatedList.append(tile)
+
+        rainPane.setTiles(updatedList)
+        self._panes[location] = rainPane
         
     def getPaneTileSet(self,id):
         return self._panes[id].getTilesToString()
@@ -255,7 +278,7 @@ class mqttclientboi():
 realBroker = broker.MQTTBroker()
 
 panels = [
-    Flower([Tile(WORLDCONST.FrozenWater,elevation=-200,occupent=WORLDCONST.WATER),Tile(WORLDCONST.FrozenWater,elevation=-40,occupent=WORLDCONST.WATER),Tile(WORLDCONST.FrozenForrest),Tile(WORLDCONST.FrozenForrest),Tile(WORLDCONST.FrozenForrest),Tile(WORLDCONST.FrozenForrest)],0)
+    Flower([Tile(WORLDCONST.FrozenForrest,elevation=0,occupent=WORLDCONST.LAND, waterBody=0),Tile(WORLDCONST.FrozenWater,elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),Tile(WORLDCONST.FrozenForrest),Tile(WORLDCONST.FrozenForrest,elevation=20),Tile(WORLDCONST.FrozenForrest),Tile(WORLDCONST.FrozenForrest)],0)
     ]
 
 testWorld = World("6dh2",panels)
@@ -403,4 +426,8 @@ while(True):
         testWorld.coolWorld()
         testWorld.worldStep()
         print(testWorld._temp)
+        testWorld.notify()
+    if state == 'r':
+        testWorld.rainfall(0)
+        testWorld.worldStep()
         testWorld.notify()
