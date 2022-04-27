@@ -16,6 +16,8 @@ ForrestRange = (0,25)
 WATER = 'water'
 LAND = 'land'
 
+WATERFLOW = 1 
+
 RAIN_AMOUNT = 2
 
 

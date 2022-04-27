@@ -1,18 +1,19 @@
 
 from abc import abstractmethod
-import re
+from re import I, T
 import WORLDCONST as WORLDCONST
 import broker as broker
 
 
 class Tile():
-    def __init__(self, type: str, elevation = 0, occupent = WORLDCONST.LAND,waterBody=0):
+    def __init__(self, type: str = WORLDCONST.DesertTile, elevation = 99999, occupent = WORLDCONST.LAND,waterBody=0):
         self._type = type
         self._occupent = occupent
         self._polarity = 0
         self._elevation = elevation
         self._waterBody = waterBody
         self._neighbours = []
+        self._nearWater = False
 
     def getType(self):
         return self._type
@@ -29,6 +30,12 @@ class Tile():
     def getNeighbours(self):
         return self._neighbours
 
+    def setNeighbours(self,neighbours : list):
+        self._neighbours = neighbours
+
+    def removeWaterFromBody(self,amount):
+        self._waterBody -= amount
+
     def addWaterToBody(self,amount):
         self._waterBody = self._waterBody + amount
 
@@ -44,8 +51,15 @@ class Tile():
     def setOccupent(self,occupent):
         self._occupent = occupent
 
-    def nearWater(self):
-        return True
+    def setNearWater(self, nearWater : bool):
+        self._nearWater = nearWater
+
+    def isNearWater(self):
+        return self._nearWater
+    
+    def toString(self):
+        return "TYPE: `" + self._type + "`" + "TOTAL H: `" + str(self._waterBody + self._elevation) + " WATERBODY: `" + str(self._waterBody) + "`" + " ELEVATION: `" + str(self._elevation) + "`" 
+
 
 class Pane():
 
@@ -69,6 +83,10 @@ class Pane():
     def setTiles(self, tiles):
         pass
 
+    @abstractmethod
+    def getLocaiton(self):
+        pass
+
 class Flower(Pane):
 
     def __init__(self, tiles : list,location) -> None:
@@ -88,6 +106,9 @@ class Flower(Pane):
     def setIdentifyer(self, id):
         self._id = id
 
+    def getLocation(self):
+        return self._location
+
     def getTiles(self) -> list:
         return self._tiles
 
@@ -106,8 +127,8 @@ class World():
         self.__id = id
         self.setPanels(panes)
         self._observers = [] 
-        self._temp = -50
-        self.__convertToNeighbourhoodCoridnate(0)
+        self._temp = 22
+        # self.__convertToNeighbourhoodCoridnate(0)
 
     def setPanels(self, panels : list):
         self._panes = [] 
@@ -143,12 +164,22 @@ class World():
     
         return returnList
 
-    def getTile(self,pane,position):
-        return self._panes[pane].getTiles()[position]
+    def getTile(self,pos : tuple):
+        try:
+            return self._panes[pos[0]].getTiles()[pos[1]]
+        except:
+            return Tile() 
 
     def __setupTileNeighbours(self):
         for pane in self._panes:
-            pass
+            neigbourList = self.__convertToNeighbourhoodCoridnate(pane.getLocation())
+            flowerTiles = pane.getTiles()
+            print(len(flowerTiles))
+            i = 0
+            for tile in flowerTiles:
+                tile.setNeighbours(neigbourList[i])
+                i += 1
+            pane.setTiles(flowerTiles)
 
     def __convertToNeighbourhoodCoridnate(self,panePosition):
         returnList = []
@@ -165,7 +196,7 @@ class World():
                     curPointer = 0
                     for tilePos in pos:
 
-                        if curPointer > 2:
+                        if curPointer < 3:
                             tempReturnList.append((panePosition,tilePos))
                         elif curPointer == 3:
                             tempReturnList.append((6+(8+curTile)%5,tilePos))
@@ -177,9 +208,8 @@ class World():
 
                 curTile += 1
                 returnList.append(tempReturnList)
-                
 
-        print (returnList)
+        # print (returnList)
         return returnList 
 
 
@@ -196,12 +226,39 @@ class World():
             newTileList = []
 
             for tile in tiles: # Update Tile States       
-                
+                nh = tile.getNeighbours()
+
                 # Move water water to lowest low elvation
                 if tile.getWaterBody() > 0:
+                    largestDiff = 0
+                    lowestTile = None
+                    for pos in nh:
+                        myTileHeight = tile.getElevation() + tile.getWaterBody()
+                        tileToCheck = self.getTile(pos).getElevation() + self.getTile(pos).getWaterBody()
+                        if tileToCheck >= myTileHeight:
+                            continue 
+
+                        diff = myTileHeight - tileToCheck 
+
+                        if diff > largestDiff:
+                            largestDiff = diff
+                            lowestTile = self.getTile(pos)
+                    if largestDiff > 0:
+                        tile.removeWaterFromBody(WORLDCONST.WATERFLOW)
+                        #print("FLOWING FROM: " + tile.toString() + " ----> " + lowestTile.toString())
+                        lowestTile.addWaterToBody(WORLDCONST.WATERFLOW)
+
                     pass
 
+                print(tile.toString())
                 # Evapurate Water
+
+
+                # Check if Tile is near Water
+                for pos in nh:
+                    if self.getTile(pos).getOccupent() == WORLDCONST.WATER:
+                        tile.setNearWater(True)
+                        break
                 
 
 
@@ -216,7 +273,7 @@ class World():
                     if self._temp >= WORLDCONST.WaterRange[0] and self._temp < WORLDCONST.WaterRange[1]:
                         waterDepth = tile.getWaterBody()
 
-                        if waterDepth > 5 and waterDepth < 10:
+                        if waterDepth >= 5 and waterDepth < 10:
                             tile.setType(WORLDCONST.ShallowWater)
                             newTileList.append(tile)
                             continue
@@ -242,7 +299,7 @@ class World():
                         continue
 
                 if tile.getOccupent() == WORLDCONST.LAND: # HANDLE LANDY TILES 
-                    if self._temp >= WORLDCONST.ForrestRange[0] and self._temp < WORLDCONST.ForrestRange[1] and tile.nearWater():
+                    if self._temp >= WORLDCONST.ForrestRange[0] and self._temp < WORLDCONST.ForrestRange[1] and tile.isNearWater():
                         tile.setType(WORLDCONST.ForrestTile)
                         newTileList.append(tile)
                         continue
@@ -315,7 +372,18 @@ class mqttclientboi():
 realBroker = broker.MQTTBroker()
 
 panels = [
-    Flower([Tile(WORLDCONST.FrozenForrest,elevation=0,occupent=WORLDCONST.LAND, waterBody=0),Tile(WORLDCONST.FrozenWater,elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),Tile(WORLDCONST.FrozenForrest),Tile(WORLDCONST.FrozenForrest,elevation=20),Tile(WORLDCONST.FrozenForrest),Tile(WORLDCONST.FrozenForrest)],0)
+    Flower(
+        [
+            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
+            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
+            Tile(WORLDCONST.FrozenForrest, elevation=10),
+            Tile(WORLDCONST.FrozenForrest, elevation=20),
+            Tile(WORLDCONST.FrozenForrest, elevation=50),
+            Tile(WORLDCONST.FrozenForrest, elevation=40),
+
+        ],
+            0
+    )
     ]
 
 testWorld = World("6dh2",panels)
@@ -466,5 +534,8 @@ while(True):
         testWorld.notify()
     if state == 'r':
         testWorld.rainfall(0)
+        testWorld.worldStep()
+        testWorld.notify()
+    if state == 's':
         testWorld.worldStep()
         testWorld.notify()
