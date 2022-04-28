@@ -34,9 +34,11 @@ int aniCounter = 0;
 
 int panelTileState[PANELS];
 
+bool rainfall[6] = { false, true, true, true, true, true};
+
 int panelLEDIndex[PANELS];
 
-boolean active = false;
+boolean active = true;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -184,6 +186,69 @@ void bleed(){
 
 int animationSkewingBinder[PANELS][11];
 
+void tileTransition(int currentPosition, int panel,int curTileType, int targetTileType){
+  for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++) {
+    if (aniCounter < transitionDuration) {
+      int r = tileSet[curTileType][i-currentPosition][0]+(((tileSet[targetTileType][i-currentPosition][0]-tileSet[curTileType][i-currentPosition][0])/transitionDuration)*aniCounter);
+      int g = tileSet[curTileType][i-currentPosition][1]+(((tileSet[targetTileType][i-currentPosition][1]-tileSet[curTileType][i-currentPosition][1])/transitionDuration)*aniCounter);
+      int b = tileSet[curTileType][i-currentPosition][2]+(((tileSet[targetTileType][i-currentPosition][2]-tileSet[curTileType][i-currentPosition][2])/transitionDuration)*aniCounter); 
+      leds[i].setRGB(g,r,b);
+      FastLED.show();
+    }
+    if (aniCounter > transitionDuration && aniCounter < transitionDuration * 2 + 1) {
+      int r = tileSet[targetTileType][i-currentPosition][0]+(((tileSet[curTileType][i-currentPosition][0]-tileSet[targetTileType][i-currentPosition][0])/transitionDuration)*(aniCounter - transitionDuration));
+      int g = tileSet[targetTileType][i-currentPosition][1]+(((tileSet[curTileType][i-currentPosition][1]-tileSet[targetTileType][i-currentPosition][1])/transitionDuration)*(aniCounter - transitionDuration));
+      int b = tileSet[targetTileType][i-currentPosition][2]+(((tileSet[curTileType][i-currentPosition][2]-tileSet[targetTileType][i-currentPosition][2])/transitionDuration)*(aniCounter - transitionDuration));
+      leds[i].setRGB(g,r,b);
+      FastLED.show();
+    } 
+  }
+}
+
+void animationFadeInOut(int currentPosition, int panel, int curTile, const int AnimationPattern[10][11],const int targetColor[3]){
+  for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++) {
+    int skewedAniCounter = animationSkewingBinder[panel][i-currentPosition];
+    if (aniCounter > skewedAniCounter && aniCounter < skewedAniCounter + animationDuration) {
+      if (AnimationPattern[currentWavePattern][i-currentPosition] == 1) {             
+        int r = tileSet[curTile][i-currentPosition][0]+(((targetColor[0]-tileSet[curTile][i-currentPosition][0])/animationDuration)*(aniCounter - skewedAniCounter));
+        int g = tileSet[curTile][i-currentPosition][1]+(((targetColor[1]-tileSet[curTile][i-currentPosition][1])/animationDuration)*(aniCounter - skewedAniCounter));
+        int b = tileSet[curTile][i-currentPosition][2]+(((targetColor[2]-tileSet[curTile][i-currentPosition][2])/animationDuration)*(aniCounter - skewedAniCounter)); 
+        leds[i].setRGB(g,r,b);
+        FastLED.show();
+       }
+      }
+      if (aniCounter > skewedAniCounter + animationDuration && aniCounter < (skewedAniCounter + (animationDuration * 2)) + 1) {
+        if (AnimationPattern[currentWavePattern][i-currentPosition] == 1) {
+          int r = targetColor[0]+(((tileSet[curTile][i-currentPosition][0]-targetColor[0])/animationDuration)*(aniCounter - skewedAniCounter - animationDuration));
+          int g = targetColor[1]+(((tileSet[curTile][i-currentPosition][1]-targetColor[1])/animationDuration)*(aniCounter - skewedAniCounter - animationDuration));
+          int b = targetColor[2]+(((tileSet[curTile][i-currentPosition][2]-targetColor[2])/animationDuration)*(aniCounter - skewedAniCounter - animationDuration));
+          leds[i].setRGB(g,r,b);
+          FastLED.show();
+        }
+      } 
+    }
+}
+
+void animationRainfall(int currentPosition, int panel, int curTile){
+  for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++) {
+    int skewedAniCounter = animationSkewingBinder[panel][i-currentPosition];
+    if (aniCounter > skewedAniCounter && aniCounter < skewedAniCounter + rainfallDuration) {
+      int r = tileSet[curTile][i-currentPosition][0]+(((rainRgb[0]-tileSet[curTile][i-currentPosition][0])/rainfallDuration)*(aniCounter - skewedAniCounter));
+      int g = tileSet[curTile][i-currentPosition][1]+(((rainRgb[1]-tileSet[curTile][i-currentPosition][1])/rainfallDuration)*(aniCounter - skewedAniCounter));
+      int b = tileSet[curTile][i-currentPosition][2]+(((rainRgb[2]-tileSet[curTile][i-currentPosition][2])/rainfallDuration)*(aniCounter - skewedAniCounter)); 
+      leds[i].setRGB(g,r,b);
+      FastLED.show();
+    }
+    if (aniCounter > skewedAniCounter + rainfallDuration && aniCounter < (skewedAniCounter + (rainfallDuration * 2)) + 1) {
+      int r = rainRgb[0]+(((tileSet[curTile][i-currentPosition][0]-rainRgb[0])/rainfallDuration)*(aniCounter - skewedAniCounter - rainfallDuration));
+      int g = rainRgb[1]+(((tileSet[curTile][i-currentPosition][1]-rainRgb[1])/rainfallDuration)*(aniCounter - skewedAniCounter - rainfallDuration));
+      int b = rainRgb[2]+(((tileSet[curTile][i-currentPosition][2]-rainRgb[2])/rainfallDuration)*(aniCounter - skewedAniCounter - rainfallDuration));
+      leds[i].setRGB(g,r,b);
+      FastLED.show();
+    } 
+  }
+}
+
 void animation() {
   // TODO FIX THE THE THE TILES IS STILL CHANGES "waved" even if it is not a water tile
   if (time_now + millisdelay < millis()) {
@@ -199,30 +264,27 @@ void animation() {
       if ( curTile == DeepWater || curTile == NormalWater || curTile == ShallowWater ) { // Water Panel, Wave Animation     
         // Do increnment animation for 30 frames
         curTile = curTile - 1;
-        
-        
-        for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++) {
-          int skewedAniCounter = animationSkewingBinder[panel][i];
-          if (aniCounter > skewedAniCounter && aniCounter < skewedAniCounter + animationDuration) {
-            if (WavePatterns[currentWavePattern][i-currentPosition] == 1) {             
-              int r = tileSet[curTile][i-currentPosition][0]+(((waveRgb[0]-tileSet[curTile][i-currentPosition][0])/animationDuration)*(aniCounter - skewedAniCounter));
-              int g = tileSet[curTile][i-currentPosition][1]+(((waveRgb[1]-tileSet[curTile][i-currentPosition][1])/animationDuration)*(aniCounter - skewedAniCounter));
-              int b = tileSet[curTile][i-currentPosition][2]+(((waveRgb[2]-tileSet[curTile][i-currentPosition][2])/animationDuration)*(aniCounter - skewedAniCounter)); 
-              leds[i].setRGB(g,r,b);
-              FastLED.show();
-            }
-          }
-          if (aniCounter > skewedAniCounter + animationDuration && aniCounter < (skewedAniCounter + (animationDuration * 2)) + 1) {
-            if (WavePatterns[currentWavePattern][i-currentPosition] == 1) {
-              int r = waveRgb[0]+(((tileSet[curTile][i-currentPosition][0]-waveRgb[0])/animationDuration)*(aniCounter - skewedAniCounter - animationDuration));
-              int g = waveRgb[1]+(((tileSet[curTile][i-currentPosition][1]-waveRgb[1])/animationDuration)*(aniCounter - skewedAniCounter - animationDuration));
-              int b = waveRgb[2]+(((tileSet[curTile][i-currentPosition][2]-waveRgb[2])/animationDuration)*(aniCounter - skewedAniCounter - animationDuration));
-              leds[i].setRGB(g,r,b);
-              FastLED.show();
-            }
-          } 
+        animationFadeInOut(currentPosition,panel,curTile,WavePatterns,waveRgb);
+      }
+      
+      if ( curTile == DesertTile ) {
+        curTile = curTile - 1;
+        if ( rainfall[panel] == true ) {
+          animationRainfall(currentPosition,panel,curTile);
+        } else {
+          animationFadeInOut(currentPosition,panel,curTile,WavePatterns,desertRgb);
         }
       }
+      
+      if ( curTile == ForrestTile ) {
+        curTile = curTile - 1;
+        if ( rainfall[panel] == true ){
+          animationRainfall(currentPosition,panel,curTile);
+        } else {
+          animationFadeInOut(currentPosition,panel,curTile,WavePatterns,forestRgb);
+        }
+      }
+
       currentPosition = currentPosition + panelLEDIndex[panel];
     }
 
@@ -237,7 +299,6 @@ void animation() {
           animationSkewingBinder[i][j] = random( animationPause - ( animationDuration * 2 ) );
         }
       } 
-      Serial.print(currentWavePattern);
     }
   }
 
@@ -270,43 +331,45 @@ void setup() {
   panelLEDIndex[5] = 11;
 
   panelTileState[0] = DeepWater; 
-  panelTileState[1] = NormalWater;
-  panelTileState[2] = NormalWater;  
-  panelTileState[3] = NormalWater; 
+  panelTileState[1] = DesertTile; 
+  panelTileState[2] = ForrestTile; 
+  panelTileState[3] = ForrestTile; 
   panelTileState[4] = DesertTile; 
   panelTileState[5] = DesertTile; 
 
-  Serial.println(panelTileState[0]);
-  WiFi.begin(ssid, password);             // Connect to the network
-  Serial.print("Connecting to ");
-  Serial.print(ssid); Serial.println(" ...");
 
-  int i = 0;
-  while (WiFi.status() != WL_CONNECTED) { // Wait for the Wi-Fi to connect
-    delay(1000);
-    Serial.print(++i); Serial.print(' ');
-  }
+  fillPanels();
 
-  Serial.println('\n');
-  Serial.println("Connection established!");  
-  Serial.print("IP address:\t");
-  Serial.println(WiFi.localIP());  
-
-  client.setServer(mqtt_server, 1883);
-  client.setCallback(callback);
-
-  client.subscribe(topic);
-
-  fillPixel(0,NUM_LEDS,255,255,0);
+//  WiFi.begin(ssid, password);             // Connect to the network
+//  Serial.print("Connecting to ");
+//  Serial.print(ssid); Serial.println(" ...");
+//
+//  int i = 0;
+//  while (WiFi.status() != WL_CONNECTED) { // Wait for the Wi-Fi to connect
+//    delay(1000);
+//    Serial.print(++i); Serial.print(' ');
+//  }
+//
+//  Serial.println('\n');
+//  Serial.println("Connection established!");  
+//  Serial.print("IP address:\t");
+//  Serial.println(WiFi.localIP());  
+//
+//  client.setServer(mqtt_server, 1883);
+//  client.setCallback(callback);
+//
+//  client.subscribe(topic);
+//
+//  fillPixel(0,NUM_LEDS,255,255,0);
 }
 
 void loop() {
   // confirm still connected to mqtt server
-  if (!client.connected()) {
-     fillPixel(0,NUM_LEDS,255,255,0);
-     reconnect();
-  }
-  client.loop();
+//  if (!client.connected()) {
+//     fillPixel(0,NUM_LEDS,255,255,0);
+//     reconnect();
+//  }
+//  client.loop();
   // fillPanels();
   if(active) {
     activate();

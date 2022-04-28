@@ -65,17 +65,17 @@ const int tileSet[9][11][3] = {
         {28,91,255},
     },
     {
-        {115,69,22},
-        {115,69,22},
-        {115,69,22},
-        {115,69,22},
-        {115,69,22},
-        {115,69,22},
-        {115,69,22},
-        {115,69,22},
-        {115,69,22},
-        {115,69,22},
-        {115,69,22},
+        {135,69,0},
+        {135,69,0},
+        {135,69,0},
+        {135,69,0},
+        {135,69,0},
+        {135,69,0},
+        {135,69,0},
+        {135,69,0},
+        {135,69,0},
+        {135,69,0},
+        {135,69,0},
     },
     {
         {0,255,0},
@@ -151,11 +151,17 @@ const int WavePatterns[10][11] = {
     {1,1,1,0,1,0,0,0,0,1,0},
     };
 
+const int RainPattern[11] = {1,1,1,1,1,1,1,1,1,1,1};
+
 const int waveRgb[3] = {255,255,255};
+const int desertRgb[3] = {255,202,0};
+const int forestRgb[3] = {200,255,0};
+const int rainRgb[3] = {0,0,255};
 
-
-const int animationDuration = 40;
-const int animationPause = 500;
+const int animationDuration = 50;
+const int rainfallDuration = 15;
+const int transitionDuration = 25;
+const int animationPause = 400;
 
 const int animationSkewing = 10;
 #endif 
