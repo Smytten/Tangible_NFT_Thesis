@@ -179,11 +179,6 @@ void reconnect() {
   }
 }
 
-
-void bleed(){
-
-}
-
 int animationSkewingBinder[PANELS][11];
 
 void tileTransition(int currentPosition, int panel,int curTileType, int targetTileType){
@@ -250,13 +245,10 @@ void animationRainfall(int currentPosition, int panel, int curTile){
 }
 
 void animation() {
-  // TODO FIX THE THE THE TILES IS STILL CHANGES "waved" even if it is not a water tile
   if (time_now + millisdelay < millis()) {
     time_now = millis();
     
     int currentPosition = 0;
-
-    // bleed(); TODO implementet bleed between panels
 
     // Check if tileset should be animated
     for (int panel = 0; panel < PANELS; panel ++){ //Iterate through each panel
