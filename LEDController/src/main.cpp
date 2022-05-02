@@ -33,12 +33,18 @@ unsigned long time_now = 0;
 int aniCounter = 0;
 
 int panelTileState[PANELS];
+int tempTransitionState[PANELS];
+int transitionQue[PANELS];
 
-bool rainfall[6] = { false, true, true, true, true, true};
+bool hasRecivedNewContent = false;
+bool completedTransitionCycle = false;
+
+bool rainfall[6] = { false, false, false, false, false, false};
+bool transitioning[6] = { false, false, false, false, false, false };
 
 int panelLEDIndex[PANELS];
 
-boolean active = true;
+boolean active = false;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -117,16 +123,27 @@ void callback(char* topic, byte* payload, unsigned int length) {
    for (int i = 1; i < length; i++) {
      char currentChar = (char)payload[i];
      if(isdigit(currentChar)){
-       int value = currentChar - '0';
-       Serial.println(value);
-       panelTileState[i-1] = value;
+      int value = currentChar - '0';
+      Serial.println(value);
+      transitionQue[i-1] = value;
      }
-   }
-   if (active) {
-     aReset = true;
-   }
+    }
+    if (active) {
+      hasRecivedNewContent = true;
+     // aReset = true;
+    } else {
+      memcpy(panelTileState,transitionQue,sizeof(panelTileState));
+    }
   }
   Serial.println();
+
+  if ((char)payload[0] == 'r'){
+    for (int i = 0; i < PANELS; i++)
+    {
+      rainfall[i] = !rainfall[i];
+    }
+    
+  }
 
   if ((char)payload[0] == 'o') {
     active = !active;
@@ -159,7 +176,7 @@ void reconnect() {
       fillPixel(0,NUM_LEDS,255,255,255);
       dReset = true;
       // Once connected, publish an announcement...
-      client.publish(topic, ("connected " + composeClientID()).c_str() , false );
+      // client.publish(topic, ("connected " + composeClientID()).c_str() , false );
       // ... and resubscribe
       // topic + clientID + in
       String subscription;
@@ -184,19 +201,12 @@ int animationSkewingBinder[PANELS][11];
 void tileTransition(int currentPosition, int panel,int curTileType, int targetTileType){
   for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++) {
     if (aniCounter < transitionDuration) {
-      int r = tileSet[curTileType][i-currentPosition][0]+(((tileSet[targetTileType][i-currentPosition][0]-tileSet[curTileType][i-currentPosition][0])/transitionDuration)*aniCounter);
-      int g = tileSet[curTileType][i-currentPosition][1]+(((tileSet[targetTileType][i-currentPosition][1]-tileSet[curTileType][i-currentPosition][1])/transitionDuration)*aniCounter);
-      int b = tileSet[curTileType][i-currentPosition][2]+(((tileSet[targetTileType][i-currentPosition][2]-tileSet[curTileType][i-currentPosition][2])/transitionDuration)*aniCounter); 
+      int r = tileSet[curTileType][i-currentPosition][0]+(((tileSet[targetTileType][i-currentPosition][0]-tileSet[curTileType][i-currentPosition][0])/(transitionDuration))*aniCounter);
+      int g = tileSet[curTileType][i-currentPosition][1]+(((tileSet[targetTileType][i-currentPosition][1]-tileSet[curTileType][i-currentPosition][1])/(transitionDuration))*aniCounter);
+      int b = tileSet[curTileType][i-currentPosition][2]+(((tileSet[targetTileType][i-currentPosition][2]-tileSet[curTileType][i-currentPosition][2])/(transitionDuration))*aniCounter); 
       leds[i].setRGB(g,r,b);
       FastLED.show();
     }
-    if (aniCounter > transitionDuration && aniCounter < transitionDuration * 2 + 1) {
-      int r = tileSet[targetTileType][i-currentPosition][0]+(((tileSet[curTileType][i-currentPosition][0]-tileSet[targetTileType][i-currentPosition][0])/transitionDuration)*(aniCounter - transitionDuration));
-      int g = tileSet[targetTileType][i-currentPosition][1]+(((tileSet[curTileType][i-currentPosition][1]-tileSet[targetTileType][i-currentPosition][1])/transitionDuration)*(aniCounter - transitionDuration));
-      int b = tileSet[targetTileType][i-currentPosition][2]+(((tileSet[curTileType][i-currentPosition][2]-tileSet[targetTileType][i-currentPosition][2])/transitionDuration)*(aniCounter - transitionDuration));
-      leds[i].setRGB(g,r,b);
-      FastLED.show();
-    } 
   }
 }
 
@@ -253,10 +263,19 @@ void animation() {
     // Check if tileset should be animated
     for (int panel = 0; panel < PANELS; panel ++){ //Iterate through each panel
       int curTile = panelTileState[panel];
+
+      // Check for transition, if transistion do and return
+      if ( transitioning[panel] ) {
+        tileTransition(currentPosition,panel,curTile-1,tempTransitionState[panel]-1);
+        currentPosition = currentPosition + panelLEDIndex[panel];
+        continue;
+      }
+
       if ( curTile == DeepWater || curTile == NormalWater || curTile == ShallowWater ) { // Water Panel, Wave Animation     
         // Do increnment animation for 30 frames
         curTile = curTile - 1;
         animationFadeInOut(currentPosition,panel,curTile,WavePatterns,waveRgb);
+
       }
       
       if ( curTile == DesertTile ) {
@@ -266,6 +285,7 @@ void animation() {
         } else {
           animationFadeInOut(currentPosition,panel,curTile,WavePatterns,desertRgb);
         }
+
       }
       
       if ( curTile == ForrestTile ) {
@@ -284,6 +304,35 @@ void animation() {
     aniCounter ++; 
     if (aniCounter == animationPause) {
       aniCounter = 0;
+
+      // Clear transitioning State
+      for (int i = 0; i < PANELS; i++)
+      {
+        transitioning[i] = false;
+      }
+      
+      // After a complete transition cycle set panel to current
+      if ( completedTransitionCycle ) {
+        memcpy(panelTileState,tempTransitionState,sizeof(panelTileState));
+        completedTransitionCycle = false;
+      }
+
+      // Append changes to next animation cycle 
+      if ( hasRecivedNewContent ) {
+        memcpy(tempTransitionState,transitionQue,sizeof(tempTransitionState));
+        
+        for (int i = 0; i < PANELS; i++) {
+          if (tempTransitionState[i] != panelTileState[i]) {
+            transitioning[i] = true;
+          }
+        }
+        completedTransitionCycle = true;
+        hasRecivedNewContent = false;
+      }
+
+
+
+
       // Choose new wave animation Pattern
       currentWavePattern = random(3);
       for (int i = 0; i < PANELS; i++) { // init random skewing pattern
@@ -330,38 +379,38 @@ void setup() {
   panelTileState[5] = DesertTile; 
 
 
-  fillPanels();
+  // fillPanels();
 
-//  WiFi.begin(ssid, password);             // Connect to the network
-//  Serial.print("Connecting to ");
-//  Serial.print(ssid); Serial.println(" ...");
-//
-//  int i = 0;
-//  while (WiFi.status() != WL_CONNECTED) { // Wait for the Wi-Fi to connect
-//    delay(1000);
-//    Serial.print(++i); Serial.print(' ');
-//  }
-//
-//  Serial.println('\n');
-//  Serial.println("Connection established!");  
-//  Serial.print("IP address:\t");
-//  Serial.println(WiFi.localIP());  
-//
-//  client.setServer(mqtt_server, 1883);
-//  client.setCallback(callback);
-//
-//  client.subscribe(topic);
-//
-//  fillPixel(0,NUM_LEDS,255,255,0);
+  WiFi.begin(ssid, password);             // Connect to the network
+  Serial.print("Connecting to ");
+  Serial.print(ssid); Serial.println(" ...");
+
+  int i = 0;
+  while (WiFi.status() != WL_CONNECTED) { // Wait for the Wi-Fi to connect
+    delay(1000);
+    Serial.print(++i); Serial.print(' ');
+  }
+
+  Serial.println('\n');
+  Serial.println("Connection established!");  
+  Serial.print("IP address:\t");
+  Serial.println(WiFi.localIP());  
+
+  client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);
+
+  client.subscribe(topic);
+
+  fillPixel(0,NUM_LEDS,255,255,0);
 }
 
 void loop() {
   // confirm still connected to mqtt server
-//  if (!client.connected()) {
-//     fillPixel(0,NUM_LEDS,255,255,0);
-//     reconnect();
-//  }
-//  client.loop();
+  if (!client.connected()) {
+     fillPixel(0,NUM_LEDS,255,255,0);
+     reconnect();
+  }
+  client.loop();
   // fillPanels();
   if(active) {
     activate();
