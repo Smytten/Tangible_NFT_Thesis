@@ -282,38 +282,48 @@ class World():
                         curPointer += 1
                     
                 returnList.append(tempReturnList)
-
         if panePosition > 5:
             for curTile in range(6):
                 tempReturnList = []
                 if curTile == 0:
-                    for tilePos in range(6):
-                        if tilePos == 0:
-                            tempReturnList.append((0,((1 + panePosition)%6)))
-                        if tilePos == 1:
-                            tempReturnList.append((panePosition,1))
-                        if tilePos == 2:
-                            tempReturnList.append((1+(panePosition%5),1))
-                        if tilePos == 3:
-                            tempReturnList.append((1+(panePosition%5),5))
-                        if tilePos == 4:
-                            tempReturnList.append((panePosition+1,1+(panePosition%10)))
-                        if tilePos == 5:
-                            tempReturnList.append((0,1+(panePosition%5)))
+                    tempReturnList.append((0,((1 + panePosition)%6)))
+                    tempReturnList.append((panePosition,1))
+                    tempReturnList.append((1+(panePosition%5),1))
+                    tempReturnList.append((1+(panePosition%5),5))
+                    tempReturnList.append((panePosition+1,1+(panePosition%10)))
+                    tempReturnList.append((0,1+(panePosition%5)))
                 if curTile == 1:
-                    for tilePos in range(6):
-                        if tilePos == 0:
-                            tempReturnList.append((0,((1 + panePosition)%6)))
-                        if tilePos == 1:
-                            tempReturnList.append((6+(8+panePosition)%5,0)) 
-                        if tilePos == 2:
-                            tempReturnList.append((panePosition-5,5))
-                        if tilePos == 3:
-                            tempReturnList.append((panePosition,2))
-                        if tilePos == 4:
-                            tempReturnList.append((1+(panePosition%5),1))
-                        if tilePos == 5:
-                            tempReturnList.append((panePosition,0))
+                    tempReturnList.append((0,((1 + panePosition)%6)))
+                    tempReturnList.append((6+(8+panePosition)%5,0)) 
+                    tempReturnList.append((panePosition-5,5))
+                    tempReturnList.append((panePosition,2))
+                    tempReturnList.append((1+(panePosition%5),1))
+                    tempReturnList.append((panePosition,0))
+
+                if curTile == 2:
+                    tempReturnList.append((panePosition,1))
+                    tempReturnList.append((panePosition-5,5))
+                    tempReturnList.append((panePosition-5,4))
+                    tempReturnList.append((panePosition,3))
+                    tempReturnList.append((1+(panePosition%5),2))
+                    tempReturnList.append((1+(panePosition%5),3))
+
+                if curTile == 3:
+                    tempReturnList.append((panePosition,2))
+                    tempReturnList.append((panePosition-5,4))
+                    tempReturnList.append((panePosition,5))
+                    tempReturnList.append((panePosition,4))
+                    tempReturnList.append((1+(panePosition%5),2))
+
+                if curTile == 4:
+                    tempReturnList.append((1+(panePosition%5),2))
+                    tempReturnList.append((panePosition,3))
+                    tempReturnList.append((1+(panePosition%5),3))
+                
+                if curTile == 5:
+                    tempReturnList.append((panePosition-5,4))
+                    tempReturnList.append((panePosition-5,3))
+                    tempReturnList.append((panePosition,3))
 
                 returnList.append(tempReturnList)
 
@@ -558,7 +568,51 @@ panels = [
             Tile(WORLDCONST.FrozenForrest, elevation=40),
         ],
             6
-    )    
+    ),    
+    Binder(
+        [
+            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
+            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
+            Tile(WORLDCONST.FrozenForrest, elevation=10),
+            Tile(WORLDCONST.FrozenForrest, elevation=20),
+            Tile(WORLDCONST.FrozenForrest, elevation=50),
+            Tile(WORLDCONST.FrozenForrest, elevation=40),
+        ],
+            7
+    ),    
+    Binder(
+        [
+            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
+            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
+            Tile(WORLDCONST.FrozenForrest, elevation=10),
+            Tile(WORLDCONST.FrozenForrest, elevation=20),
+            Tile(WORLDCONST.FrozenForrest, elevation=50),
+            Tile(WORLDCONST.FrozenForrest, elevation=40),
+        ],
+            8
+    ),    
+    Binder(
+        [
+            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
+            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
+            Tile(WORLDCONST.FrozenForrest, elevation=10),
+            Tile(WORLDCONST.FrozenForrest, elevation=20),
+            Tile(WORLDCONST.FrozenForrest, elevation=50),
+            Tile(WORLDCONST.FrozenForrest, elevation=40),
+        ],
+            9
+    ),    
+    Binder(
+        [
+            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
+            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
+            Tile(WORLDCONST.FrozenForrest, elevation=10),
+            Tile(WORLDCONST.FrozenForrest, elevation=20),
+            Tile(WORLDCONST.FrozenForrest, elevation=50),
+            Tile(WORLDCONST.FrozenForrest, elevation=40),
+        ],
+           10 
+    ),    
     ]
 
 testWorld = World("6dh2",panels)
