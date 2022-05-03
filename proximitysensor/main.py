@@ -40,12 +40,18 @@ while True:
             if previous_captured_pin > i:
                 print("Sun has risen! Your planet is warming up")
                 #sun.sunrise()
+                #Reset counter since there has been activity
+                previous_captured_pin = None
+                counter = 0
                 
                 
             #Check if gesture is going down
             if previous_captured_pin < i:
                 print("Sun has set! Your planet is cooling down")
                 #sun.sunset()
+                #Reset counter since there has been activity
+                previous_captured_pin = None
+                counter = 0
             
             #set latest captured pin to the activated pin
             previous_captured_pin = i
