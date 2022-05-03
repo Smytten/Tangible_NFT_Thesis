@@ -3,7 +3,7 @@
 
 import board
 from adafruit_cap1188.i2c import CAP1188_I2C
-from sunrise import sunController
+from sunclock import sunController
 
 i2c = board.I2C()  # uses board.SCL and board.SDA
 cap = CAP1188_I2C(i2c)
@@ -39,13 +39,13 @@ while True:
             # check if gesture is going up
             if previous_captured_pin > i:
                 print("Sun has risen! Your planet is warming up")
-                #sun.sunrise()
+                sun.sunclock('high')
                 
                 
             #Check if gesture is going down
             if previous_captured_pin < i:
                 print("Sun has set! Your planet is cooling down")
-                #sun.sunset()
+                sun.sunclock('low')
             
             #set latest captured pin to the activated pin
             previous_captured_pin = i
