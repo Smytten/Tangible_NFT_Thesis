@@ -283,10 +283,41 @@ class World():
                     
                 returnList.append(tempReturnList)
 
-        if panePosition < 5:
-            
-            pass
+        if panePosition > 5:
+            for curTile in range(6):
+                tempReturnList = []
+                if curTile == 0:
+                    for tilePos in range(6):
+                        if tilePos == 0:
+                            tempReturnList.append((0,((1 + panePosition)%6)))
+                        if tilePos == 1:
+                            tempReturnList.append((panePosition,1))
+                        if tilePos == 2:
+                            tempReturnList.append((1+(panePosition%5),1))
+                        if tilePos == 3:
+                            tempReturnList.append((1+(panePosition%5),5))
+                        if tilePos == 4:
+                            tempReturnList.append((panePosition+1,1+(panePosition%10)))
+                        if tilePos == 5:
+                            tempReturnList.append((0,1+(panePosition%5)))
+                if curTile == 1:
+                    for tilePos in range(6):
+                        if tilePos == 0:
+                            tempReturnList.append((0,((1 + panePosition)%6)))
+                        if tilePos == 1:
+                            tempReturnList.append((6+(8+panePosition)%5,0)) 
+                        if tilePos == 2:
+                            tempReturnList.append((panePosition-5,5))
+                        if tilePos == 3:
+                            tempReturnList.append((panePosition,2))
+                        if tilePos == 4:
+                            tempReturnList.append((1+(panePosition%5),1))
+                        if tilePos == 5:
+                            tempReturnList.append((panePosition,0))
 
+                returnList.append(tempReturnList)
+
+        print(f"Pane position: {panePosition}")
         print (returnList)
         return returnList 
 
