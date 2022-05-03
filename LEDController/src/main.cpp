@@ -124,7 +124,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
      char currentChar = (char)payload[i];
      if(isdigit(currentChar)){
       int value = currentChar - '0';
-      Serial.println(value);
+      Serial.print(value);
       transitionQue[i-1] = value;
      }
     }
@@ -200,7 +200,7 @@ int animationSkewingBinder[PANELS][11];
 
 void tileTransition(int currentPosition, int panel,int curTileType, int targetTileType){
   for (int i = currentPosition; i < currentPosition + panelLEDIndex[panel]; i++) {
-    if (aniCounter < transitionDuration) {
+    if (aniCounter <= transitionDuration) {
       int r = tileSet[curTileType][i-currentPosition][0]+(((tileSet[targetTileType][i-currentPosition][0]-tileSet[curTileType][i-currentPosition][0])/(transitionDuration))*aniCounter);
       int g = tileSet[curTileType][i-currentPosition][1]+(((tileSet[targetTileType][i-currentPosition][1]-tileSet[curTileType][i-currentPosition][1])/(transitionDuration))*aniCounter);
       int b = tileSet[curTileType][i-currentPosition][2]+(((tileSet[targetTileType][i-currentPosition][2]-tileSet[curTileType][i-currentPosition][2])/(transitionDuration))*aniCounter); 

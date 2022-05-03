@@ -80,9 +80,18 @@ class MQTTBroker():
     
     def power(self,data):
         for d in data:
-            result = self.__client.publish(d.getIdentifyer(),'o',qos=0, retain = True)
+            result = self.__client.publish(d.getIdentifyer(),'o',qos=0, retain = False)
             status = result[0]
             if status == 0:
                 print(f"Send `o` to topic `{d.getIdentifyer()}`")
+            else:
+                print(f"Failed to send message to topic {d.getIdentifyer()}")
+
+    def message(self,data,message):
+        for d in data:
+            result = self.__client.publish(d.getIdentifyer(),message,qos=0, retain = False)
+            status = result[0]
+            if status == 0:
+                print(f"Send `{message}` to topic `{d.getIdentifyer()}`")
             else:
                 print(f"Failed to send message to topic {d.getIdentifyer()}")

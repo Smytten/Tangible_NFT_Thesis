@@ -1,6 +1,7 @@
 
 from abc import abstractmethod
 from re import I, T
+
 import WORLDCONST as WORLDCONST
 import broker as broker
 
@@ -117,9 +118,31 @@ class Flower(Pane):
 
 class Binder(Pane):
 
-    def __init__(self, location, edges) -> None:
-        self.__location = location
-        self.__edges = edges
+    def __init__(self, tiles : list,location) -> None:
+        self._tiles = tiles 
+        self._location = location
+        self._id = 'none'
+
+    def getIdentifyer(self):
+        return WORLDCONST.PROJECT + "/" + self._id + "/b" + str(self._location)
+
+    def getTilesToString(self):
+        stringifyedTileSet = "~"
+        for e in self._tiles:
+            stringifyedTileSet = stringifyedTileSet + e.getType()
+        return stringifyedTileSet
+
+    def setIdentifyer(self, id):
+        self._id = id
+
+    def getLocation(self):
+        return self._location
+
+    def getTiles(self) -> list:
+        return self._tiles
+
+    def setTiles(self, tiles : list):
+        self._tiles = tiles
 
 class World():
 
@@ -208,8 +231,63 @@ class World():
 
                 curTile += 1
                 returnList.append(tempReturnList)
+        if panePosition >= 1 and panePosition <= 5:
+            for cur, pos in enumerate(WORLDCONST.NEIGHBOURHOOD_CONST_SIDE):
+                tempReturnList = []
+                if cur == 0:
+                    for tilePos in pos:
+                        tempReturnList.append((panePosition,tilePos))
+                if cur == 1 or cur == 2:
+                    curPointer = 0 
+                    for tilePos in pos:
+                        if curPointer < 3:
+                            tempReturnList.append((panePosition,tilePos))
+                        if curPointer >= 3:
+                            tempReturnList.append((6+(8+panePosition)%5,tilePos))
 
-        # print (returnList)
+                        curPointer += 1
+
+                if cur == 3:
+                    curPointer = 0 
+                    for tilePos in pos:
+                        if curPointer < 3:
+                            tempReturnList.append((panePosition,tilePos))
+                        if curPointer == 3:
+                            tempReturnList.append((6+(8+panePosition)%5,tilePos))
+                        if curPointer == 4:
+                            tempReturnList.append((6+(8+panePosition+1)%5,tilePos))
+
+                        curPointer += 1
+                    
+                if cur == 4:
+                    curPointer = 0 
+                    for tilePos in pos:
+                        if curPointer < 3:
+                            tempReturnList.append((panePosition,tilePos))
+                        if curPointer >= 3:
+                            tempReturnList.append((6+(8+panePosition+1)%5,tilePos))
+
+                        curPointer += 1
+                    
+                if cur == 5:
+                    curPointer = 0 
+                    for tilePos in pos:
+                        if curPointer < 3:
+                            tempReturnList.append((panePosition,tilePos))
+                        elif curPointer == 3:
+                            tempReturnList.append((6+(8+panePosition)%5,tilePos))
+                        else:
+                            tempReturnList.append((6+(8+panePosition+1)%5,tilePos))
+
+                        curPointer += 1
+                    
+                returnList.append(tempReturnList)
+
+        if panePosition < 5:
+            
+            pass
+
+        print (returnList)
         return returnList 
 
 
@@ -358,8 +436,6 @@ class World():
     def getPaneTileSet(self,id):
         return self._panes[id].getTilesToString()
 
-
-
 class mqttclientboi():
     def update(self, data):
         print(data)
@@ -368,6 +444,9 @@ class mqttclientboi():
 
     def power(self, data):
         print("Switching PowerState")
+
+    def message(self,data,message):
+        pass
 
 realBroker = broker.MQTTBroker()
 
@@ -380,10 +459,75 @@ panels = [
             Tile(WORLDCONST.FrozenForrest, elevation=20),
             Tile(WORLDCONST.FrozenForrest, elevation=50),
             Tile(WORLDCONST.FrozenForrest, elevation=40),
-
         ],
             0
-    )
+    ),
+    Flower(
+        [
+            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
+            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
+            Tile(WORLDCONST.FrozenForrest, elevation=10),
+            Tile(WORLDCONST.FrozenForrest, elevation=20),
+            Tile(WORLDCONST.FrozenForrest, elevation=50),
+            Tile(WORLDCONST.FrozenForrest, elevation=40),
+        ],
+            1
+    ),
+    Flower(
+        [
+            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
+            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
+            Tile(WORLDCONST.FrozenForrest, elevation=10),
+            Tile(WORLDCONST.FrozenForrest, elevation=20),
+            Tile(WORLDCONST.FrozenForrest, elevation=50),
+            Tile(WORLDCONST.FrozenForrest, elevation=40),
+        ],
+            2
+    ),
+    Flower(
+        [
+            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
+            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
+            Tile(WORLDCONST.FrozenForrest, elevation=10),
+            Tile(WORLDCONST.FrozenForrest, elevation=20),
+            Tile(WORLDCONST.FrozenForrest, elevation=50),
+            Tile(WORLDCONST.FrozenForrest, elevation=40),
+        ],
+            3
+    ),
+    Flower(
+        [
+            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
+            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
+            Tile(WORLDCONST.FrozenForrest, elevation=10),
+            Tile(WORLDCONST.FrozenForrest, elevation=20),
+            Tile(WORLDCONST.FrozenForrest, elevation=50),
+            Tile(WORLDCONST.FrozenForrest, elevation=40),
+        ],
+            4
+    ),
+    Flower(
+        [
+            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
+            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
+            Tile(WORLDCONST.FrozenForrest, elevation=10),
+            Tile(WORLDCONST.FrozenForrest, elevation=20),
+            Tile(WORLDCONST.FrozenForrest, elevation=50),
+            Tile(WORLDCONST.FrozenForrest, elevation=40),
+        ],
+            5
+    ),
+    Binder(
+        [
+            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
+            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
+            Tile(WORLDCONST.FrozenForrest, elevation=10),
+            Tile(WORLDCONST.FrozenForrest, elevation=20),
+            Tile(WORLDCONST.FrozenForrest, elevation=50),
+            Tile(WORLDCONST.FrozenForrest, elevation=40),
+        ],
+            6
+    )    
     ]
 
 testWorld = World("6dh2",panels)

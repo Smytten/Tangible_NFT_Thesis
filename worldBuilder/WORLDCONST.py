@@ -32,3 +32,16 @@ NEIGHBOURHOOD_CONST_TOP = [
     [0,3,5,0,0,1], 
     [0,1,4,0,0,1],
 ]
+
+NEIGHBOURHOOD_CONST_SIDE = [
+    [1,2,3,4,5],
+    [0,2,5,0,1,2],
+    [0,1,3,2,3,4],
+    [0,2,4,4,5,0],
+    [0,3,5,2,3,5], 
+    [0,1,4,0,1,2],
+]
+
+NEIGHBOURHOOD_CONST_BINDERS = [
+    []
+]
