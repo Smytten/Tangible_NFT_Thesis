@@ -39,7 +39,7 @@ while True:
             # check if gesture is going up
             if previous_captured_pin > i:
                 print("Sun has risen! Your planet is warming up")
-                #sun.sunclock('high')
+                sun.sunclock()
                 
                 
             #Check if gesture is going down

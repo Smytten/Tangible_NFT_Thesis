@@ -29,7 +29,7 @@ class sunController():
         self.SUN_COLOR_HIGH = (255,115,0)
         
 
-    def sunclock(self, state):
+    def sunclock(self):
         print("sunclock begin")
 
         #Make pins go around continuously
