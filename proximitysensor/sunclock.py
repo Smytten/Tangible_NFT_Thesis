@@ -25,22 +25,20 @@ class sunController():
         self.pixels = neopixel.NeoPixel(
             self.pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER)
             
-        self.SUN_COLOR = (255,102,0)
+        self.SUN_COLOR_LOW = (255,80,0)
+        self.SUN_COLOR_HIGH = (255,115,0)
+        
 
     def sunclock(self):
         print("sunclock begin")
 
+        #Make pins go around continuously
         while True:
-            for i in range(self.num_pixels):
+            for i in range(self.num_pixels-1):
                 self.pixels.fill((0,0,0))
-                time.sleep(0.5)
+                time.sleep(1)
                 
-                # TODO: Reset pins if i is maxed    
-                self.pixels[i] = self.SUN_COLOR
-                self.pixels[i+1] = self.SUN_COLOR
-                self.pixels[i+2] = self.SUN_COLOR
+                self.pixels[i] = self.SUN_COLOR_LOW
+                self.pixels[i+1] = self.SUN_COLOR_LOW
                 self.pixels.show()
-
-                
-obj = sunController()
-sunController().sunclock()
+                    
