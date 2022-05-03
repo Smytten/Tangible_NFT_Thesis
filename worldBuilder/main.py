@@ -5,6 +5,8 @@ from re import I, T
 import WORLDCONST as WORLDCONST
 import broker as broker
 
+import json
+
 
 class Tile():
     def __init__(self, type: str = WORLDCONST.DesertTile, elevation = 99999, occupent = WORLDCONST.LAND,waterBody=0):
@@ -624,131 +626,11 @@ testWorld.attach(realBroker)
 
 # testWorld.notify()
 
-PilotTiles = [
-    [
-        Flower(
-                [
-                    Tile(WORLDCONST.FrozenWater),
-                    Tile(WORLDCONST.FrozenWater),
-                    Tile(WORLDCONST.FrozenWater),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile)
-                ], 
-                    0
-            )
-    ],
-    [
-        Flower(
-                [
-                    Tile(WORLDCONST.FrozenWater),
-                    Tile(WORLDCONST.NormalWater),
-                    Tile(WORLDCONST.NormalWater),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile)
-                ], 
-                    0
-            )
-    ],
-    [
-        Flower(
-                [
-                    Tile(WORLDCONST.DeepWater),
-                    Tile(WORLDCONST.NormalWater),
-                    Tile(WORLDCONST.NormalWater),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile)
-                ], 
-                    0
-            )
-    ],
-    [
-        Flower(
-                [
-                    Tile(WORLDCONST.DeepWater),
-                    Tile(WORLDCONST.NormalWater),
-                    Tile(WORLDCONST.NormalWater),
-                    Tile(WORLDCONST.ForrestTile),
-                    Tile(WORLDCONST.ForrestTile),
-                    Tile(WORLDCONST.ForrestTile)
-                ], 
-                    0
-            )
-    ],
-    [
-        Flower(
-                [
-                    Tile(WORLDCONST.DeepWater),
-                    Tile(WORLDCONST.NormalWater),
-                    Tile(WORLDCONST.NormalWater),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile)
-                ], 
-                    0
-            )
-    ],
-    [
-        Flower(
-                [
-                    Tile(WORLDCONST.NormalWater),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile)
-                ], 
-                    0
-            )
-    ],
-    [
-        Flower(
-                [
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile),
-                    Tile(WORLDCONST.DesertTile)
-                ], 
-                    0
-            )
-    ]
-]
-
+x = json.dumps(testWorld._panes)
+print(x)
 
 while(True):
     state = input('PlanetState: [F,LF,WD,WF,WD,DW,D] ~~ ')
-    if state == '1':
-        panes = PilotTiles[0]
-        testWorld.setPanels(panes)
-        testWorld.notify()
-    if state == '2':
-        panes = PilotTiles[1]
-        testWorld.setPanels(panes)
-        testWorld.notify()
-    if state == '3':
-        panes = PilotTiles[2]
-        testWorld.setPanels(panes)
-        testWorld.notify()
-    if state == '4':
-        panes = PilotTiles[3]
-        testWorld.setPanels(panes)
-        testWorld.notify()
-    if state == '5':
-        panes = PilotTiles[4]
-        testWorld.setPanels(panes)
-        testWorld.notify()
-    if state == '6':
-        panes = PilotTiles[5]
-        testWorld.setPanels(panes)
-        testWorld.notify()
-    if state == '7':
-        panes = PilotTiles[6]
-        testWorld.setPanels(panes)
-        testWorld.notify()
     if state == 'o':
         testWorld.power()
     if state == 'h':
