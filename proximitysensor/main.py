@@ -9,17 +9,11 @@ i2c = board.I2C()  # uses board.SCL and board.SDA
 cap = CAP1188_I2C(i2c)
 sun = sunController()
 
-# SPI setup
-# from digitalio import DigitalInOut, Direction
-# from adafruit_cap1188.spi import CAP1188_SPI
-# spi = board.SPI()
-# cs = DigitalInOut(board.D5)
-# cap = CAP1188_SPI(spi, cs)
-
 previous_captured_pin = None
 counter = 0
 
 
+'''
 while input != 'quit':
     command = input()
     if command == "1":
@@ -28,10 +22,8 @@ while input != 'quit':
         sunController().sunset()
         
     command = ''
-        
+        '''
 
-
-'''
 while True:
     for i in range(1, 9):
         
@@ -47,13 +39,13 @@ while True:
             # check if gesture is going up
             if previous_captured_pin > i:
                 print("Sun has risen! Your planet is warming up")
-                sun.sunrise()
+                #sun.sunrise()
                 
                 
             #Check if gesture is going down
             if previous_captured_pin < i:
                 print("Sun has set! Your planet is cooling down")
-                sun.sunset()
+                #sun.sunset()
             
             #set latest captured pin to the activated pin
             previous_captured_pin = i
@@ -71,4 +63,3 @@ while True:
             previous_captured_pin = None
             #Reset counter after reset
             counter = 0
-            '''
