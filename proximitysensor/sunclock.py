@@ -32,20 +32,13 @@ class sunController():
     def sunclock(self, state):
         print("sunclock begin")
 
+        #Make pins go around continuously
         while True:
             for i in range(self.num_pixels-1):
                 self.pixels.fill((0,0,0))
-                time.sleep(0.5)
+                time.sleep(1)
                 
-                # TODO: Reset pins if i is maxed
-                if state == 'low':    
-                    self.pixels[i] = self.SUN_COLOR_LOW
-                    self.pixels[i+1] = self.SUN_COLOR_LOW
-                    #self.pixels[i+2] = self.SUN_COLOR_LOW
-                    self.pixels.show()
-
-                if state == 'high':
-                    self.pixels[self.num_pixels-1-i] = self.SUN_COLOR_HIGH
-                    self.pixels[self.num_pixels-1-i-1] = self.SUN_COLOR_HIGH
-                    #self.pixels[i+2] = self.SUN_COLOR_HIGH
-                    self.pixels.show()
+                self.pixels[i] = self.SUN_COLOR_LOW
+                self.pixels[i+1] = self.SUN_COLOR_LOW
+                self.pixels.show()
+                    

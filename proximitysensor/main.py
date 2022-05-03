@@ -39,13 +39,13 @@ while True:
             # check if gesture is going up
             if previous_captured_pin > i:
                 print("Sun has risen! Your planet is warming up")
-                sun.sunclock('high')
+                #sun.sunclock('high')
                 
                 
             #Check if gesture is going down
             if previous_captured_pin < i:
                 print("Sun has set! Your planet is cooling down")
-                sun.sunclock('low')
+                #sun.sunclock('low')
             
             #set latest captured pin to the activated pin
             previous_captured_pin = i
