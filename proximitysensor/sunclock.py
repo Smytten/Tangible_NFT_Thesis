@@ -45,7 +45,7 @@ class sunController():
                     self.pixels.show()
 
                 if state == 'high':
-                    self.pixels[i] = self.SUN_COLOR_HIGH
-                    self.pixels[i+1] = self.SUN_COLOR_HIGH
+                    self.pixels[self.num_pixels-1-i] = self.SUN_COLOR_HIGH
+                    self.pixels[self.num_pixels-1-i-1] = self.SUN_COLOR_HIGH
                     #self.pixels[i+2] = self.SUN_COLOR_HIGH
                     self.pixels.show()
