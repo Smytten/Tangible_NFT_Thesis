@@ -49,7 +49,9 @@ class sunController():
             self.current_position = 0
         else:
         #Turn on next position
-            self.pixels[self.current_position] = (self.SUN_COLOR_LOW) 
+            self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
+            #self.current_position += 1
+            
         self.pixels.show()
         self.current_position += 1
         
