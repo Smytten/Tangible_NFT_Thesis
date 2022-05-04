@@ -33,12 +33,10 @@ class sunController():
         self.SUN_COLOR_LOW = (255,80,0)
         self.SUN_COLOR_HIGH = (255,115,0)
         
-    def init_sun(self):
-        for i in range(self.num_pixels-1):    
-            self.pixels.fill(self.SUN_COLOR_OFF)
-            self.pixels[self.current_position+i] = (self.SUN_COLOR_LOW)
-            self.pixels.show()
-            time.sleep(3)
+    def init_sun(self): 
+        self.pixels.fill(self.SUN_COLOR_OFF)
+        self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
+        self.pixels.show()
         
     def update_position(self):
         print("updating position")
