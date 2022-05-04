@@ -24,7 +24,7 @@ while input != 'quit':
     command = ''
         '''
         
-sun.update_position()
+sun.update_position(self)
 
 '''
 while True:
