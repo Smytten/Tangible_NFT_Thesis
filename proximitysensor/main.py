@@ -26,6 +26,7 @@ while input != 'quit':
         
 sunController.update_position()
 
+'''
 while True:
     for i in range(1, 9):
         
@@ -64,3 +65,4 @@ while True:
             previous_captured_pin = None
             #Reset counter after reset
             counter = 0
+'''
