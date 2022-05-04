@@ -66,9 +66,9 @@ class sunController():
         self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
         self.pixels.show()
         
-obj = sunController()
-obj.init_sun() 
+sunController = sunController()
+sunController.init_sun() 
         
  #Create a new thread for non-blocking change of position over time
-timer = threading.Timer(10.0, sunController.update_position)
+timer = threading.Timer(5.0, sunController.update_position)
 timer.start()
