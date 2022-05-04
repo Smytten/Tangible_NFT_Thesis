@@ -6,6 +6,7 @@ import time
 import board
 import neopixel
 import colorsys
+import threading
 
 
 class sunController():
@@ -17,6 +18,9 @@ class sunController():
 
         # The number of NeoPixels
         self.num_pixels = 13
+        
+        #Start position of sun
+        self.current_position = 0
 
         # The order of the pixel colors - RGB or GRB. Some NeoPixels have red and green reversed!
         # For RGBW NeoPixels, simply change the ORDER to RGBW or GRBW.
@@ -25,20 +29,45 @@ class sunController():
         self.pixels = neopixel.NeoPixel(
             self.pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER)
             
+        self.SUN_COLOR_OFF = (0,0,0)    
         self.SUN_COLOR_LOW = (255,80,0)
         self.SUN_COLOR_HIGH = (255,115,0)
         
-
-    def sunclock(self):
-        print("sunclock begin")
-
-        #Make pins go around continuously
-        while True:
-            for i in range(self.num_pixels-1):
-                self.pixels.fill((0,0,0))
-                time.sleep(1)
-                
-                self.pixels[i] = self.SUN_COLOR_LOW
-                self.pixels[i+1] = self.SUN_COLOR_LOW
-                self.pixels.show()
-                    
+    def init_sun(self):
+        self.pixels.fill(self.SUN_COLOR_OFF)
+        self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
+        
+    def update_position(self):
+        print("updating position")
+        #Turn off all pixels
+        self.pixels.fill(self.SUN_COLOR_OFF)
+        
+        #Turn on next position
+        self.current_position += 1
+        self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
+        self.pixels.show()
+        
+    def increase_sun(self):
+        print("sun increased")
+        #Turn off all pixels
+        self.pixels.fill(self.SUN_COLOR_OFF)
+        
+        #Increase sun
+        self.pixels[self.current_position] = (self.SUN_COLOR_HIGH)
+        self.pixels.show()
+        
+    def decrease_sun(self):
+        print("sun decreased")
+        #Turn off all pixels
+        self.pixels.fill(self.SUN_COLOR_OFF)
+        
+        #Increase sun
+        self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
+        self.pixels.show()
+        
+    obj = sunController()
+    obj.init_sun() 
+        
+    #Create a new thread for non-blocking change of position over time
+    timer = threading.Timer(10.0, update_position)
+    timer.start()
