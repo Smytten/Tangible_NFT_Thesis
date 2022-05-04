@@ -70,5 +70,5 @@ obj = sunController()
 obj.init_sun() 
         
  #Create a new thread for non-blocking change of position over time
-timer = threading.Timer(10.0, sunController.update_position())
+timer = threading.Timer(10.0, sunController.update_position)
 timer.start()
