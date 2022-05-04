@@ -41,7 +41,7 @@ while True:
             # check if gesture is going up
             if previous_captured_pin > i:
                 print("Sun has risen! Your planet is warming up")
-                sunController.increase_sun()
+                sun.increase_sun()
                 
             #Check if gesture is going down
             if previous_captured_pin < i:
