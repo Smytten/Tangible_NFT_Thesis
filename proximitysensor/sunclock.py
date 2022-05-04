@@ -38,15 +38,19 @@ class sunController():
         self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
         self.pixels.show()
         
+        
     def update_position(self):
         print("updating position")
         #Turn off all pixels
         self.pixels.fill(self.SUN_COLOR_OFF)
         
         #Turn on next position
-        self.current_position += 1
         self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
+        self.current_position += 1
         self.pixels.show()
+        timer = threading.Timer(5.0, sunController.update_position)
+        
+        
         
     def increase_sun(self):
         print("sun increased")
