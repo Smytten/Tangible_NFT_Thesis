@@ -49,10 +49,9 @@ class sunController():
             self.current_position = 0
         else:
         #Turn on next position
-            self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
-            self.current_position += 1
-            
+            self.pixels[self.current_position] = (self.SUN_COLOR_LOW) 
         self.pixels.show()
+        self.current_position += 1
         
         #Create a new thread for non-blocking change of position over time
         timer = threading.Timer(5.0, self.update_position)
