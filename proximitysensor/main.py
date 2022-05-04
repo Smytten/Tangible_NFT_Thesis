@@ -7,7 +7,7 @@ from sunclock import sunController
 
 i2c = board.I2C()  # uses board.SCL and board.SDA
 cap = CAP1188_I2C(i2c)
-sunController = sunController()
+sun = sunController()
 
 previous_captured_pin = None
 counter = 0
@@ -24,7 +24,7 @@ while input != 'quit':
     command = ''
         '''
         
-sunController.update_position()
+sun.update_position()
 
 '''
 while True:
