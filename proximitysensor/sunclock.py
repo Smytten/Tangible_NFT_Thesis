@@ -44,9 +44,14 @@ class sunController():
         #Turn off all pixels
         self.pixels.fill(self.SUN_COLOR_OFF)
         
+        #Check if reached limit
+        if (self.current_position+1 == self.num_pixels):
+            self.current_position = 0
+        else:
         #Turn on next position
-        self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
-        self.current_position += 1
+            self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
+            self.current_position += 1
+            
         self.pixels.show()
         
         #Create a new thread for non-blocking change of position over time
