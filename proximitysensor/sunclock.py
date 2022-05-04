@@ -30,8 +30,8 @@ class sunController():
             self.pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER)
             
         self.SUN_COLOR_OFF = (0,0,0)    
-        self.SUN_COLOR_LOW = (255,80,0)
-        self.SUN_COLOR_HIGH = (255,115,0)
+        self.SUN_COLOR_LOW = (0,0,255)
+        self.SUN_COLOR_HIGH = (255,0,0)
         
     def init_sun(self): 
         self.pixels.fill(self.SUN_COLOR_OFF)
