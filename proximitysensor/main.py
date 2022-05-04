@@ -7,7 +7,7 @@ from sunclock import sunController
 
 i2c = board.I2C()  # uses board.SCL and board.SDA
 cap = CAP1188_I2C(i2c)
-sun = sunController()
+sunController = sunController()
 
 previous_captured_pin = None
 counter = 0
@@ -23,6 +23,8 @@ while input != 'quit':
         
     command = ''
         '''
+        
+sunController.update_position()
 
 while True:
     for i in range(1, 9):
@@ -39,7 +41,7 @@ while True:
             # check if gesture is going up
             if previous_captured_pin > i:
                 print("Sun has risen! Your planet is warming up")
-                sun.sunclock()
+                sunController.increase_sun()
                 
                 
             #Check if gesture is going down
