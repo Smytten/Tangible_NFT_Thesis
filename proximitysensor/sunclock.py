@@ -43,7 +43,7 @@ class sunController():
     def init_sun(self, start_position): 
         self.pixels.fill(self.SUN_COLOR_OFF)
         self.current_position = start_position
-        self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
+        self.pixels[self.current_position] = (self.SUN_INTENSE)
         self.pixels.show()
         
     def test_colors(self):
@@ -78,7 +78,7 @@ class sunController():
             self.current_position = 0
         else:
         #Turn on next position
-            self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
+            self.pixels[self.current_position] = (self.SUN_INTENSE)
             #self.current_position += 1
             
         self.pixels.show()
@@ -95,26 +95,78 @@ class sunController():
         #Turn off all pixels
         self.pixels.fill(self.SUN_COLOR_OFF)
         
-        #TODO - get sun_level
+        #get and set sun level
+        sunlevel = self.sun_level
+        #get position of sun
+        sun_position = self.current_position
         
-        #Quick hardcode level
-        #if level 1
-        #set new level
         
-        #if level 2
-        #set new level
+        if sunlevel == 4:
+            print("Sunlevel already max")
+            return
         
-        #if level 3
-        #set new level
+        #level 1 to 2
+        if sunlevel < 2: 
+            self.pixels.fill(self.SUN_COLOR_OFF)
+            
+            #Set main poisition
+            self.pixels[sun_position] = (self.SUN_INTENSE)
+            
+            #Set +1 AND -1
+            self.pixels[sun_position+1] = (self.SUN_STRONG)
+            self.pixels[sun_position-1] = (self.SUN_STRONG)
         
-        #if level 4
-        #set new level
+        #level 2 to 3
+        if sunlevel < 3:
+            #Set +2 AND -2
+            self.pixels[sun_position+2] = (self.SUN_MILD)
+            self.pixels[sun_position-2] = (self.SUN_MILD)
+        
+        #level 3 to 4
+        if sunlevel < 4:
+            #Set +3 AND -3
+            self.pixels[sun_position+3] = (self.SUN_WEAK)
+            self.pixels[sun_position-3] = (self.SUN_WEAK)
+        
+        #increase level at the end
+            self.sun_level += 1
 
-        
+
     def decrease_sun(self):
-        print("sun decreased")
+        print("sun increased")
         #Turn off all pixels
-        self.pixels.fill(self.SUN_COLOR_OFF)
+        #self.pixels.fill(self.SUN_COLOR_OFF)
+        
+        #get and set sun level
+        sunlevel = self.sun_level
+        #get position of sun
+        sun_position = self.current_position
+        
+        
+        if sunlevel == 1:
+            print("Sunlevel already lowest")
+            return
+        
+        #level 4 to 3
+        if sunlevel > 3:
+            #remove outer +3 AND -3
+            self.pixels[sun_position+3] = (self.SUN_COLOR_OFF)
+            self.pixels[sun_position-3] = (self.SUN_COLOR_OFF)
+        
+        #level 3 to 2
+        if sunlevel > 3:
+            #remove outer +2 AND -2
+            self.pixels[sun_position+2] = (self.SUN_COLOR_OFF)
+            self.pixels[sun_position-2] = (self.SUN_COLOR_OFF)
+        
+        #level 2 to 1
+        if sunlevel > 2:
+            #Set +1 AND -1
+            self.pixels[sun_position+1] = (self.SUN_COLOR_OFF)
+            self.pixels[sun_position-1] = (self.SUN_COLOR_OFF)
+        
+        #increase level at the end
+            self.sun_level -= 1
         
 
         
