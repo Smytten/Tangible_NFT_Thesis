@@ -51,6 +51,8 @@ class sunController():
         
     def init_sun(self, start_position): 
         self.pixels.fill(self.SUN_COLOR_OFF)
+        self.pixels.show()
+        
         self.current_position = start_position
         self.pixels[self.current_position] = (self.SUN_INTENSE)
         self.pixels.show()
