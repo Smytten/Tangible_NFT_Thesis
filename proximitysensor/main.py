@@ -24,7 +24,7 @@ while input != 'quit':
     command = ''
         
         
-sun.init_sun(50)
+sun.init_sun()
 
 '''
 while True:

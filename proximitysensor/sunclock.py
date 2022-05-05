@@ -133,7 +133,7 @@ class sunController():
 
 
     def decrease_sun(self):
-        print("sun increased")
+        print("sun decreased")
         #Turn off all pixels
         #self.pixels.fill(self.SUN_COLOR_OFF)
         
