@@ -21,6 +21,9 @@ class sunController():
         
         #Start position of sun
         self.current_position = 0
+        
+        #Start level of the sun between lowest 1 and 4 max
+        self.sun_level = 1
 
         # The order of the pixel colors - RGB or GRB. Some NeoPixels have red and green reversed!
         # For RGBW NeoPixels, simply change the ORDER to RGBW or GRBW.
@@ -29,14 +32,40 @@ class sunController():
         self.pixels = neopixel.NeoPixel(
             self.pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER)
             
-        self.SUN_COLOR_OFF = (0,0,0)    
-        self.SUN_COLOR_LOW = (0,0,255)
-        self.SUN_COLOR_HIGH = (255,0,0)
+            
+        #TODO - Create 4 sun stages       
+        self.SUN_INTENSE = (255,64,0)
+        self.SUN_STRONG = (255,132,0)
+        self.SUN_MILD = (255,187,0)
+        self.SUN_WEAK = (255,234,0)
+        self.SUN_COLOR_OFF = (0,0,0) 
         
-    def init_sun(self): 
+    def init_sun(self, start_position): 
         self.pixels.fill(self.SUN_COLOR_OFF)
+        self.current_position = start_position
         self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
         self.pixels.show()
+        
+    def test_colors(self):
+        self.pixels.fill(self.SUN_COLOR_OFF)
+        self.pixels.show()
+        time.sleep(3)
+        
+        self.pixels.fill(self.SUN_WEAK)
+        self.pixels.show()
+        time.sleep(3)
+        
+        self.pixels.fill(self.SUN_MILD)
+        self.pixels.show()
+        time.sleep(3)
+        
+        self.pixels.fill(self.SUN_STRONG)
+        self.pixels.show()
+        time.sleep(3)
+        
+        self.pixels.fill(self.SUN_INTENSE)
+        self.pixels.show()
+        time.sleep(3)
         
         
     def update_position(self):
@@ -66,18 +95,28 @@ class sunController():
         #Turn off all pixels
         self.pixels.fill(self.SUN_COLOR_OFF)
         
-        #Increase sun
-        self.pixels[self.current_position] = (self.SUN_COLOR_HIGH)
-        self.pixels.show()
+        #TODO - get sun_level
+        
+        #Quick hardcode level
+        #if level 1
+        #set new level
+        
+        #if level 2
+        #set new level
+        
+        #if level 3
+        #set new level
+        
+        #if level 4
+        #set new level
+
         
     def decrease_sun(self):
         print("sun decreased")
         #Turn off all pixels
         self.pixels.fill(self.SUN_COLOR_OFF)
         
-        #Increase sun
-        self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
-        self.pixels.show()
+
         
 sunController = sunController()
-sunController.update_position()
+sunController.test_colors()

@@ -13,19 +13,20 @@ previous_captured_pin = None
 counter = 0
 
 
-'''
+
 while input != 'quit':
     command = input()
     if command == "1":
-        sunController().sunrise()
+        sun.increase_sun()
     if command == "2":
-        sunController().sunset()
+        sun.decrease_sun()
         
     command = ''
-        '''
+        
         
 sun.update_position()
 
+'''
 while True:
     for i in range(1, 9):
         
@@ -68,3 +69,4 @@ while True:
             previous_captured_pin = None
             #Reset counter after reset
             counter = 0
+            '''
