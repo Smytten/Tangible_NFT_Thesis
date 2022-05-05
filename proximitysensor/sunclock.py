@@ -8,7 +8,7 @@ import neopixel
 import colorsys
 import threading
 
-
+'''
 while input != 'quit':
     command = input()
     if command == "1":
@@ -17,6 +17,7 @@ while input != 'quit':
         sun.decrease_sun()
         
     command = ''
+    '''
 
 class sunController():
     def __init__(self):
