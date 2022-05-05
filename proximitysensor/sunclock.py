@@ -170,5 +170,5 @@ class sunController():
         
 
         
-sunController = sunController()
-sunController.test_colors()
+#sunController = sunController()
+#sunController.test_colors()
