@@ -148,12 +148,13 @@ class Binder(Pane):
 
 class World():
 
-    def __init__(self, id, panes : list):
+    def __init__(self, id = '404', panes : list = []):
         self.__id = id
-        self.setPanels(panes)
+        if len(panes) > 0:
+            self.setPanels(panes)
+            self.__applyPolarity()
         self._observers = [] 
         self._temp = 22
-        # self.__convertToNeighbourhoodCoridnate(0)
 
     def setPanels(self, panels : list):
         self._panes = [] 
@@ -195,11 +196,16 @@ class World():
         except:
             return Tile() 
 
+    def __applyPolarity(self):
+        for zone in WORLDCONST.POLARITY_CONST:
+            for pos in zone['location']:
+                self.getTile(pos).setPolarity(zone['pol'])
+
     def __setupTileNeighbours(self):
         for pane in self._panes:
             neigbourList = self.__convertToNeighbourhoodCoridnate(pane.getLocation())
             flowerTiles = pane.getTiles()
-            print(len(flowerTiles))
+            # print(len(flowerTiles))
             i = 0
             for tile in flowerTiles:
                 tile.setNeighbours(neigbourList[i])
@@ -329,8 +335,8 @@ class World():
 
                 returnList.append(tempReturnList)
 
-        print(f"Pane position: {panePosition}")
-        print (returnList)
+        # print(f"Pane position: {panePosition}")
+        # print (returnList)
         return returnList 
 
 
@@ -349,6 +355,7 @@ class World():
             for tile in tiles: # Update Tile States       
                 nh = tile.getNeighbours()
 
+                tileTemp = self._temp + tile.getPolarity()
                 # Move water water to lowest low elvation
                 if tile.getWaterBody() > 0:
                     largestDiff = 0
@@ -371,7 +378,7 @@ class World():
 
                     pass
 
-                print(tile.toString())
+                # print(tile.toString())
                 # Evapurate Water
 
 
@@ -391,7 +398,7 @@ class World():
                 
                 # Handle Tempature Changes
                 if tile.getOccupent() == WORLDCONST.WATER: # HANDLE WATERY TILES
-                    if self._temp >= WORLDCONST.WaterRange[0] and self._temp < WORLDCONST.WaterRange[1]:
+                    if tileTemp >= WORLDCONST.WaterRange[0] and tileTemp < WORLDCONST.WaterRange[1]:
                         waterDepth = tile.getWaterBody()
 
                         if waterDepth >= 5 and waterDepth < 10:
@@ -409,7 +416,7 @@ class World():
                             newTileList.append(tile)
                             continue
 
-                    if self._temp >= WORLDCONST.WaterRange[1]:
+                    if tileTemp >= WORLDCONST.WaterRange[1]:
                         tile.setType(WORLDCONST.DesertTile)
                         newTileList.append(tile)
                         continue
@@ -420,12 +427,12 @@ class World():
                         continue
 
                 if tile.getOccupent() == WORLDCONST.LAND: # HANDLE LANDY TILES 
-                    if self._temp >= WORLDCONST.ForrestRange[0] and self._temp < WORLDCONST.ForrestRange[1] and tile.isNearWater():
+                    if tileTemp >= WORLDCONST.ForrestRange[0] and tileTemp < WORLDCONST.ForrestRange[1] and tile.isNearWater():
                         tile.setType(WORLDCONST.ForrestTile)
                         newTileList.append(tile)
                         continue
 
-                    if self._temp < WORLDCONST.ForrestRange[0]:
+                    if tileTemp < WORLDCONST.ForrestRange[0]:
                         tile.setType(WORLDCONST.FrozenForrest)
                         newTileList.append(tile)
                         continue
@@ -478,6 +485,51 @@ class World():
         
     def getPaneTileSet(self,id):
         return self._panes[id].getTilesToString()
+
+    def exportJSON(self):
+        jf = {}
+        jf['name'] = self.__id 
+        jf['temp'] = self._temp
+        panes = {}
+        for pane in self._panes:
+            curPane = {}
+            curPane['location'] = pane.getLocation()
+            tiles = []
+            for tile in pane.getTiles():
+                jTile = {}
+                jTile['type'] = tile.getType()
+                jTile['elevation'] = tile.getElevation()
+                jTile['waterBody'] = tile.getWaterBody()
+                jTile['occupent'] = tile.getOccupent()
+                tiles.append(jTile)
+
+            curPane['tiles'] = tiles            
+            panes[f'p{pane.getLocation()}'] = curPane
+        jf['panes'] = panes
+        x = json.dumps(jf)
+        print(x)
+    
+    def importJSON(self,jf):
+        self.__id = jf['name']
+        self._temp = jf['temp']
+        panels = []
+        for i, pane in enumerate(jf['panes']):
+            loc = jf['panes'][pane]['location']
+            tileList = []
+            for tile in jf['panes'][pane]['tiles']:
+                #print(tile)
+                t = Tile(tile['type'],tile['elevation'],tile['occupent'],tile['waterBody'])
+                tileList.append(t)
+
+            if i < 6:
+                f = Flower(tileList,loc)
+                panels.append(f)
+            else:
+                b = Binder(tileList,loc)
+                panels.append(b)
+
+        self.setPanels(panels)
+        self.__applyPolarity()
 
 class mqttclientboi():
     def update(self, data):
@@ -617,7 +669,13 @@ panels = [
     ),    
     ]
 
-testWorld = World("6dh2",panels)
+testWorld = World()
+
+f = open('world.json')
+jf = json.load(f)
+testWorld.importJSON(jf)
+
+testWorld.exportJSON()
 
 mqttClien = mqttclientboi()
 
@@ -626,8 +684,6 @@ testWorld.attach(realBroker)
 
 # testWorld.notify()
 
-x = json.dumps(testWorld._panes)
-print(x)
 
 while(True):
     state = input('PlanetState: [F,LF,WD,WF,WD,DW,D] ~~ ')
