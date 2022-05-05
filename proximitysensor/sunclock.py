@@ -183,5 +183,5 @@ class sunController():
 
         
 sun = sunController()
-#sun.init_sun(50)
-sun.test_colors()
+sun.init_sun(50)
+#sun.test_colors()
