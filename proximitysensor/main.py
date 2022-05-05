@@ -13,17 +13,20 @@ previous_captured_pin = None
 counter = 0
 
 
-'''
+
 while input != 'quit':
     command = input()
     if command == "1":
-        sunController().sunrise()
+        sun.increase_sun()
     if command == "2":
-        sunController().sunset()
+        sun.decrease_sun()
         
     command = ''
-        '''
+        
+        
+sun.update_position()
 
+'''
 while True:
     for i in range(1, 9):
         
@@ -35,17 +38,20 @@ while True:
             #If it is the first pin during interaction
             if previous_captured_pin == None:
                 previous_captured_pin = i
+                
+            #If it is the same pin
+            if previous_captured_pin == i:
+                break
 
             # check if gesture is going up
             if previous_captured_pin > i:
                 print("Sun has risen! Your planet is warming up")
-                sun.sunclock()
-                
+                sun.increase_sun()
                 
             #Check if gesture is going down
             if previous_captured_pin < i:
                 print("Sun has set! Your planet is cooling down")
-                #sun.sunclock('low')
+                sun.sunclock('low')
             
             #set latest captured pin to the activated pin
             previous_captured_pin = i
@@ -63,3 +69,4 @@ while True:
             previous_captured_pin = None
             #Reset counter after reset
             counter = 0
+            '''
