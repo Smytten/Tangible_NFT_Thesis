@@ -79,5 +79,5 @@ class sunController():
         self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
         self.pixels.show()
         
-#sunController = sunController()
-#sunController.update_position()
+sunController = sunController()
+sunController.update_position()
