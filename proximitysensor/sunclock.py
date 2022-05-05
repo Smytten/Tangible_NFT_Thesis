@@ -35,9 +35,9 @@ class sunController():
             
         #TODO - Create 4 sun stages       
         self.SUN_INTENSE = (255,64,0)
-        self.SUN_STRONG = (255,132,0)
-        self.SUN_MILD = (255,187,0)
-        self.SUN_WEAK = (255,234,0)
+        self.SUN_STRONG = (127,32,0)
+        self.SUN_MILD = (64,16,0)
+        self.SUN_WEAK = (32,8,0)
         self.SUN_COLOR_OFF = (0,0,0) 
         
     def init_sun(self, start_position): 
