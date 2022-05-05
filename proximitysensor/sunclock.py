@@ -17,7 +17,7 @@ class sunController():
         self.pixel_pin = board.D10
 
         # The number of NeoPixels
-        self.num_pixels = 145
+        self.num_pixels = 164
         
         #Start position of sun
         self.current_position = 0
