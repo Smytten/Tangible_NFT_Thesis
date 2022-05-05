@@ -9,6 +9,15 @@ import colorsys
 import threading
 
 
+while input != 'quit':
+    command = input()
+    if command == "1":
+        sun.increase_sun()
+    if command == "2":
+        sun.decrease_sun()
+        
+    command = ''
+
 class sunController():
     def __init__(self):
 
@@ -170,5 +179,5 @@ class sunController():
         
 
         
-#sunController = sunController()
-#sunController.test_colors()
+sunController = sunController()
+sunController.init_sun(50)
