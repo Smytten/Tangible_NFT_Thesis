@@ -97,18 +97,16 @@ class sunController():
         #Turn off all pixels
         self.pixels.fill(self.SUN_COLOR_OFF)
         
-        #get and set sun level
-        sunlevel = self.sun_level
         #get position of sun
         sun_position = self.current_position
         
         
-        if sunlevel == 4:
+        if self.sun_level == 4:
             print("Sunlevel already max")
             return
         
         #level 1 to 2
-        if sunlevel == 1: 
+        if self.sun_level == 1: 
             self.pixels.fill(self.SUN_COLOR_OFF)
             
             #Set main poisition
@@ -119,13 +117,13 @@ class sunController():
             self.pixels[sun_position-1] = (self.SUN_STRONG)
         
         #level 2 to 3
-        if sunlevel == 2:
+        if self.sun_level == 2:
             #Set +2 AND -2
             self.pixels[sun_position+2] = (self.SUN_MILD)
             self.pixels[sun_position-2] = (self.SUN_MILD)
         
         #level 3 to 4
-        if sunlevel == 3:
+        if self.sun_level == 3:
             #Set +3 AND -3
             self.pixels[sun_position+3] = (self.SUN_WEAK)
             self.pixels[sun_position-3] = (self.SUN_WEAK)
@@ -140,31 +138,29 @@ class sunController():
         print("sun decreased")
         print("current sun stage is: {}".format(self.sun_level))
         #Turn off all pixels
-        #self.pixels.fill(self.SUN_COLOR_OFF)
+        self.pixels.fill(self.SUN_COLOR_OFF)
         
-        #get and set sun level
-        sunlevel = self.sun_level
         #get position of sun
         sun_position = self.current_position
         
-        if sunlevel == 1:
+        if self.sun_level == 1:
             print("Sunlevel already lowest")
             return
         
         #level 4 to 3
-        if sunlevel == 4:
+        if self.sun_level == 4:
             #remove outer +3 AND -3
             self.pixels[sun_position+3] = (self.SUN_COLOR_OFF)
             self.pixels[sun_position-3] = (self.SUN_COLOR_OFF)
         
         #level 3 to 2
-        if sunlevel == 3:
+        if self.sun_level == 3:
             #remove outer +2 AND -2
             self.pixels[sun_position+2] = (self.SUN_COLOR_OFF)
             self.pixels[sun_position-2] = (self.SUN_COLOR_OFF)
         
         #level 2 to 1
-        if sunlevel == 2:
+        if self.sun_level == 2:
             #Set +1 AND -1
             self.pixels[sun_position+1] = (self.SUN_COLOR_OFF)
             self.pixels[sun_position-1] = (self.SUN_COLOR_OFF)
