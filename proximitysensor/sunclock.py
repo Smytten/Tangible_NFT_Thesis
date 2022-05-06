@@ -7,8 +7,7 @@ import board
 import neopixel
 import colorsys
 import threading
-
-
+    
 class sunController():
     def __init__(self):
 
@@ -17,7 +16,7 @@ class sunController():
         self.pixel_pin = board.D10
 
         # The number of NeoPixels
-        self.num_pixels = 164
+        self.num_pixels = 148
         
         #Start position of sun
         self.current_position = 0
@@ -35,15 +34,17 @@ class sunController():
             
         #TODO - Create 4 sun stages       
         self.SUN_INTENSE = (255,64,0)
-        self.SUN_STRONG = (127,32,0)
-        self.SUN_MILD = (64,16,0)
-        self.SUN_WEAK = (32,8,0)
+        self.SUN_STRONG = (64,16,0)
+        self.SUN_MILD = (32,8,0)
+        self.SUN_WEAK = (20,6,0)
         self.SUN_COLOR_OFF = (0,0,0) 
         
     def init_sun(self, start_position): 
         self.pixels.fill(self.SUN_COLOR_OFF)
+        self.pixels.show()
+        
         self.current_position = start_position
-        self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
+        self.pixels[self.current_position] = (self.SUN_INTENSE)
         self.pixels.show()
         
     def test_colors(self):
@@ -69,54 +70,96 @@ class sunController():
         
         
     def update_position(self):
-        print("updating position")
-        #Turn off all pixels
-        self.pixels.fill(self.SUN_COLOR_OFF)
-        
-        #Check if reached limit
-        if (self.current_position+1 == self.num_pixels):
-            self.current_position = 0
-        else:
-        #Turn on next position
-            self.pixels[self.current_position] = (self.SUN_COLOR_LOW)
-            #self.current_position += 1
-            
-        self.pixels.show()
+        #print("updating position")
         self.current_position += 1
-        
+            
+        #Redraw pixels
+        self.redraw_pixels()
+
         #Create a new thread for non-blocking change of position over time
-        timer = threading.Timer(0.15, self.update_position)
+        timer = threading.Timer(0.08, self.update_position)
         timer.start()
         
+    def redraw_pixels(self):
+        #Reset pixels
+        self.pixels.fill(self.SUN_COLOR_OFF)
         
+        #level 1
+        if self.sun_level == 1: 
+            self.pixels[self.current_position % self.num_pixels] = (self.SUN_INTENSE)
+            
+        #level 2    
+        if self.sun_level == 2:
+            self.pixels.fill(self.SUN_COLOR_OFF)
+            self.pixels[self.current_position % self.num_pixels] = (self.SUN_INTENSE)
+            self.pixels[(self.current_position +1) % self.num_pixels] = (self.SUN_STRONG)
+            self.pixels[(self.current_position -1) % self.num_pixels] = (self.SUN_STRONG)
+        
+        #level 3
+        if self.sun_level == 3:
+            self.pixels.fill(self.SUN_COLOR_OFF)
+            self.pixels[self.current_position % self.num_pixels] = (self.SUN_INTENSE)
+            self.pixels[(self.current_position +1) % self.num_pixels] = (self.SUN_STRONG)
+            self.pixels[(self.current_position -1) % self.num_pixels] = (self.SUN_STRONG)
+            self.pixels[(self.current_position +2) % self.num_pixels] = (self.SUN_MILD)
+            self.pixels[(self.current_position -2) % self.num_pixels] = (self.SUN_MILD)
+        
+        #level 4
+        if self.sun_level == 4:
+            self.pixels.fill(self.SUN_COLOR_OFF)
+            self.pixels[self.current_position % self.num_pixels] = (self.SUN_INTENSE)
+            self.pixels[(self.current_position + 1) % self.num_pixels] = (self.SUN_STRONG)
+            self.pixels[(self.current_position - 1) % self.num_pixels] = (self.SUN_STRONG)
+            self.pixels[(self.current_position +2) % self.num_pixels] = (self.SUN_MILD)
+            self.pixels[(self.current_position -2) % self.num_pixels] = (self.SUN_MILD)
+            self.pixels[(self.current_position + 3) % self.num_pixels] = (self.SUN_WEAK)
+            self.pixels[(self.current_position - 3) % self.num_pixels] = (self.SUN_WEAK)
+        
+        self.pixels.show()
         
     def increase_sun(self):
         print("sun increased")
-        #Turn off all pixels
-        self.pixels.fill(self.SUN_COLOR_OFF)
+        print("current sun stage is: {}".format(self.sun_level))
         
-        #TODO - get sun_level
+        if self.sun_level == 4:
+            print("Sunlevel already max")
+            return
         
-        #Quick hardcode level
-        #if level 1
-        #set new level
+        #Update level
+        self.sun_level += 1
+        print("New sun stage is: {}".format(self.sun_level))
         
-        #if level 2
-        #set new level
-        
-        #if level 3
-        #set new level
-        
-        #if level 4
-        #set new level
-
+        #Redraw pixels
+        self.redraw_pixels()
         
     def decrease_sun(self):
         print("sun decreased")
-        #Turn off all pixels
-        self.pixels.fill(self.SUN_COLOR_OFF)
+        print("current sun stage is: {}".format(self.sun_level))
+        
+        if self.sun_level == 1:
+            print("Sunlevel already lowest")
+            return
+        
+        #Update level
+        self.sun_level -= 1
+        print("New sun stage is: {}".format(self.sun_level))
+        
+        #Redraw pixels
+        self.redraw_pixels()
         
 
         
-sunController = sunController()
-sunController.test_colors()
+sun = sunController()
+sun.update_position()
+
+
+while input != 'quit':
+    command = input()
+    if command == "1":
+        sun.increase_sun()
+    if command == "2":
+        sun.decrease_sun()
+    if command == "3":
+        sun.test_colors()
+        
+    command = ''
