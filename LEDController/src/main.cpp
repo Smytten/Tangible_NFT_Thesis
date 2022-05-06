@@ -6,7 +6,7 @@
 
 
 // How many leds in your strip?
-#define NUM_LEDS 64
+#define NUM_LEDS 61
 
 // For led chips like WS2812, which have a data line, ground, and power, you just
 // need to define DATA_PIN.  For led chipsets that are SPI based (four wires - data, clock,
@@ -364,7 +364,7 @@ void setup() {
   // fillPixelWithPattern(0,8,DeepWater);
   // fillPixelWithPattern(9,NUM_LEDS,NormalWaterTile);
 
-  panelLEDIndex[0] = 9;
+  panelLEDIndex[0] = 6;
   panelLEDIndex[1] = 11; 
   panelLEDIndex[2] = 11;
   panelLEDIndex[3] = 11;
@@ -380,6 +380,8 @@ void setup() {
 
 
   // fillPanels();
+
+  Serial.print(composeClientID());
 
   WiFi.begin(ssid, password);             // Connect to the network
   Serial.print("Connecting to ");
