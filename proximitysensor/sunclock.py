@@ -94,8 +94,6 @@ class sunController():
     def increase_sun(self):
         print("sun increased")
         print("current sun stage is: {}".format(self.sun_level))
-        #Turn off all pixels
-        self.pixels.fill(self.SUN_COLOR_OFF)
         
         if self.sun_level == 4:
             print("Sunlevel already max")
@@ -133,8 +131,6 @@ class sunController():
     def decrease_sun(self):
         print("sun decreased")
         print("current sun stage is: {}".format(self.sun_level))
-        #Turn off all pixels
-        self.pixels.fill(self.SUN_COLOR_OFF)
         
         if self.sun_level == 1:
             print("Sunlevel already lowest")
