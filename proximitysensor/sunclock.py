@@ -166,7 +166,7 @@ while input != 'quit':
         sun.increase_sun()
     if command == "2":
         sun.decrease_sun()
-    if command == "2":
+    if command == "3":
         sun.test_colors()
         
     command = ''
