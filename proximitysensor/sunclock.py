@@ -86,7 +86,7 @@ class sunController():
         self.current_position += 1
         
         #Create a new thread for non-blocking change of position over time
-        timer = threading.Timer(0.15, self.update_position)
+        timer = threading.Timer(1.0, self.update_position)
         timer.start()
         
         
@@ -162,7 +162,7 @@ class sunController():
 
         
 sun = sunController()
-sun.init_sun(50)
+sun.update_position()
 #sun.test_colors()
 
 while input != 'quit':
