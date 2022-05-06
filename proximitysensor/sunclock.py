@@ -81,6 +81,9 @@ class sunController():
         #Increase position and update
             self.current_position += 1
             self.pixels[self.current_position] = (self.SUN_INTENSE)
+            
+        #Redraw pixels
+        self.redraw_pixels()
 
         #Create a new thread for non-blocking change of position over time
         timer = threading.Timer(1.0, self.update_position)
