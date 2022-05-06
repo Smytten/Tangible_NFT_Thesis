@@ -15,7 +15,7 @@ class sunController():
         # NeoPixels must be connected to D10, D12, D18 or D21 to work.
         self.pixel_pin = board.D10
 
-        # The number of NeoPixels
+        # The number of NeoPixels 147 + 1 for some reason
         self.num_pixels = 148
         
         #Start position of sun
@@ -148,7 +148,7 @@ class sunController():
         self.redraw_pixels()
         
 
-        
+'''        
 sun = sunController()
 sun.update_position()
 
@@ -163,3 +163,4 @@ while input != 'quit':
         sun.test_colors()
         
     command = ''
+'''
