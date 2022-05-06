@@ -91,14 +91,14 @@ class sunController():
         #level 2    
         if self.sun_level == 2:
             self.pixels.fill(self.SUN_COLOR_OFF)
-            self.pixels[self.current_position] = (self.SUN_INTENSE)
+            self.pixels[self.current_position % self.num_pixels] = (self.SUN_INTENSE)
             self.pixels[self.current_position % self.num_pixels + 1] = (self.SUN_STRONG)
             self.pixels[self.current_position % self.num_pixels - 1] = (self.SUN_STRONG)
         
         #level 3
         if self.sun_level == 3:
             self.pixels.fill(self.SUN_COLOR_OFF)
-            self.pixels[position] = (self.SUN_INTENSE)
+            self.pixels[self.current_position % self.num_pixels] = (self.SUN_INTENSE)
             self.pixels[self.current_position % self.num_pixels + 1] = (self.SUN_STRONG)
             self.pixels[self.current_position % self.num_pixels - 1] = (self.SUN_STRONG)
             self.pixels[self.current_position % self.num_pixels + 2] = (self.SUN_MILD)
@@ -107,6 +107,7 @@ class sunController():
         #level 4
         if self.sun_level == 4:
             self.pixels.fill(self.SUN_COLOR_OFF)
+            self.pixels[self.current_position % self.num_pixels] = (self.SUN_INTENSE)
             self.pixels[self.current_position % self.num_pixels + 1] = (self.SUN_STRONG)
             self.pixels[self.current_position % self.num_pixels - 1] = (self.SUN_STRONG)
             self.pixels[self.current_position % self.num_pixels + 2] = (self.SUN_MILD)
