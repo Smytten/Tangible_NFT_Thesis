@@ -157,13 +157,13 @@ class sunController():
             self.pixels[sun_position-3] = (self.SUN_COLOR_OFF)
         
         #level 3 to 2
-        if sunlevel > 3:
+        if sunlevel > 2:
             #remove outer +2 AND -2
             self.pixels[sun_position+2] = (self.SUN_COLOR_OFF)
             self.pixels[sun_position-2] = (self.SUN_COLOR_OFF)
         
         #level 2 to 1
-        if sunlevel > 2:
+        if sunlevel > 1:
             #Set +1 AND -1
             self.pixels[sun_position+1] = (self.SUN_COLOR_OFF)
             self.pixels[sun_position-1] = (self.SUN_COLOR_OFF)
