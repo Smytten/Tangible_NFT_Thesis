@@ -131,6 +131,7 @@ class sunController():
             self.pixels[sun_position-3] = (self.SUN_WEAK)
         
         #increase level at the end
+            self.pixels.show()
             self.sun_level += 1
             print("New sun stage is: {}".format(self.sun_level))
 
@@ -169,6 +170,7 @@ class sunController():
             self.pixels[sun_position-1] = (self.SUN_COLOR_OFF)
         
         #increase level at the end
+            self.pixels.show()
             self.sun_level -= 1
             print("New sun stage is: {}".format(self.sun_level))
         
