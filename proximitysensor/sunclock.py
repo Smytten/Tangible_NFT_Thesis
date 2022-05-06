@@ -152,8 +152,8 @@ class sunController():
 
         
 sun = sunController()
-#sun.update_position()
-sun.init_sun(146)
+sun.update_position()
+
 
 while input != 'quit':
     command = input()
