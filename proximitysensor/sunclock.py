@@ -93,35 +93,38 @@ class sunController():
         #Reset pixels
         self.pixels.fill(self.SUN_COLOR_OFF)
         
+        #Find modded position for infinite looping around strip
+        position = self.current_position % self.num_pixels
+        
         #level 1
         if self.sun_level == 1: 
-            self.pixels[self.current_position] = (self.SUN_INTENSE)
+            self.pixels[position] = (self.SUN_INTENSE)
             
         if self.sun_level == 2:
             self.pixels.fill(self.SUN_COLOR_OFF)
-            self.pixels[self.current_position] = (self.SUN_INTENSE)
-            self.pixels[self.current_position+1] = (self.SUN_STRONG)
-            self.pixels[self.current_position-1] = (self.SUN_STRONG)
+            self.pixels[position] = (self.SUN_INTENSE)
+            self.pixels[position+1] = (self.SUN_STRONG)
+            self.pixels[position-1] = (self.SUN_STRONG)
         
         #level 3
         if self.sun_level == 3:
             self.pixels.fill(self.SUN_COLOR_OFF)
-            self.pixels[self.current_position] = (self.SUN_INTENSE)
-            self.pixels[self.current_position+1] = (self.SUN_STRONG)
-            self.pixels[self.current_position-1] = (self.SUN_STRONG)
-            self.pixels[self.current_position+2] = (self.SUN_MILD)
-            self.pixels[self.current_position-2] = (self.SUN_MILD)
+            self.pixels[position] = (self.SUN_INTENSE)
+            self.pixels[position+1] = (self.SUN_STRONG)
+            self.pixels[position-1] = (self.SUN_STRONG)
+            self.pixels[position+2] = (self.SUN_MILD)
+            self.pixels[position-2] = (self.SUN_MILD)
         
         #level 4
         if self.sun_level == 4:
             self.pixels.fill(self.SUN_COLOR_OFF)
-            self.pixels[self.current_position] = (self.SUN_INTENSE)
-            self.pixels[self.current_position+1] = (self.SUN_STRONG)
-            self.pixels[self.current_position-1] = (self.SUN_STRONG)
-            self.pixels[self.current_position+2] = (self.SUN_MILD)
-            self.pixels[self.current_position-2] = (self.SUN_MILD)
-            self.pixels[self.current_position+3] = (self.SUN_WEAK)
-            self.pixels[self.current_position-3] = (self.SUN_WEAK)
+            self.pixels[position] = (self.SUN_INTENSE)
+            self.pixels[position+1] = (self.SUN_STRONG)
+            self.pixels[position-1] = (self.SUN_STRONG)
+            self.pixels[position+2] = (self.SUN_MILD)
+            self.pixels[position-2] = (self.SUN_MILD)
+            self.pixels[position+3] = (self.SUN_WEAK)
+            self.pixels[position-3] = (self.SUN_WEAK)
         
         self.pixels.show()
         
