@@ -71,22 +71,13 @@ class sunController():
         
     def update_position(self):
         #print("updating position")
-        #Turn off all pixels
-        self.pixels.fill(self.SUN_COLOR_OFF)
-        
-        #Check if reached limit
-        if (self.current_position+1 == self.num_pixels):
-            self.current_position = 0
-        else:
-        #Increase position and update
-            self.current_position += 1
-            self.pixels[self.current_position] = (self.SUN_INTENSE)
+        self.current_position += 1
             
         #Redraw pixels
         self.redraw_pixels()
 
         #Create a new thread for non-blocking change of position over time
-        timer = threading.Timer(1.0, self.update_position)
+        timer = threading.Timer(0.08, self.update_position)
         timer.start()
         
     def redraw_pixels(self):
