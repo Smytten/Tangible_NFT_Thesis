@@ -70,7 +70,7 @@ class sunController():
         
         
     def update_position(self):
-        print("updating position")
+        #print("updating position")
         #Turn off all pixels
         self.pixels.fill(self.SUN_COLOR_OFF)
         
