@@ -86,8 +86,9 @@ class sunController():
         
         #level 1
         if self.sun_level == 1: 
-            self.pixels[position] = (self.SUN_INTENSE)
+            self.pixels[self.current_position % self.num_pixels] = (self.SUN_INTENSE)
             
+        #level 2    
         if self.sun_level == 2:
             self.pixels.fill(self.SUN_COLOR_OFF)
             self.pixels[self.current_position] = (self.SUN_INTENSE)
