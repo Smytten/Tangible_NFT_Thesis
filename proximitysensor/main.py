@@ -27,44 +27,47 @@ while input != 'quit':
 while True:
     for i in range(1, 9):
         
-        #counter +=1
+        counter +=1
     
     
-        # if a pin is touched
+        # if a pin is touched. cap[i].value is a boolean expression
         if cap[i].value:
-            print("Data from cap[i] is: {} ", cap[i])
-            print("Data from cap[i].value is: {} ", cap[i].value)
-            
-            
+
             
             #If it is the first pin during interaction
-            #if previous_captured_pin == None:
-                #previous_captured_pin = i
+            if previous_captured_pin == None:
+                previous_captured_pin = i
                 
             #If it is the same pin
-            #if previous_captured_pin == i:
-            #   break
+            if first_captured_pin == i:
+                break
 
             # check if gesture is going up
-            #if previous_captured_pin > i:
-                #print("Sun has risen! Your planet is warming up")
-                #sun.increase_sun()
+            if i == 4 and previous_captured_pin == 5:
+                print("Level 1 sensors have activated")
+
+            # check if gesture is going up
+            if i == 3 and previous_captured_pin == 6:
+                print("Level 2 sensors have activated")
                 
-            #Check if gesture is going down
-            #if previous_captured_pin < i:
-                #print("Sun has set! Your planet is cooling down")
-                #sun.sunclock('low')
-            
+            # check if gesture is going up
+            if i == 2 and previous_captured_pin == 7:
+                print("Level 3 sensors have activated")
+                
+            # check if gesture is going up
+            if i == 1 and previous_captured_pin == 8:
+                print("Level 4 sensors have activated")
+                
             #set latest captured pin to the activated pin
-            #previous_captured_pin = i
+            previous_captured_pin = i
             
             #Reset counter since there has been activity
             #counter = 0
         
         #Increment counter because no acitivity
-        #if counter > 500:
-            #print("Interaction reset - previous pin set to None")
-            #previous_captured_pin = None
+        if counter > 500:
+            print("Interaction reset - previous pin set to None")
+            previous_captured_pin = None
             
             #Reset counter after reset
-            #counter = 0
+            counter = 0
