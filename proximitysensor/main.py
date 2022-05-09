@@ -35,11 +35,11 @@ while True:
 
             
             #If it is the first pin during interaction
-            if previous_captured_pin == None:
-                previous_captured_pin = i
+            #if previous_captured_pin == None:
+            #   previous_captured_pin = i
                 
             #If it is the same pin
-            if first_captured_pin == i:
+            if previous_captured_pin == i:
                 break
 
             # check if gesture is going up
@@ -63,7 +63,7 @@ while True:
             
             
             #Reset counter since there has been activity
-            #counter = 0
+            counter = 0
         
         #Increment counter because no acitivity
         if counter > 500:
