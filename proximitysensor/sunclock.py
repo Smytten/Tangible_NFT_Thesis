@@ -115,8 +115,15 @@ class sunController():
             self.pixels[(self.current_position + 3) % self.num_pixels] = (self.SUN_WEAK)
             self.pixels[(self.current_position - 3) % self.num_pixels] = (self.SUN_WEAK)
         
+        #Reveal pixels
         self.pixels.show()
+    
+    def set_level(self, new_level):
+        self.sun_level = new_level
+        self.redraw_pixels()
         
+        
+    '''    
     def increase_sun(self):
         print("sun increased")
         print("current sun stage is: {}".format(self.sun_level))
@@ -132,6 +139,7 @@ class sunController():
         #Redraw pixels
         self.redraw_pixels()
         
+        
     def decrease_sun(self):
         print("sun decreased")
         print("current sun stage is: {}".format(self.sun_level))
@@ -146,6 +154,7 @@ class sunController():
         
         #Redraw pixels
         self.redraw_pixels()
+        '''
         
 
 '''        
