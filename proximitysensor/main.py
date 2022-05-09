@@ -33,6 +33,7 @@ while True:
         # if a pin is touched
         if cap[i].value:
             print("Data from cap[i] is: {} ", cap[i])
+            print("Data from cap[i].value is: {} ", cap[i].value)
             
             
             #If it is the first pin during interaction
