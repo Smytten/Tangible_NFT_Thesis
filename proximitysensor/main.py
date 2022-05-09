@@ -43,19 +43,19 @@ while True:
                 break
 
             # check if gesture is going up
-            if cap[4] and cap[5]:
+            if cap[4].value and cap[5].value:
                 print("Level 1 sensors have activated")
 
             # check if gesture is going up
-            if cap[3] and cap[6]:
+            if cap[3].value and cap[6].value:
                 print("Level 2 sensors have activated")
                 
             # check if gesture is going up
-            if cap[2] and cap[7]:
+            if cap[2].value and cap[7].value:
                 print("Level 3 sensors have activated")
                 
             # check if gesture is going up
-            if cap[1] and cap[8]:
+            if cap[1].value and cap[8].value:
                 print("Level 4 sensors have activated")
                 
             #set latest captured pin to the activated pin
