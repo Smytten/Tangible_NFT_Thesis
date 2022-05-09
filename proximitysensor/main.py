@@ -8,6 +8,7 @@ from sunclock import sunController
 i2c = board.I2C()  # uses board.SCL and board.SDA
 cap = CAP1188_I2C(i2c)
 sun = sunController()
+sun.update_position()
 
 previous_captured_pin = None
 counter = 0
