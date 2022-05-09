@@ -27,7 +27,7 @@ while input != 'quit':
 while True:
     for i in range(1, 9):
         
-        counter +=1
+        #counter +=1
     
     
         # if a pin is touched
@@ -57,7 +57,7 @@ while True:
             #previous_captured_pin = i
             
             #Reset counter since there has been activity
-            counter = 0
+            #counter = 0
         
         #Increment counter because no acitivity
         if counter > 500:
