@@ -36,6 +36,7 @@ while True:
             print("Data from cap[i].value is: {} ", cap[i].value)
             
             
+            
             #If it is the first pin during interaction
             #if previous_captured_pin == None:
                 #previous_captured_pin = i
