@@ -15,7 +15,7 @@ class sunController():
         # NeoPixels must be connected to D10, D12, D18 or D21 to work.
         self.pixel_pin = board.D10
 
-        # The number of NeoPixels
+        # The number of NeoPixels 147 + 1 for some reason
         self.num_pixels = 148
         
         #Start position of sun
@@ -115,8 +115,15 @@ class sunController():
             self.pixels[(self.current_position + 3) % self.num_pixels] = (self.SUN_WEAK)
             self.pixels[(self.current_position - 3) % self.num_pixels] = (self.SUN_WEAK)
         
+        #Reveal pixels
         self.pixels.show()
+    
+    def set_level(self, new_level):
+        self.sun_level = new_level
+        self.redraw_pixels()
         
+        
+    '''    
     def increase_sun(self):
         print("sun increased")
         print("current sun stage is: {}".format(self.sun_level))
@@ -132,6 +139,7 @@ class sunController():
         #Redraw pixels
         self.redraw_pixels()
         
+        
     def decrease_sun(self):
         print("sun decreased")
         print("current sun stage is: {}".format(self.sun_level))
@@ -146,9 +154,10 @@ class sunController():
         
         #Redraw pixels
         self.redraw_pixels()
+        '''
         
 
-        
+'''        
 sun = sunController()
 sun.update_position()
 
@@ -163,3 +172,4 @@ while input != 'quit':
         sun.test_colors()
         
     command = ''
+'''

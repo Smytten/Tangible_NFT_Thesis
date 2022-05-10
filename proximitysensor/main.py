@@ -8,12 +8,13 @@ from sunclock import sunController
 i2c = board.I2C()  # uses board.SCL and board.SDA
 cap = CAP1188_I2C(i2c)
 sun = sunController()
+sun.update_position()
 
 previous_captured_pin = None
 counter = 0
 
 
-
+'''
 while input != 'quit':
     command = input()
     if command == "1":
@@ -22,51 +23,57 @@ while input != 'quit':
         sun.decrease_sun()
         
     command = ''
-        
-        
-sun.init_sun()
-
 '''
+
 while True:
     for i in range(1, 9):
         
         counter +=1
     
-        # if a pin is touched
+    
+        # if a pin is touched. cap[i].value is a boolean expression
         if cap[i].value:
+
             
             #If it is the first pin during interaction
-            if previous_captured_pin == None:
-                previous_captured_pin = i
+            #if previous_captured_pin == None:
+            #   previous_captured_pin = i
                 
             #If it is the same pin
             if previous_captured_pin == i:
                 break
 
             # check if gesture is going up
-            if previous_captured_pin > i:
-                print("Sun has risen! Your planet is warming up")
-                sun.increase_sun()
+            if cap[4].value and cap[5].value:
+                print("Level 1 sensors have activated")
+                sun.set_level(1)
+
+            # check if gesture is going up
+            if cap[3].value and cap[6].value:
+                print("Level 2 sensors have activated")
+                sun.set_level(2)
                 
-            #Check if gesture is going down
-            if previous_captured_pin < i:
-                print("Sun has set! Your planet is cooling down")
-                sun.sunclock('low')
-            
+            # check if gesture is going up
+            if cap[2].value and cap[7].value:
+                print("Level 3 sensors have activated")
+                sun.set_level(3)
+                
+            # check if gesture is going up
+            if cap[1].value and cap[8].value:
+                print("Level 4 sensors have activated")
+                sun.set_level(4)
+                
             #set latest captured pin to the activated pin
             previous_captured_pin = i
             
+            
             #Reset counter since there has been activity
             counter = 0
-            
-        #avoid multiple resets if no interaction is happening
-        #if previous_captured_pin == None:
-        #    break
         
         #Increment counter because no acitivity
         if counter > 500:
             #print("Interaction reset - previous pin set to None")
             previous_captured_pin = None
+            
             #Reset counter after reset
             counter = 0
-            '''
