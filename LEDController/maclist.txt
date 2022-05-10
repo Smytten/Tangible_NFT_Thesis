@@ -7,6 +7,5 @@ b4:e6:2d:45:6f:af   f5	0
 b4:e6:2d:17:eb:85   b0	1
 a0:20:a6:17:7b:4e   b1	1
 b4:e6:2d:45:6e:6a   b2	1
-Missing		    b3
-Missing		    b4
-
+Missing		        b3  DEAD
+b4:e6:2d:1b:69:33   b4  0
