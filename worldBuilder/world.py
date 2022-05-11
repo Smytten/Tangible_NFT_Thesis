@@ -1,11 +1,9 @@
-
 from abc import abstractmethod
-from re import I, T
 
-import WORLDCONST as WORLDCONST
-import broker as broker
-
+from worldBuilder.WORLDCONST import *
+import worldBuilder.WORLDCONST as WORLDCONST
 import json
+
 
 
 class Tile():
@@ -62,7 +60,6 @@ class Tile():
     
     def toString(self):
         return "TYPE: `" + self._type + "`" + "TOTAL H: `" + str(self._waterBody + self._elevation) + " WATERBODY: `" + str(self._waterBody) + "`" + " ELEVATION: `" + str(self._elevation) + "`" 
-
 
 class Pane():
 
@@ -507,7 +504,8 @@ class World():
             panes[f'p{pane.getLocation()}'] = curPane
         jf['panes'] = panes
         x = json.dumps(jf)
-        print(x)
+        return x
+        
     
     def importJSON(self,jf):
         self.__id = jf['name']
@@ -543,166 +541,47 @@ class mqttclientboi():
     def message(self,data,message):
         pass
 
-realBroker = broker.MQTTBroker()
+if __name__ == "__main__":
 
-panels = [
-    Flower(
-        [
-            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
-            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
-            Tile(WORLDCONST.FrozenForrest, elevation=10),
-            Tile(WORLDCONST.FrozenForrest, elevation=20),
-            Tile(WORLDCONST.FrozenForrest, elevation=50),
-            Tile(WORLDCONST.FrozenForrest, elevation=40),
-        ],
-            0
-    ),
-    Flower(
-        [
-            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
-            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
-            Tile(WORLDCONST.FrozenForrest, elevation=10),
-            Tile(WORLDCONST.FrozenForrest, elevation=20),
-            Tile(WORLDCONST.FrozenForrest, elevation=50),
-            Tile(WORLDCONST.FrozenForrest, elevation=40),
-        ],
-            1
-    ),
-    Flower(
-        [
-            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
-            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
-            Tile(WORLDCONST.FrozenForrest, elevation=10),
-            Tile(WORLDCONST.FrozenForrest, elevation=20),
-            Tile(WORLDCONST.FrozenForrest, elevation=50),
-            Tile(WORLDCONST.FrozenForrest, elevation=40),
-        ],
-            2
-    ),
-    Flower(
-        [
-            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
-            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
-            Tile(WORLDCONST.FrozenForrest, elevation=10),
-            Tile(WORLDCONST.FrozenForrest, elevation=20),
-            Tile(WORLDCONST.FrozenForrest, elevation=50),
-            Tile(WORLDCONST.FrozenForrest, elevation=40),
-        ],
-            3
-    ),
-    Flower(
-        [
-            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
-            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
-            Tile(WORLDCONST.FrozenForrest, elevation=10),
-            Tile(WORLDCONST.FrozenForrest, elevation=20),
-            Tile(WORLDCONST.FrozenForrest, elevation=50),
-            Tile(WORLDCONST.FrozenForrest, elevation=40),
-        ],
-            4
-    ),
-    Flower(
-        [
-            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
-            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
-            Tile(WORLDCONST.FrozenForrest, elevation=10),
-            Tile(WORLDCONST.FrozenForrest, elevation=20),
-            Tile(WORLDCONST.FrozenForrest, elevation=50),
-            Tile(WORLDCONST.FrozenForrest, elevation=40),
-        ],
-            5
-    ),
-    Binder(
-        [
-            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
-            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
-            Tile(WORLDCONST.FrozenForrest, elevation=10),
-            Tile(WORLDCONST.FrozenForrest, elevation=20),
-            Tile(WORLDCONST.FrozenForrest, elevation=50),
-            Tile(WORLDCONST.FrozenForrest, elevation=40),
-        ],
-            6
-    ),    
-    Binder(
-        [
-            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
-            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
-            Tile(WORLDCONST.FrozenForrest, elevation=10),
-            Tile(WORLDCONST.FrozenForrest, elevation=20),
-            Tile(WORLDCONST.FrozenForrest, elevation=50),
-            Tile(WORLDCONST.FrozenForrest, elevation=40),
-        ],
-            7
-    ),    
-    Binder(
-        [
-            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
-            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
-            Tile(WORLDCONST.FrozenForrest, elevation=10),
-            Tile(WORLDCONST.FrozenForrest, elevation=20),
-            Tile(WORLDCONST.FrozenForrest, elevation=50),
-            Tile(WORLDCONST.FrozenForrest, elevation=40),
-        ],
-            8
-    ),    
-    Binder(
-        [
-            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
-            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
-            Tile(WORLDCONST.FrozenForrest, elevation=10),
-            Tile(WORLDCONST.FrozenForrest, elevation=20),
-            Tile(WORLDCONST.FrozenForrest, elevation=50),
-            Tile(WORLDCONST.FrozenForrest, elevation=40),
-        ],
-            9
-    ),    
-    Binder(
-        [
-            Tile(WORLDCONST.FrozenForrest, elevation=70,occupent=WORLDCONST.LAND, waterBody=0),
-            Tile(WORLDCONST.FrozenWater, elevation=-40,occupent=WORLDCONST.WATER,waterBody=40),
-            Tile(WORLDCONST.FrozenForrest, elevation=10),
-            Tile(WORLDCONST.FrozenForrest, elevation=20),
-            Tile(WORLDCONST.FrozenForrest, elevation=50),
-            Tile(WORLDCONST.FrozenForrest, elevation=40),
-        ],
-           10 
-    ),    
-    ]
-
-testWorld = World()
-
-f = open('world.json')
-jf = json.load(f)
-testWorld.importJSON(jf)
-
-testWorld.exportJSON()
-
-mqttClien = mqttclientboi()
-
-testWorld.attach(mqttClien)
-testWorld.attach(realBroker)
-
-# testWorld.notify()
+    import broker as broker
 
 
-while(True):
-    state = input('PlanetState: [F,LF,WD,WF,WD,DW,D] ~~ ')
-    if state == 'o':
-        testWorld.power()
-    if state == 'h':
-        testWorld.heatWorld()
-        testWorld.worldStep()
-        print(testWorld._temp)
-        testWorld.notify()
-    if state == 'c':
-        testWorld.coolWorld()
-        testWorld.worldStep()
-        print(testWorld._temp)
-        testWorld.notify()
-    if state == 'r':
-        testWorld.rainfall(0)
-        testWorld.worldStep()
-        testWorld.notify()
-    if state == 's':
-        testWorld.worldStep()
-        testWorld.notify()
+    realBroker = broker.MQTTBroker()
+
+    testWorld = World()
+
+    f = open('world.json')
+    jf = json.load(f)
+    testWorld.importJSON(jf)
+
+    testWorld.exportJSON()
+
+    mqttClien = mqttclientboi()
+
+    testWorld.attach(mqttClien)
+    testWorld.attach(realBroker)
+
+    # testWorld.notify()
+
+
+    while(True):
+        state = input('PlanetState: [F,LF,WD,WF,WD,DW,D] ~~ ')
+        if state == 'o':
+            testWorld.power()
+        if state == 'h':
+            testWorld.heatWorld()
+            testWorld.worldStep()
+            print(testWorld._temp)
+            testWorld.notify()
+        if state == 'c':
+            testWorld.coolWorld()
+            testWorld.worldStep()
+            print(testWorld._temp)
+            testWorld.notify()
+        if state == 'r':
+            testWorld.rainfall(0)
+            testWorld.worldStep()
+            testWorld.notify()
+        if state == 's':
+            testWorld.worldStep()
+            testWorld.notify()
