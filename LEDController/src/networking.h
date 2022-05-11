@@ -7,6 +7,6 @@ const char* password = "augadget";     // The password of the Wi-Fi network
 
 // MQTT Settings
 const char* mqtt_server = "public.mqtthq.com";
-const char* topic = "mworld/6dh2/f0";    
+const char* topic = "mworld/6dh2/b3";    
 
 #endif
