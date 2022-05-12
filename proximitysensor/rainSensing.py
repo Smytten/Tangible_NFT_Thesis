@@ -31,6 +31,10 @@ for i in range(6):
 
 while True:
     for i in range(1, 7):
+        if cap[i].value == False:
+            prevActive[i-1] = False
+            activations[i-1] = 0
+            released[i-1] = True
         if cap[i].value and timerArr[i-1] < time.time():
             if prevActive[i-1]:
                 activations[i-1] += 1
@@ -38,13 +42,6 @@ while True:
                     print("Pin {} touched!".format(i))
                     timerArr[i-1] = time.time() + c.WAIT_DURATION
                     released[i-1] = False
-
             else:
                 prevActive[i-1] = True
-
-
-        else:
-            prevActive[i-1] = False
-            activations[i-1] = 0
-            released[i-1] = True
 
