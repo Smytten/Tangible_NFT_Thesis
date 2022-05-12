@@ -483,6 +483,7 @@ class World():
 
         rainPane.setTiles(updatedList)
         self._panes[location] = rainPane
+        print("Made it rain")
         
     def getPaneTileSet(self,id):
         return self._panes[id].getTilesToString()
