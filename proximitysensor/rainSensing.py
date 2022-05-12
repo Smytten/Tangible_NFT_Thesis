@@ -18,6 +18,9 @@ cap = CAP1188_I2C(i2c,c.RAINSENSOR_ADDRESS)
 # cap = CAP1188_SPI(spi, cs)
 
 timerArr = []
+curTime = time.time()
+for i in range(6):
+    timerArr.append(curTime)
 
 while True:
     for i in range(1, 7):
