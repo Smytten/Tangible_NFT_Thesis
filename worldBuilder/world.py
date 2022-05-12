@@ -1,7 +1,10 @@
 from abc import abstractmethod
 
-from worldBuilder.WORLDCONST import *
-import worldBuilder.WORLDCONST as WORLDCONST
+if __name__ == "__main__":
+    import WORLDCONST as WORLDCONST
+else:
+    import worldBuilder.WORLDCONST as WORLDCONST
+
 import json
 
 
@@ -145,8 +148,9 @@ class Binder(Pane):
 
 class World():
 
-    def __init__(self, id = '404', panes : list = []):
+    def __init__(self, id = '404', panes : list = [], name = 'unnamed'):
         self.__id = id
+        self._name = name
         if len(panes) > 0:
             self.setPanels(panes)
             self.__applyPolarity()
@@ -485,7 +489,8 @@ class World():
 
     def exportJSON(self):
         jf = {}
-        jf['name'] = self.__id 
+        jf['name'] = self._name
+        jf['id'] = self.__id 
         jf['temp'] = self._temp
         panes = {}
         for pane in self._panes:
@@ -508,7 +513,8 @@ class World():
         
     
     def importJSON(self,jf):
-        self.__id = jf['name']
+        self.__id = jf['id']
+        self._name = jf['name']
         self._temp = jf['temp']
         panels = []
         for i, pane in enumerate(jf['panes']):
@@ -565,7 +571,7 @@ if __name__ == "__main__":
 
 
     while(True):
-        state = input('PlanetState: [F,LF,WD,WF,WD,DW,D] ~~ ')
+        state = input(f'Planet {testWorld._name}: ~~ ')
         if state == 'o':
             testWorld.power()
         if state == 'h':
