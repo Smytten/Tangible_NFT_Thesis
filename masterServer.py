@@ -1,3 +1,4 @@
+import threading
 from worldBuilder import world
 import json
 
@@ -10,5 +11,7 @@ f = open('worldBuilder/world.json')
 jf = json.load(f)
 world.importJSON(jf)
 
-
-rainSensing.activateSensor(world.rainfall)
+thread = threading.Thread(target=rainSensing.activateSensor,args=world.rainfall)
+# rainSensing.activateSensor(world.rainfall)
+while(True):
+    pass
