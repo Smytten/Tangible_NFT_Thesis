@@ -4,9 +4,14 @@
 import board
 from adafruit_cap1188.i2c import CAP1188_I2C
 
+if __name__ == "__main__":
+    import CONST as c
+else:
+    import proximitysensor.CONST as c
+
 i2c = board.I2C()  # uses board.SCL and board.SDA
-cap1 = CAP1188_I2C(i2c,40)
-cap2 = CAP1188_I2C(i2c,41)
+cap1 = CAP1188_I2C(i2c,c.RAINSENSOR_ADDRESS)
+cap2 = CAP1188_I2C(i2c,c.SUNSENSOR_ADDRESS)
 
 # SPI setup
 # from digitalio import DigitalInOut, Direction

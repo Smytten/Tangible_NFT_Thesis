@@ -3,10 +3,15 @@
 
 import board
 from adafruit_cap1188.i2c import CAP1188_I2C
-from sunclock import sunController
+if __name__ == "__main__":
+    from sunclock import sunController
+    import CONST as c
+else:
+    from proximitysensor.sunclock import sunController
+    import proximitysensor.CONST as c 
 
 i2c = board.I2C()  # uses board.SCL and board.SDA
-cap = CAP1188_I2C(i2c)
+cap = CAP1188_I2C(i2c,c.SUNSENSOR_ADDRESS)
 sun = sunController()
 sun.update_position()
 
