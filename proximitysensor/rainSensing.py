@@ -17,9 +17,11 @@ cap = CAP1188_I2C(i2c,c.RAINSENSOR_ADDRESS)
 # cs = DigitalInOut(board.D5)
 # cap = CAP1188_SPI(spi, cs)
 
+timerArr = []
+
 while True:
-    for i in range(1, 6):
-        if cap[i].value:
+    for i in range(1, 7):
+        if cap[i].value and timerArr[i] < time.time():
             print("Pin {} touched!".format(i))
-    time.sleep(0.001)
+            timerArr[i] = time.time() + 60
 
