@@ -32,9 +32,9 @@ while True:
         if cap[i].value and timerArr[i-1] < time.time():
             if prevActive[i-1]:
                 activations[i-1] += 1
-                if activations[i-1] == 200:
+                if activations[i-1] == c.ACTIVATION_TIME:
                     print("Pin {} touched!".format(i))
-                    timerArr[i-1] = time.time() + 5
+                    timerArr[i-1] = time.time() + c.WAIT_DURATION
 
             else:
                 prevActive[i-1] = True
