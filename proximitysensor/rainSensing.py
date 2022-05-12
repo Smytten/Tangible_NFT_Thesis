@@ -24,7 +24,7 @@ for i in range(6):
 
 while True:
     for i in range(1, 7):
-        if cap[i].value and timerArr[i] < time.time():
+        if cap[i].value and timerArr[i-1] < time.time():
             print("Pin {} touched!".format(i))
             timerArr[i-1] = time.time() + 60
 
