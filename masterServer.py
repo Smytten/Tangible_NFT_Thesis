@@ -43,12 +43,15 @@ except:
 realBroker = broker.MQTTBroker()
 world.attach(realBroker)
 
+# Power the planet
 world.power()
+
+# test rain
+world.rainfall(0)
 
 # Main process of the world
 while(True):
     time.sleep(10)
-    world.rainfall(0)
     world.worldStep()
     world.notify()
     print(world.exportJSON())

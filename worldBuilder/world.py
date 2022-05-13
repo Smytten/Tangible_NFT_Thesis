@@ -160,6 +160,7 @@ class World():
         self._heatSource = 0
         self._prevHeatSource = self._heatSource
         self._shrinkingCounter = 0
+        self._rainDuraiton = [0,0,0,0,0,0]
 
     def setPanels(self, panels : list):
         self._panes = [] 
@@ -376,6 +377,14 @@ class World():
                 self._heatSource -= 1
         self._prevHeatSource = self._heatSource
         
+        ## Handle Rainfall
+        for i, rd in enumerate(self._rainDuraiton):
+            if rd != 0:
+                self._rainDuraiton[i] -= 1
+                if self._rainDuraiton[i] == 0:
+                    self.notifyIdentityWithMessage(self._panes[i].getIdentifyer(),"r") 
+
+
         # Handle Individual Panes
         paneList = []
         for p in self._panes:
@@ -411,15 +420,12 @@ class World():
                 # print(tile.toString())
                 # Evapurate Water
 
-
                 # Check if Tile is near Water
                 for pos in nh:
                     if self.getTile(pos).getOccupent() == WORLDCONST.WATER:
                         tile.setNearWater(True)
                         break
                 
-
-
                 # Check if Water Amount > 100 and and change to WATERILE
                 if tile.getWaterBody () >= 5:
                     tile.setOccupent(WORLDCONST.WATER)
@@ -474,36 +480,13 @@ class World():
                 else:
                     newTileList.append(tile)
 
-                #simple tile change
-
-               # if tile.getType() == WORLDCONST.FrozenWater:
-               #     if self._temp > WORLDCONST.WaterRange[0]:
-               #         newTileList.append(Tile(WORLDCONST.NormalWater))
-               #         continue
-
-               # if tile.getType() == WORLDCONST.NormalWater:
-               #     if self._temp < WORLDCONST.WaterRange[0]:
-               #         newTileList.append(Tile(WORLDCONST.FrozenWater))
-               #         continue
-
-               #     if self._temp > WORLDCONST.WaterRange[1]:
-               #         newTileList.append(Tile(WORLDCONST.DesertTile))
-               #         continue
-
-               # if tile.getType() == WORLDCONST.DesertTile:
-               #     if self._temp < WORLDCONST.WaterRange[1]:
-               #         newTileList.append(Tile(WORLDCONST.NormalWater))
-               #         continue
-               # 
-               # newTileList.append(tile)
-
-
             p.setTiles(newTileList)
             paneList.append(p)
         self.setPanels(paneList)
     
     def rainfall(self,location):
         rainPane = self._panes[location]
+        self._rainDuraiton[location] = WORLDCONST.RAIN_CYCLE_DURATION
         updatedList = []
 
         for tile in rainPane.getTiles():
@@ -525,6 +508,7 @@ class World():
         jf['name'] = self._name
         jf['id'] = self.__id 
         jf['temp'] = self._temp
+        jf['headSource'] =self._heatSource
         panes = {}
         for pane in self._panes:
             curPane = {}
@@ -543,12 +527,12 @@ class World():
         jf['panes'] = panes
         x = json.dumps(jf)
         return x
-        
     
     def importJSON(self,jf):
         self.__id = jf['id']
         self._name = jf['name']
         self._temp = jf['temp']
+        self._heatSource = jf['heatSource']
         panels = []
         for i, pane in enumerate(jf['panes']):
             loc = jf['panes'][pane]['location']
