@@ -5,9 +5,13 @@ import json
 import requests
 
 try:
-    from proximitysensor import rainSensing, main
+    from proximitysensor import rainSensing
 except:
-    print("--| WARNING |-- SENSOR MODULE MISSING")
+    print("--| WARNING |-- RAIN MODULE MISSING")
+try:
+    from proximitysensor import main
+except:
+    print("--| WARNING |-- SUN MODULE MISSING")
 
 
 print("----======++++=====-----")
@@ -26,24 +30,25 @@ try:
     rainProcess.daemon = True
     rainProcess.start() 
 except:
-    print("--| WARNING |-- RAIN SENSOR NOT ATTACTED")
-
+    pass
 # Sun detection
 try:
     sunProcess = threading.Thread(target=main.sunDetection,args=(world.setHeatSrc,world.getHeatSrc))
     sunProcess.daemon = True
     rainProcess.start()
 except:
-    print("--| WARNING |-- SUN SENSOR NOT ATTACTED")
+    pass
 
 # Create the MQTT observer
 realBroker = broker.MQTTBroker()
 world.attach(realBroker)
 
+world.power()
 
 # Main process of the world
 while(True):
     time.sleep(10)
+    world.rainfall(0)
     world.worldStep()
     world.notify()
     print(world.exportJSON())

@@ -172,6 +172,10 @@ class World():
         for observer in self._observers:
             if modifier != observer:
                 observer.update(self._panes)
+    
+    def notifyIdentityWithMessage(self, identity, message):
+        for o in self._observers:
+            o.message(identity,message)
 
     def power(self, modifer = None):
         for observer in self._observers:
@@ -344,7 +348,6 @@ class World():
         # print (returnList)
         return returnList 
 
-
     def heatWorld(self):
         self._temp = self._temp + 10
 
@@ -510,7 +513,10 @@ class World():
         rainPane.setTiles(updatedList)
         self._panes[location] = rainPane
         print(f"Made it rain on {location}")
-        
+        # notify
+        id = rainPane.getIdentifyer()
+        self.notifyIdentityWithMessage(id,"r")
+
     def getPaneTileSet(self,id):
         return self._panes[id].getTilesToString()
 
