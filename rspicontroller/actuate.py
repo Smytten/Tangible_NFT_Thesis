@@ -38,3 +38,6 @@ def actuateSinge(motor,degree):
 
 def actuateAll(degrees):
     mc.actuatePattern(degrees)
+
+def cleanup():
+    mc.cleanup()

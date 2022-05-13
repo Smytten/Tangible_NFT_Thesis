@@ -20,5 +20,6 @@ world.importJSON(j)
 try:
     print(world.getActuationHeights())
     actuate.actuateAll(world.getActuationHeights())
+    actuate.cleanup()
 except:
     print("--| FAILED TO ACTUATE WORLD |--")
