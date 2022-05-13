@@ -13,6 +13,7 @@ IceRange = (-200,-1)
 DesertRange = (26,300)
 ForrestRange = (0,25)
 
+SHRINKING_CYCLES = 10
 WATER = 'water'
 LAND = 'land'
 

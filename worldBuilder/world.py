@@ -1,4 +1,5 @@
 from abc import abstractmethod
+import math
 
 if __name__ == "__main__":
     import WORLDCONST as WORLDCONST
@@ -156,6 +157,9 @@ class World():
             self.__applyPolarity()
         self._observers = [] 
         self._temp = 22
+        self._heatSource = 0
+        self._prevHeatSource = self._heatSource
+        self._shrinkingCounter = 0
 
     def setPanels(self, panels : list):
         self._panes = [] 
@@ -347,7 +351,29 @@ class World():
     def coolWorld(self):
         self._temp = self._temp - 10
 
+    def setHeatSrc(self, src : int):
+        self._heatSource = src
+
+    def getHeatSrc(self) -> int:
+        return self._heatSource
+
     def worldStep(self):
+        # Global Changes
+        if self._temp > -273:
+            self._temp -= 1
+        
+        if self._heatSource >= 1:
+            self._temp += math.pow(self._heatSource,1.5)
+        
+        ## Shrinking of heat source
+        if self._prevHeatSource == self._heatSource: 
+            self._shrinkingCounter += 1
+            if self._shrinkingCounter > WORLDCONST.SHRINKING_CYCLES:
+                self._shrinkingCoutner = 0
+                self._heatSource -= 1
+        self._prevHeatSource = self._heatSource
+        
+        # Handle Individual Panes
         paneList = []
         for p in self._panes:
             tiles = p.getTiles() 
