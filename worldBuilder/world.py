@@ -93,11 +93,10 @@ class Pane():
 
 class Flower(Pane):
 
-    def __init__(self, tiles : list,location, actuationHeight = 0) -> None:
+    def __init__(self, tiles : list,location) -> None:
         self._tiles = tiles 
         self._location = location
         self._id = 'none'
-        self._actuationHeight = actuationHeight
 
     def getIdentifyer(self):
         return WORLDCONST.PROJECT + "/" + self._id + "/f" + str(self._location)
@@ -121,7 +120,10 @@ class Flower(Pane):
         self._tiles = tiles
 
     def getActuationHeight(self):
-        return self._actuationHeight
+        height = 0
+        for t in self._tiles:
+            height += t.getElevation()
+        return (height / len(self._tiles)) + 90
 
 
 class Binder(Pane):
@@ -360,12 +362,13 @@ class World():
     def coolWorld(self):
         self._temp = self._temp - 10
 
-    def getActuationHeight(self) -> list:
+    def getActuationHeights(self) -> list:
         heightList = []
         for p in self._panes:
             if type(p) is Flower:
                 heightList.append(p.getActuationHeight())
-        pass
+
+        return heightList
 
     def setHeatSrc(self, src : int):
         self._heatSource = src
