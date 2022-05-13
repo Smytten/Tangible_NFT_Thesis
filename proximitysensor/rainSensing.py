@@ -34,7 +34,7 @@ def activateSensor(callback):
                     activations[i-1] += 1
                     if activations[i-1] == c.ACTIVATION_TIME and released[i-1]:
                         print("Pin {} touched!".format(i))
-                        callback(i)
+                        callback(i-1)
                         # TODO impl the server call to make it rain :)
                         timerArr[i-1] = time.time() + c.WAIT_DURATION
                         released[i-1] = False

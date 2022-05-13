@@ -6,7 +6,7 @@
 
 
 // How many leds in your strip?
-#define NUM_LEDS 61
+#define NUM_LEDS 66
 
 // For led chips like WS2812, which have a data line, ground, and power, you just
 // need to define DATA_PIN.  For led chipsets that are SPI based (four wires - data, clock,
