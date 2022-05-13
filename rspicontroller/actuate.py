@@ -19,6 +19,11 @@ try:
         pattern = rotations.split()
         map_object = map(int,pattern)
         pattern = list(map_object)
-        mc.actuatePattern(pattern)
+        if len(pattern) == 1:
+            for x in range(len(servos)-1):
+                pattern.append(pattern[0])
+            mc.actuatePattern(pattern)
+        else:
+            mc.actuatePattern(pattern)
 finally:
     mc.cleanup()

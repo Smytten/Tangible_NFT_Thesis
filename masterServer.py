@@ -7,7 +7,7 @@ import requests
 try:
     from proximitysensor import rainSensing, main
 except:
-    print("WARNING-- RAIN SENSOR NOT ATTACTED")
+    print("-- WARNING -- SENSOR MODULE MISSING")
 
 
 print("----======++++=====-----")
@@ -28,7 +28,7 @@ try:
     rainProcess.daemon = True
     rainProcess.start() 
 except:
-    print("WARNING-- RAIN SENSOR NOT ATTACTED")
+    print("-- WARNING -- RAIN SENSOR NOT ATTACTED")
 
 # Sun detection
 try:
@@ -36,7 +36,7 @@ try:
     sunProcess.daemon = True
     rainProcess.start()
 except:
-    print("WARNING-- SUN SENSOR NOT ATTACTED")
+    print("-- WARNING-- SUN SENSOR NOT ATTACTED")
 
 
 # Main process of the world
