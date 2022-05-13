@@ -13,10 +13,6 @@ try:
 except:
     print("--| WARNING |-- SUN MODULE MISSING")
 
-try:
-    from rspicontroller import actuate
-except:
-    print("--| WARNING |-- SERVO MODULE MISSING")
 
 print("(¯`·.¸¸.·´¯`·.¸¸.·´¯)")
 curUser = input("input world url: ")
@@ -47,12 +43,6 @@ try:
 except:
     pass
 
-# (¯`·.¸¸.·´¯`·.¸¸.·´¯)
-# Acutation of the World
-try:
-    actuate.actuateAll(world.getActuationHeights())
-except:
-    print("--| FAILED TO ACTUATE WORLD |--")
 
 # (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Create the MQTT observer
