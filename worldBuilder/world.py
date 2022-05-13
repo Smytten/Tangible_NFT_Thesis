@@ -367,7 +367,7 @@ class World():
         for i, p in enumerate(self._panes):
             if i < 6:
                 heightList.append(p.getActuationHeight())
-        pass
+        return heightList
 
     def setHeatSrc(self, src : int):
         self._heatSource = src
