@@ -20,14 +20,20 @@ jf = json.load(f)
 world.importJSON(j)
 
 # Starting Rain detecting script
-rainProcess = threading.Thread(target=rainSensing.activateSensor,args=(world.rainfall,))
-rainProcess.daemon = True
-rainProcess.start() 
+try:
+    rainProcess = threading.Thread(target=rainSensing.activateSensor,args=(world.rainfall,))
+    rainProcess.daemon = True
+    rainProcess.start() 
+except:
+    print("WARNING-- RAIN SENSOR NOT ATTACTED")
 
 # Sun detection
-sunProcess = threading.Thread(target=main.sunDetection,args=(world.setHeatSrc,world.getHeatSrc))
-sunProcess.daemon = True
-rainProcess.start()
+try:
+    sunProcess = threading.Thread(target=main.sunDetection,args=(world.setHeatSrc,world.getHeatSrc))
+    sunProcess.daemon = True
+    rainProcess.start()
+except:
+    print("WARNING-- SUN SENSOR NOT ATTACTED")
 
 
 # Main process of the world
