@@ -1,13 +1,13 @@
 import threading
 import time
-from worldBuilder import world
+from worldBuilder import world, broker
 import json
 import requests
 
 try:
     from proximitysensor import rainSensing, main
 except:
-    print("-- WARNING -- SENSOR MODULE MISSING")
+    print("--| WARNING |-- SENSOR MODULE MISSING")
 
 
 print("----======++++=====-----")
@@ -18,8 +18,6 @@ j = r.json()
 
 world = world.World()
 
-f = open('worldBuilder/world.json')
-jf = json.load(f)
 world.importJSON(j)
 
 # Starting Rain detecting script
@@ -28,7 +26,7 @@ try:
     rainProcess.daemon = True
     rainProcess.start() 
 except:
-    print("-- WARNING -- RAIN SENSOR NOT ATTACTED")
+    print("--| WARNING |-- RAIN SENSOR NOT ATTACTED")
 
 # Sun detection
 try:
@@ -36,7 +34,11 @@ try:
     sunProcess.daemon = True
     rainProcess.start()
 except:
-    print("-- WARNING-- SUN SENSOR NOT ATTACTED")
+    print("--| WARNING |-- SUN SENSOR NOT ATTACTED")
+
+# Create the MQTT observer
+realBroker = broker.MQTTBroker()
+world.attach(realBroker)
 
 
 # Main process of the world
