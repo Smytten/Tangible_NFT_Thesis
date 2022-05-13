@@ -1,4 +1,7 @@
-from servo_controller import servo_interface 
+if __name__ == "__main__":  
+    from servo_controller import servo_interface 
+else:
+    from rspicontroller.servo_controller import servo_interface
 import RPi.GPIO as GPIO #Requires that it is run on a RSPI with GPIO
 import time
 
