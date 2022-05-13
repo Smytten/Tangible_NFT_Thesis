@@ -11,8 +11,10 @@ mc = multipleServoController.MultiController([command,command1])
 
 try:
     while True:
-        rotations = input(f'Enter inputs for {len(servos)} servos seperated with space') 
+        rotations = input(f'Enter inputs for {len(servos)} servos seperated with space: ') 
         pattern = rotations.split()
+        map_object = map(int,pattern)
+        pattern = list(map_object)
         mc.actuatePattern(pattern)
 finally:
     mc.cleanup()
