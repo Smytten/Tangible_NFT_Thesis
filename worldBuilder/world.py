@@ -367,8 +367,7 @@ class World():
         for p in self._panes:
             if type(p) is Flower:
                 heightList.append(p.getActuationHeight())
-
-        return heightList
+        pass
 
     def setHeatSrc(self, src : int):
         self._heatSource = src

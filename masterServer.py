@@ -49,7 +49,7 @@ except:
 
 # (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Acutation of the World
-actuate.actuateAll(world.getActuationHeight())
+actuate.actuateAll(world.getActuationHeights())
 
 # (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Create the MQTT observer
