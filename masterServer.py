@@ -49,7 +49,10 @@ except:
 
 # (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Acutation of the World
-actuate.actuateAll(world.getActuationHeights())
+try:
+    actuate.actuateAll(world.getActuationHeights())
+except:
+    print("--| FAILED TO ACTUATE WORLD |--")
 
 # (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Create the MQTT observer
