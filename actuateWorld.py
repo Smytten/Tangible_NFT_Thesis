@@ -18,8 +18,8 @@ world.importJSON(j)
 # (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Acutation of the World
 try:
-    print(world.getActuationHeights())
-    # actuate.actuateAll(world.getActuationHeights())
-    # actuate.cleanup()
+    # print(world.getActuationHeights())
+    actuate.actuateAll(world.getActuationHeights())
+    actuate.cleanup()
 except:
     print("--| FAILED TO ACTUATE WORLD |--")
