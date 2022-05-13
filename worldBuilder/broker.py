@@ -87,7 +87,7 @@ class MQTTBroker():
             else:
                 print(f"Failed to send message to topic {d.getIdentifyer()}")
 
-    def message(self,data,message):
+    def messageAll(self,data,message):
         for d in data:
             result = self.__client.publish(d.getIdentifyer(),message,qos=0, retain = False)
             status = result[0]
@@ -95,3 +95,11 @@ class MQTTBroker():
                 print(f"Send `{message}` to topic `{d.getIdentifyer()}`")
             else:
                 print(f"Failed to send message to topic {d.getIdentifyer()}")
+
+    def message(self,identity,message):
+        result = self.__client.publish(identity,message,qos=0, retain = False)
+        status = result[0]
+        if status == 0:
+            print(f"Send `{message}` to topic `{identity}`")
+        else:
+            print(f"Failed to send message to topic {identity}")
