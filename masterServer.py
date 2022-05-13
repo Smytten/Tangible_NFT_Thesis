@@ -13,17 +13,23 @@ try:
 except:
     print("--| WARNING |-- SUN MODULE MISSING")
 
+try:
+    from rspicontroller import actuate
+except:
+    print("--| WARNING |-- SERVO MODULE MISSING")
 
-print("----======++++=====-----")
+print("(¯`·.¸¸.·´¯`·.¸¸.·´¯)")
 curUser = input("input world url: ")
 
 r = requests.get('https://anrs.dk/mst/test.json')
 j = r.json()
 
+# Setup World
 world = world.World()
 
 world.importJSON(j)
 
+# (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Starting Rain detecting script
 try:
     rainProcess = threading.Thread(target=rainSensing.activateSensor,args=(world.rainfall,))
@@ -31,7 +37,9 @@ try:
     rainProcess.start() 
 except:
     pass
-# Sun detection
+
+# (¯`·.¸¸.·´¯`·.¸¸.·´¯)
+# Sun detection 
 try:
     sunProcess = threading.Thread(target=main.sunDetection,args=(world.setHeatSrc,world.getHeatSrc))
     sunProcess.daemon = True
@@ -39,9 +47,16 @@ try:
 except:
     pass
 
+# (¯`·.¸¸.·´¯`·.¸¸.·´¯)
+# Acutation of the World
+actuate.actuateAll(world.getActuationHeight())
+
+# (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Create the MQTT observer
 realBroker = broker.MQTTBroker()
 world.attach(realBroker)
+
+
 
 # Power the planet
 world.power()
@@ -50,8 +65,9 @@ world.power()
 world.rainfall(0)
 
 # Main process of the world
+WORLD_STEP_SPEED = 10
 while(True):
-    time.sleep(10)
+    time.sleep(WORLD_STEP_SPEED)
     world.worldStep()
     world.notify()
     print(world.exportJSON())
