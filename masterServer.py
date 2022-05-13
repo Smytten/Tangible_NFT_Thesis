@@ -4,7 +4,10 @@ from worldBuilder import world
 import json
 import requests
 
-from proximitysensor import rainSensing, main
+try:
+    from proximitysensor import rainSensing, main
+except:
+    print("WARNING-- RAIN SENSOR NOT ATTACTED")
 
 
 print("----======++++=====-----")
