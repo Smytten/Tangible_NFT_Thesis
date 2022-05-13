@@ -1,5 +1,6 @@
 from worldBuilder import world
 import requests
+import sys
 
 try:
     from rspicontroller import actuate
@@ -14,6 +15,7 @@ world = world.World()
 
 world.importJSON(j)
 
+print(sys.argv[1])
 
 # (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Acutation of the World

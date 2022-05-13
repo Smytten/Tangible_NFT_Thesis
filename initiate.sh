@@ -1,7 +1,10 @@
 #!/bin/bash
 
-echo ----==========---- 
-echo Initiating project
+echo '(¯`·.¸¸.·´¯`·.¸¸.·´¯)'
+echo   Initializing World
+echo 
+echo ENTER CURRENT PARTICIPENT
+read -p 'Participent: ' user
 
-python3 actuateWorld.py
-python3 masterServer.py
+python3 actuateWorld.py $user
+python3 masterServer.py $user
