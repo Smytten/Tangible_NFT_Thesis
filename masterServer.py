@@ -1,7 +1,6 @@
 import threading
 import time
 from worldBuilder import world, broker
-import json
 import requests
 
 try:
