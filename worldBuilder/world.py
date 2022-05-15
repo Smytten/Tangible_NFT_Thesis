@@ -524,7 +524,7 @@ class World():
         jf['name'] = self._name
         jf['id'] = self.__id 
         jf['temp'] = self._temp
-        jf['headSource'] =self._heatSource
+        jf['heatSource'] =self._heatSource
         panes = {}
         for pane in self._panes:
             curPane = {}
