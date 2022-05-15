@@ -1,6 +1,7 @@
 import threading
+import sys
 import time
-from worldBuilder import world, broker
+from worldBuilder import world#, broker
 import requests
 
 try:
@@ -14,15 +15,16 @@ except:
 
 
 print("(¯`·.¸¸.·´¯`·.¸¸.·´¯)")
-curUser = input("input world url: ")
+user = sys.argv[1]
 
-r = requests.get('https://anrs.dk/mst/test.json')
+r = requests.get(f'https://anrs.dk/mst/{user}')
 j = r.json()
 
 # Setup World
 world = world.World()
 
 world.importJSON(j)
+
 
 # (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Starting Rain detecting script
@@ -46,8 +48,8 @@ except:
 
 # (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Create the MQTT observer
-realBroker = broker.MQTTBroker()
-world.attach(realBroker)
+# realBroker = broker.MQTTBroker()
+# world.attach(realBroker)
 
 
 
@@ -63,5 +65,8 @@ while(True):
     time.sleep(WORLD_STEP_SPEED)
     world.worldStep()
     world.notify()
+    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+    requests.post(f'https://anrs.dk/mst/{user}',data=world.exportJSON(),headers=headers)
     print(world.exportJSON())
+
     pass
