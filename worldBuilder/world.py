@@ -501,7 +501,6 @@ class World():
     
     def rainfall(self,location):
         rainPane = self._panes[location]
-        self._rainDuraiton[location] = WORLDCONST.RAIN_CYCLE_DURATION
         updatedList = []
 
         for tile in rainPane.getTiles():
@@ -513,7 +512,9 @@ class World():
         print(f"Made it rain on {location}")
         # notify
         id = rainPane.getIdentifyer()
-        self.notifyIdentityWithMessage(id,"r")
+        if self._rainDuraiton[location] == 0:
+            self.notifyIdentityWithMessage(id,"r")
+        self._rainDuraiton[location] = WORLDCONST.RAIN_CYCLE_DURATION
 
     def getPaneTileSet(self,id):
         return self._panes[id].getTilesToString()
