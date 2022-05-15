@@ -38,8 +38,9 @@ except:
 try:
     sunProcess = threading.Thread(target=main.sunDetection,args=(world.setHeatSrc,world.getHeatSrc))
     sunProcess.daemon = True
-    rainProcess.start()
+    sunProcess.start()
 except:
+    print("Error in rain module")
     pass
 
 
