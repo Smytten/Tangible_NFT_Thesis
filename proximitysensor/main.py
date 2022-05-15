@@ -10,10 +10,10 @@ else:
     from proximitysensor.sunclock import sunController
     import proximitysensor.CONST as c 
 
+i2c = board.I2C()  # uses board.SCL and board.SDA
+cap = CAP1188_I2C(i2c,c.SUNSENSOR_ADDRESS)
 
 def sunDetection(callback, getHeatStatus):
-    i2c = board.I2C()  # uses board.SCL and board.SDA
-    cap = CAP1188_I2C(i2c,c.SUNSENSOR_ADDRESS)
     sun = sunController()
     sun.update_position()
 
