@@ -1,7 +1,7 @@
 import threading
 import sys
 import time
-from worldBuilder import world#, broker
+from worldBuilder import world, broker
 import requests
 
 try:
@@ -48,8 +48,8 @@ except:
 
 # (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Create the MQTT observer
-# realBroker = broker.MQTTBroker()
-# world.attach(realBroker)
+realBroker = broker.MQTTBroker()
+world.attach(realBroker)
 
 
 
