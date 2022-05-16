@@ -3,6 +3,8 @@ import math
 
 if __name__ == "__main__":
     import WORLDCONST as WORLDCONST
+elif __name__ == "world":
+    import WORLDCONST as WORLDCONST
 else:
     import worldBuilder.WORLDCONST as WORLDCONST
 
