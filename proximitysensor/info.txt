@@ -1,0 +1,1 @@
+Amount of LEDs on board: 87
