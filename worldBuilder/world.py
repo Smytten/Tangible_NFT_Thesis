@@ -123,7 +123,7 @@ class Flower(Pane):
         height = 0
         for t in self._tiles:
             height += t.getElevation()
-        return (height / len(self._tiles)) + 90
+        return ((height / len(self._tiles)) + 90)/2
 
 
 class Binder(Pane):

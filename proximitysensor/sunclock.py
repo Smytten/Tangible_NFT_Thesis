@@ -77,7 +77,7 @@ class sunController():
         self.redraw_pixels()
 
         #Create a new thread for non-blocking change of position over time
-        timer = threading.Timer(0.02, self.update_position)
+        timer = threading.Timer(3.4, self.update_position)
         timer.start()
         
     def redraw_pixels(self):

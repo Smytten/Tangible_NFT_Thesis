@@ -23,7 +23,9 @@ world.importJSON(j)
 # Acutation of the World
 try:
     # print(world.getActuationHeights())
-    actuate.actuateAll(world.getActuationHeights())
+    listOfDegrees = world.getActuationHeights()
+    listOfDegrees[0] = 90 - listOfDegrees[0]
+    actuate.actuateAll(listOfDegrees)
     actuate.cleanup()
 except:
     print("--| FAILED TO ACTUATE WORLD |--")

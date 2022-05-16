@@ -42,3 +42,8 @@ A Flower consist of 6 panels. 5 panels of which a hexagons and a singe pentagon.
 
 
 ## Binder
+
+
+# Height
+
+Max height 90, min height -90
