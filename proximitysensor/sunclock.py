@@ -29,7 +29,7 @@ class sunController():
         self.ORDER = neopixel.GRB
 
         self.pixels = neopixel.NeoPixel(
-            self.pixel_pin, self.num_pixels, brightness=0.2, auto_write=False, pixel_order=self.ORDER)
+            self.pixel_pin, self.num_pixels, brightness=1, auto_write=False, pixel_order=self.ORDER)
             
             
         #TODO - Create 4 sun stages       
