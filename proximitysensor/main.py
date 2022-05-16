@@ -61,7 +61,6 @@ def sunDetection(callback, getHeatStatus, rainBack):
                     print('did this')
                     rainBack(5)
                     rainBack(4)
-                    rainBack(8)
 
                 # check if gesture is going up
                 if cap[4].value and cap[5].value:
