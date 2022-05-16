@@ -13,7 +13,7 @@ else:
 i2c = board.I2C()  # uses board.SCL and board.SDA
 cap = CAP1188_I2C(i2c,c.SUNSENSOR_ADDRESS)
 
-def sunDetection(callback, getHeatStatus):
+def sunDetection(callback, getHeatStatus, rainBack):
     sun = sunController()
     sun.update_position()
 
@@ -56,6 +56,11 @@ def sunDetection(callback, getHeatStatus):
                 #If it is the same pin
                 if previous_captured_pin == i:
                     break
+
+                if cap[8].value and cap[7].value:
+                    rainBack(5)
+                    rainBack(4)
+                    rainBack(8)
 
                 # check if gesture is going up
                 if cap[4].value and cap[5].value:

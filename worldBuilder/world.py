@@ -165,8 +165,8 @@ class World():
             self.setPanels(panes)
             self.__applyPolarity()
         self._observers = [] 
-        self._temp = 22
-        self._heatSource = 0
+        self._temp = 10 
+        self._heatSource = 1
         self._prevHeatSource = self._heatSource
         self._shrinkingCounter = 0
         self._rainDuraiton = [0,0,0,0,0,0]

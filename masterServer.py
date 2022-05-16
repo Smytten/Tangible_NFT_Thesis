@@ -38,7 +38,7 @@ except:
 # (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Sun detection 
 try:
-    sunProcess = threading.Thread(target=main.sunDetection,args=(world.setHeatSrc,world.getHeatSrc))
+    sunProcess = threading.Thread(target=main.sunDetection,args=(world.setHeatSrc,world.getHeatSrc,world.rainfall))
     sunProcess.daemon = True
     sunProcess.start()
 except:

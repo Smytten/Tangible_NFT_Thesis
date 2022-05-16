@@ -1,8 +1,13 @@
 from world import Flower, Binder, World, Tile
 import WORLDCONST as WORLDCONST
+import random
 
 tileType = (WORLDCONST.DesertTile,WORLDCONST.NormalWater)
+occupents = (WORLDCONST.LAND,WORLDCONST.WATER)
 elevation = (-90,90)
+waterBody = (0,30)
+
+
 
 
 panels = [
@@ -129,7 +134,41 @@ panels = [
     ),    
 ]
 
-w = World('6dh2',panels,"Arrakis")
+
+def generateWorld(name, id = '6dh2', highDif = (-90,90),water = (0,40)):
+
+    panels = []
+
+    for i in range(11):
+        height = random.randint(highDif[0],highDif[1])
+        waterBody = random.randint(water[0],water[1])
+        print(waterBody)
+        tType =random.randint(0,1) 
+        tile = tileType[tType]
+        occu = occupents[tType]
+
+        tiles = []
+
+        for _ in range(6):
+            t = Tile(tile,height,occu,waterBody)
+            tiles.append(t)
+
+        if i < 6:
+            f = Flower(
+                tiles,i
+            )
+            panels.append(f)
+        else:
+            b = Binder(tiles,i)
+            panels.append(b)
+
+    w = World(name=name,panes=panels,id=id)
+    return w
+
+w = generateWorld("Arrakis",highDif=(-20,30),water=(0,5))
+
+w.worldStep()
+
 json = w.exportJSON()
 
 
