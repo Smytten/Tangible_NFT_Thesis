@@ -44,7 +44,6 @@ def run():
 class MQTTBroker():
 
     def __init__(self):
-        print("test")
         self.__clientID = f'python-mqtt-{random.randint(0, 1000)}'
         self.__broker = 'public.mqtthq.com'
         self.__port = 1883 
