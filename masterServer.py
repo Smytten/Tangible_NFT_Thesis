@@ -54,10 +54,10 @@ world.attach(realBroker)
 
 
 # Power the planet
-world.power()
+# world.power()
 
 # test rain
-world.rainfall(0)
+# world.rainfall(0)
 
 # Main process of the world
 WORLD_STEP_SPEED = 10
@@ -67,6 +67,6 @@ while(True):
     world.notify()
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     requests.post(f'https://anrs.dk/mst/{user}',data=world.exportJSON(),headers=headers)
-    print(world.exportJSON())
+    #print(world.exportJSON())
 
     pass
