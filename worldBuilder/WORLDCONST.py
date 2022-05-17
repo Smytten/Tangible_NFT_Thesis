@@ -14,7 +14,7 @@ DesertRange = (26,300)
 ForrestRange = (0,25)
 
 SHRINKING_CYCLES = 10
-RAIN_CYCLE_DURATION = 1
+RAIN_CYCLE_DURATION = 2
 WATER = 'water'
 LAND = 'land'
 
