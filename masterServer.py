@@ -74,7 +74,7 @@ def runWorld():
         pass
 
 
-sunProcess = threading.Thread(target=main.runWorld)
+sunProcess = threading.Thread(target=runWorld)
 sunProcess.daemon = True
 sunProcess.start()
 
