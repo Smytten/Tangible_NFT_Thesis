@@ -61,7 +61,7 @@ def sunDetection(callback, getHeatStatus, rainBack):
 
             # if a pin is touched. cap[i].value is a boolean expression
             if cap[i].value:
-                print(f'{i} has been touched')
+                #print(f'{i} has been touched')
 
 
 
@@ -74,11 +74,11 @@ def sunDetection(callback, getHeatStatus, rainBack):
                     break
 
 
-                if cap[8].value == False and cap[7].value == False and cap[6].value == False:
+                if cap[8].value == False and cap[7].value == False:
                     prevActive[0] = False
                     activations[0] = 0
                     released[0] = True
-                if cap[8].value and cap[7].value and cap[6].value and timerArr[0] < time.time():
+                if cap[8].value and cap[7].value and timerArr[0] < time.time():
                     if prevActive[0]:
                         activations[0] += 1
                         if activations[0] == c.ACTIVATION_TIME and released[0]:
@@ -90,6 +90,24 @@ def sunDetection(callback, getHeatStatus, rainBack):
                             released[0] = False
                     else:
                         prevActive[0] = True
+
+                if cap[1].value == False and cap[2].value == False:
+                    prevActive[1] = False
+                    activations[1] = 0
+                    released[1] = True
+                if cap[1].value and cap[2].value and timerArr[1] < time.time():
+                    if prevActive[1]:
+                        activations[1] += 1
+                        if activations[1] == c.ACTIVATION_TIME and released[1]:
+                            rainBack(0)
+                            rainBack(4)
+                            rainBack(5)
+                            # TODO impl the server call to make it rain :)
+                            timerArr[1] = time.time() + c.WAIT_DURATION
+                            released[1] = False
+                    else:
+                        prevActive[1] = True
+
 
                 # if cap[8].value and cap[7].value and cap[6].value:
                 #     #print('did this')
