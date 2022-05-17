@@ -140,16 +140,17 @@ def generateWorld(name, id = '6dh2', highDif = (-90,90),water = (0,40)):
     panels = []
 
     for i in range(11):
-        height = random.randint(highDif[0],highDif[1])
-        waterBody = random.randint(water[0],water[1])
-        print(waterBody)
-        tType =random.randint(0,1) 
-        tile = tileType[tType]
-        occu = occupents[tType]
 
         tiles = []
 
         for _ in range(6):
+            height = random.randint(highDif[0],highDif[1])
+            waterBody = random.randint(water[0],water[1])
+            print(f'waterBody: {waterBody}')
+            print(f'height: {height}')
+            tType =random.randint(0,1) 
+            tile = tileType[tType]
+            occu = occupents[tType]
             t = Tile(tile,height,occu,waterBody)
             tiles.append(t)
 
@@ -163,9 +164,10 @@ def generateWorld(name, id = '6dh2', highDif = (-90,90),water = (0,40)):
             panels.append(b)
 
     w = World(name=name,panes=panels,id=id)
+    w._temp = 5
     return w
 
-w = generateWorld("Arrakis",highDif=(-20,30),water=(0,5))
+w = generateWorld("GG",highDif=(-90,90),water=(0,20))
 
 w.worldStep()
 
