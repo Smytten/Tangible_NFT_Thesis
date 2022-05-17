@@ -296,6 +296,25 @@ void animation() {
           animationFadeInOut(currentPosition,panel,curTile,WavePatterns,forestRgb);
         }
       }
+      
+      if ( curTile == FrozenForrest ) {
+        curTile = curTile - 1;
+        if ( rainfall[panel] == true ){
+          animationRainfall(currentPosition,panel,curTile);
+        } else {
+          animationFadeInOut(currentPosition,panel,curTile,WavePatterns,frozenForestRbg);
+        }
+      }
+      
+      if ( curTile == FrozenWater) {
+        curTile = curTile - 1;
+        if ( rainfall[panel] == true ){
+          animationRainfall(currentPosition,panel,curTile);
+        } else {
+          animationFadeInOut(currentPosition,panel,curTile,WavePatterns,frozenWaterRgb);
+        }
+      }
+
 
       currentPosition = currentPosition + panelLEDIndex[panel];
     }
