@@ -49,6 +49,9 @@ class Tile():
     def getWaterBody(self):
         return self._waterBody
 
+    def setWaterBody(self,wb):
+        self._waterBody = wb
+
     def getElevation(self):
         return self._elevation
 
@@ -470,7 +473,10 @@ class World():
                             continue
 
                     if tileTemp >= WORLDCONST.WaterRange[1]:
-                        tile.setType(WORLDCONST.DesertTile)
+                        tile.removeWaterFromBody(tileTemp - WORLDCONST.EVAPURATE_AMOUNT)
+                        if tile.getWaterBody < 0:
+                            tile.setWaterBody = 0
+                            tile.setType(WORLDCONST.DesertTile)
                         newTileList.append(tile)
                         continue
 
