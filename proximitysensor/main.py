@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 import board
+from gpiozero import LED
 import time
 from adafruit_cap1188.i2c import CAP1188_I2C
 if __name__ == "__main__":
@@ -11,6 +12,7 @@ else:
     from proximitysensor.sunclock import sunController
     import proximitysensor.CONST as c 
 
+led = LED(37)
 i2c = board.I2C()  # uses board.SCL and board.SDA
 cap = CAP1188_I2C(i2c,c.SUNSENSOR_ADDRESS)
 
@@ -61,6 +63,9 @@ def sunDetection(callback, getHeatStatus, rainBack):
 
             # if a pin is touched. cap[i].value is a boolean expression
             if cap[i].value:
+                led.on()
+                print(f'{i} has been touched')
+
 
 
                 #If it is the first pin during interaction
