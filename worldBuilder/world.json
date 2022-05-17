@@ -2,6 +2,7 @@
     "name":"Alderaan",
     "id":"6dh2",
     "temp":22,
+    "heatSource":1,
     "panes":{
        "p0":{
           "location":0,

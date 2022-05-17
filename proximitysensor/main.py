@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 import board
+import time
 from adafruit_cap1188.i2c import CAP1188_I2C
 if __name__ == "__main__":
     from sunclock import sunController
@@ -16,6 +17,19 @@ cap = CAP1188_I2C(i2c,c.SUNSENSOR_ADDRESS)
 def sunDetection(callback, getHeatStatus, rainBack):
     sun = sunController()
     sun.update_position()
+
+    activations = []
+    prevActive = []
+    released = []
+    timerArr = []
+
+    curTime = time.time()
+    for i in range(2):
+        timerArr.append(curTime)
+        activations.append(0)
+        prevActive.append(False)
+        released.append(True)
+
 
     previous_captured_pin = None
     counter = 0
@@ -57,11 +71,30 @@ def sunDetection(callback, getHeatStatus, rainBack):
                 if previous_captured_pin == i:
                     break
 
-                if cap[8].value and cap[7].value and cap[6].value:
-                    #print('did this')
-                    rainBack(1)
-                    rainBack(2)
-                    rainBack(3)
+
+                if cap[8].value == False and cap[7].value == False and cap[6].value == False:
+                    prevActive[i-1] = False
+                    activations[i-1] = 0
+                    released[i-1] = True
+                if cap[8].value and cap[7].value and cap[6].value and timerArr[i-1] < time.time():
+                    if prevActive[i-1]:
+                        activations[i-1] += 1
+                        if activations[i-1] == c.ACTIVATION_TIME and released[i-1]:
+                            print("Pin {} touched!".format(i))
+                            rainBack(1)
+                            rainBack(2)
+                            rainBack(3)
+                            # TODO impl the server call to make it rain :)
+                            timerArr[i-1] = time.time() + c.WAIT_DURATION
+                            released[i-1] = False
+                    else:
+                        prevActive[i-1] = True
+
+                # if cap[8].value and cap[7].value and cap[6].value:
+                #     #print('did this')
+                #     rainBack(1)
+                #     rainBack(2)
+                #     rainBack(3)
 
                 # check if gesture is going up
                 if cap[4].value and cap[5].value:
