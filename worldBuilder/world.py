@@ -458,12 +458,12 @@ class World():
                         waterDepth = tile.getWaterBody()
 
                         if waterDepth >= 5 and waterDepth < 10:
-                            tile.setType(WORLDCONST.ShallowWater)
+                            tile.setType(WORLDCONST.DeepWater)
                             newTileList.append(tile)
                             continue
                         
                         if waterDepth >= 10 and waterDepth < 50:
-                            tile.setType(WORLDCONST.NormalWater)
+                            tile.setType(WORLDCONST.DeepWater)
                             newTileList.append(tile)
                             continue
 
