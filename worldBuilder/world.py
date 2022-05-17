@@ -474,8 +474,8 @@ class World():
 
                     if tileTemp >= WORLDCONST.WaterRange[1]:
                         tile.removeWaterFromBody(tileTemp - WORLDCONST.EVAPURATE_AMOUNT)
-                        if tile.getWaterBody < 0:
-                            tile.setWaterBody = 0
+                        if tile.getWaterBody() < 0:
+                            tile.setWaterBody(0)
                             tile.setType(WORLDCONST.DesertTile)
                         newTileList.append(tile)
                         continue
