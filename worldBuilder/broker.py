@@ -72,20 +72,20 @@ class MQTTBroker():
     def update(self,data):
         for d in data:
             result = self.__client.publish(d.getIdentifyer(),d.getTilesToString(),qos=0, retain = True)
-            status = result[0]
-            if status == 0:
-                print(f"Send `{d.getTilesToString()}` to topic `{d.getIdentifyer()}`")
-            else:
-                print(f"Failed to send message to topic {d.getIdentifyer()}")
+            #status = result[0]
+            #if status == 0:
+            #    print(f"Send `{d.getTilesToString()}` to topic `{d.getIdentifyer()}`")
+            #else:
+            #    print(f"Failed to send message to topic {d.getIdentifyer()}")
     
     def power(self,data):
         for d in data:
             result = self.__client.publish(d.getIdentifyer(),'o',qos=0, retain = False)
-            status = result[0]
-            if status == 0:
-                print(f"Send `o` to topic `{d.getIdentifyer()}`")
-            else:
-                print(f"Failed to send message to topic {d.getIdentifyer()}")
+            #status = result[0]
+            #if status == 0:
+            #    print(f"Send `o` to topic `{d.getIdentifyer()}`")
+            #else:
+            #    print(f"Failed to send message to topic {d.getIdentifyer()}")
 
     def messageAll(self,data,message):
         for d in data:
