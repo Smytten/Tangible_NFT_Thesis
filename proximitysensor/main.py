@@ -57,34 +57,35 @@ def sunDetection(callback, getHeatStatus, rainBack):
                 if previous_captured_pin == i:
                     break
 
-                if cap[8].value and cap[7].value:
-                    print('did this')
-                    rainBack(5)
-                    rainBack(4)
+                if cap[8].value and cap[7].value and cap[6].value:
+                    #print('did this')
+                    rainBack(1)
+                    rainBack(2)
+                    rainBack(3)
 
                 # check if gesture is going up
                 if cap[4].value and cap[5].value:
                #     print("Level 1 sensors have activated")
                     callback(0)
-                    sun.set_level(1)
+                    #sun.set_level(1)
 
                 # check if gesture is going up
                 if cap[3].value and cap[6].value:
                #     print("Level 2 sensors have activated")
                     callback(1)
-                    sun.set_level(2)
+                    #sun.set_level(2)
 
                 # check if gesture is going up
                 if cap[2].value and cap[7].value:
                #     print("Level 3 sensors have activated")
                     callback(2)
-                    sun.set_level(3)
+                    #sun.set_level(3)
 
                 # check if gesture is going up
                 if cap[1].value and cap[8].value:
                #     print("Level 4 sensors have activated")
                     callback(3)
-                    sun.set_level(4)
+                    #sun.set_level(4)
 
                 #set latest captured pin to the activated pin
                 previous_captured_pin = i
