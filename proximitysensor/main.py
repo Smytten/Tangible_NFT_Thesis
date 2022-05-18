@@ -37,7 +37,7 @@ def sunDetection(callback, getHeatStatus, rainBack):
     counter = 0
 
     sunStatus = getHeatStatus()
-
+    sun.set_level(getHeatStatus()+1)
     '''
     while input != 'quit':
         command = input()
