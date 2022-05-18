@@ -88,6 +88,8 @@ while(True):
         world.power()
     if state == 'p':
         running = not running
+    if state == 'u':
+        world.notify()
     if state == 'r0':
         world.rainfall(0)
         world.worldStep()
