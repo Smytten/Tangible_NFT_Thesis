@@ -130,7 +130,12 @@ class Flower(Pane):
         height = 0
         for t in self._tiles:
             height += t.getElevation()
-        return ((height / len(self._tiles)) + 90)/2
+        h = ((height / len(self._tiles)) + 90)/2
+        a = 0
+        if h > 45:
+            a = 90
+        print(f'Height is: {h} which actuates to: {a}')
+        return a 
 
 
 class Binder(Pane):
