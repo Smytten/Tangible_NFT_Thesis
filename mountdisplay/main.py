@@ -6,8 +6,6 @@ inky_display.set_colour("red")
 inky_display.set_border(inky_display.WHITE)
 from PIL import Image, ImageFont, ImageDraw
 
-img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
-draw = ImageDraw.Draw(img)
 
 
 
@@ -47,6 +45,8 @@ def subscribe(client: mqtt_client):
         name = data['name'] 
         temp = data['temp']
 
+        img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
+        draw = ImageDraw.Draw(img)
         font = ImageFont.truetype(inky_display.fonts.PressStart2P, 12)
         nameFont = ImageFont.truetype(inky_display.fonts.PressStart2P, 14)
         name = f'{name}'
