@@ -42,6 +42,8 @@ class Tile():
 
     def removeWaterFromBody(self,amount):
         self._waterBody -= amount
+        if self._waterBody < 0:
+            self._waterBody = 0
 
     def addWaterToBody(self,amount):
         self._waterBody = self._waterBody + amount
@@ -489,6 +491,7 @@ class World():
                 if tile.getOccupent() == WORLDCONST.LAND: # HANDLE LANDY TILES 
                     if tileTemp >= WORLDCONST.ForrestRange[0] and tileTemp < WORLDCONST.ForrestRange[1] and tile.isNearWater():
                         tile.setType(WORLDCONST.ForrestTile)
+                        tile.removeWaterFromBody(1)
                         newTileList.append(tile)
                         continue
 
