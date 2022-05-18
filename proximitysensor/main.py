@@ -63,11 +63,11 @@ def sunDetection(callback, getHeatStatus, rainBack):
 
             # if a pin is touched. cap[i].value is a boolean expression
             if cap[i].value:
-                #print(f'{i} has been touched')
-                if cap[0].value is False:
+                if cap[1].value is False:
                     GPIO.output(LED_PINS, GPIO.LOW)
                 else:
                     GPIO.output(LED_PINS,GPIO.HIGH)
+                #print(f'{i} has been touched')
                 #If it is the first pin during interaction
                 #if previous_captured_pin == None:
                 #   previous_captured_pin = i
