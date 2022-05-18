@@ -51,7 +51,7 @@ def subscribe(client: mqtt_client):
         nameFont = ImageFont.truetype(inky_display.fonts.PressStart2P, 14)
         name = f'{name}'
         message = f'Temprature: {temp}°'
-        hum = 'Water: {33}%'
+        hum = f'Water: {33}%'
         w, h = font.getsize(message)
         x = 10
         y = (inky_display.HEIGHT / 2) - (h / 2)
