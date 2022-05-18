@@ -1,6 +1,16 @@
 # python3.6
 
 import random
+import inkyphat as inky_display
+inky_display.set_colour("red")
+inky_display.set_border(inky_display.WHITE)
+from PIL import Image, ImageFont, ImageDraw
+
+img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
+draw = ImageDraw.Draw(img)
+
+
+
 
 from paho.mqtt import client as mqtt_client
 import requests 
@@ -36,7 +46,22 @@ def subscribe(client: mqtt_client):
         data = r.json()
         name = data['name'] 
         temp = data['temp']
-         
+
+        font = ImageFont.truetype(inky_display.fonts.PressStart2P, 12)
+        nameFont = ImageFont.truetype(inky_display.fonts.PressStart2P, 14)
+        name = f'{name}'
+        message = f'Temprature: {temp}°'
+        hum = 'Water: {33}%'
+        w, h = font.getsize(message)
+        x = 10
+        y = (inky_display.HEIGHT / 2) - (h / 2)
+
+
+        draw.text((x, y-26), name, inky_display.BLACK, nameFont)
+        draw.text((x, y), message, inky_display.BLACK, font)
+        draw.text((x, y+14), hum, inky_display.BLACK, font)
+        inky_display.set_image(img)
+        inky_display.show()
         
 
         # DO inky phat stuff
