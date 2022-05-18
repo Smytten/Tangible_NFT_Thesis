@@ -73,7 +73,8 @@ def runWorld():
             world.notify()
             headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
             requests.post(f'https://anrs.dk/mst/{user}',data=world.exportJSON(),headers=headers)
-        #print(world.exportJSON())
+            print('World Step')
+            print(f'Temp is: {world._temp}')
 
         pass
 
