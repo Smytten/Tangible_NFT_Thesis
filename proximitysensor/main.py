@@ -64,9 +64,10 @@ def sunDetection(callback, getHeatStatus, rainBack):
             # if a pin is touched. cap[i].value is a boolean expression
             if cap[i].value:
                 #print(f'{i} has been touched')
-                GPIO.output(LED_PINS, GPIO.HIGH)
+                if cap[0]:
+                    GPIO.output(LED_PINS, GPIO.LOW)
 
-
+                GPIO.output(LED_PINS,GPIO.HIGH)
                 #If it is the first pin during interaction
                 #if previous_captured_pin == None:
                 #   previous_captured_pin = i
@@ -147,9 +148,6 @@ def sunDetection(callback, getHeatStatus, rainBack):
 
                 #Reset counter since there has been activity
                 counter = 0
-            else: 
-                GPIO.output(LED_PINS, GPIO.LOW)
-                GPIO.cleanup()
             #Increment counter because no acitivity
             if counter > 500:
                 #print("Interaction reset - previous pin set to None")
