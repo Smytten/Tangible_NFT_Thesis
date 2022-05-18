@@ -28,7 +28,7 @@ high = (0,outer,outer,outer,outer,outer)
 try:
     # print(world.getActuationHeights())
     listOfDegrees = world.getActuationHeights()
-    listOfDegrees[0] = 90 - listOfDegrees[0]
+    listOfDegrees[0] = outer - listOfDegrees[0]
     actuate.actuateAll(flush)
     actuate.actuateAll(high)
     actuate.actuateAll(flush)

@@ -133,7 +133,7 @@ class Flower(Pane):
         h = ((height / len(self._tiles)) + 90)/2
         a = 0
         if h > 45:
-            a = 90
+            a = 110
         print(f'Height is: {h} which actuates to: {a}')
         return a 
 
