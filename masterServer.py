@@ -61,14 +61,17 @@ world.attach(realBroker)
 
 # Main process of the world
 
+running = True
+
 def runWorld():
-    WORLD_STEP_SPEED = 10
+    WORLD_STEP_SPEED = 20
     while(True):
-        time.sleep(WORLD_STEP_SPEED)
-        world.worldStep()
-        world.notify()
-        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        requests.post(f'https://anrs.dk/mst/{user}',data=world.exportJSON(),headers=headers)
+        if(running):
+            time.sleep(WORLD_STEP_SPEED)
+            world.worldStep()
+            world.notify()
+            headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+            requests.post(f'https://anrs.dk/mst/{user}',data=world.exportJSON(),headers=headers)
         #print(world.exportJSON())
 
         pass
@@ -82,6 +85,8 @@ while(True):
     state = input(f'Planet {world._name}: ~~ ')
     if state == 'o':
         world.power()
+    if state == 'p':
+        running = not running
     if state == 'r0':
         world.rainfall(0)
         world.worldStep()
