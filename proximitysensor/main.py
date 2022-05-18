@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
 # SPDX-License-Identifier: MIT
-
+import RPi.GPIO as GPIO
 import board
 import time
 from adafruit_cap1188.i2c import CAP1188_I2C
@@ -13,7 +13,9 @@ else:
 
 i2c = board.I2C()  # uses board.SCL and board.SDA
 cap = CAP1188_I2C(i2c,c.SUNSENSOR_ADDRESS)
-
+LED_PINS = 26
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(LED_PINS, GPIO.OUT)
 def sunDetection(callback, getHeatStatus, rainBack):
     sun = sunController()
     sun.update_position()
@@ -62,7 +64,7 @@ def sunDetection(callback, getHeatStatus, rainBack):
             # if a pin is touched. cap[i].value is a boolean expression
             if cap[i].value:
                 #print(f'{i} has been touched')
-
+                GPIO.output(LED_PINS, GPIO.HIGH)
 
 
                 #If it is the first pin during interaction
