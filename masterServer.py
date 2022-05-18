@@ -93,25 +93,19 @@ while(True):
         world.notify()
     if state == 'r0':
         world.rainfall(0)
-        world.worldStep()
         world.notify()
     if state == 'r1':
         world.rainfall(1)
-        world.worldStep()
         world.notify()
     if state == 'r2':
         world.rainfall(2)
-        world.worldStep()
         world.notify()
     if state == 'r3':
         world.rainfall(3)
-        world.worldStep()
         world.notify()
     if state == 'r4':
         world.rainfall(4)
-        world.worldStep()
         world.notify()
     if state == 'r5':
         world.rainfall(5)
-        world.worldStep()
         world.notify()
