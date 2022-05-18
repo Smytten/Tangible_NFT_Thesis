@@ -18,6 +18,8 @@ world = world.World()
 
 world.importJSON(j)
 
+flush = (90,0,0,0,0,0)
+high = (0,90,90,90,90,90)
 
 # (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Acutation of the World
@@ -25,6 +27,9 @@ try:
     # print(world.getActuationHeights())
     listOfDegrees = world.getActuationHeights()
     listOfDegrees[0] = 90 - listOfDegrees[0]
+    actuate.actuateAll(flush)
+    actuate.actuateAll(high)
+    actuate.actuateAll(flush)
     actuate.actuateAll(listOfDegrees)
     actuate.cleanup()
 except:
