@@ -134,7 +134,6 @@ class Flower(Pane):
         a = 0
         if h > 45:
             a = 110
-        print(f'Height is: {h} which actuates to: {a}')
         return a 
 
 
