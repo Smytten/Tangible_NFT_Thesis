@@ -18,8 +18,10 @@ world = world.World()
 
 world.importJSON(j)
 
-flush = (90,0,0,0,0,0)
-high = (0,90,90,90,90,90)
+outer = 110
+
+flush = (outer,0,0,0,0,0)
+high = (0,outer,outer,outer,outer,outer)
 
 # (¯`·.¸¸.·´¯`·.¸¸.·´¯)
 # Acutation of the World
