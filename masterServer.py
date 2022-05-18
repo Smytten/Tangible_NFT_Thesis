@@ -60,6 +60,7 @@ world.attach(realBroker)
 # world.rainfall(0)
 
 # Main process of the world
+world.notify()
 
 running = True
 
