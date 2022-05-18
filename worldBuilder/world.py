@@ -401,6 +401,7 @@ class World():
         for i, rd in enumerate(self._rainDuraiton):
             if rd != 0:
                 self._rainDuraiton[i] -= 1
+                self.rainfall(i,manual=False)
                 if self._rainDuraiton[i] == 0:
                     self.notifyIdentityWithMessage(self._panes[i].getIdentifyer(),"r") 
 
@@ -507,7 +508,7 @@ class World():
             paneList.append(p)
         self.setPanels(paneList)
     
-    def rainfall(self,location):
+    def rainfall(self,location,manual=True):
         rainPane = self._panes[location]
         updatedList = []
 
@@ -519,10 +520,11 @@ class World():
         self._panes[location] = rainPane
         print(f"Made it rain on {location}")
         # notify
-        id = rainPane.getIdentifyer()
-        if self._rainDuraiton[location] == 0:
-            self.notifyIdentityWithMessage(id,"r")
-        self._rainDuraiton[location] = WORLDCONST.RAIN_CYCLE_DURATION
+        if manual:
+            id = rainPane.getIdentifyer()
+            if self._rainDuraiton[location] == 0:
+                self.notifyIdentityWithMessage(id,"r")
+            self._rainDuraiton[location] = WORLDCONST.RAIN_CYCLE_DURATION
 
     def getPaneTileSet(self,id):
         return self._panes[id].getTilesToString()
