@@ -13,7 +13,7 @@ else:
 
 i2c = board.I2C()  # uses board.SCL and board.SDA
 cap = CAP1188_I2C(i2c,c.SUNSENSOR_ADDRESS)
-LED_PINS = (26,27,27,27,27,27,27,27)
+LED_PINS = (26,13,6,5,16,12,7,7)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(LED_PINS, GPIO.OUT)
 def sunDetection(callback, getHeatStatus, rainBack):
