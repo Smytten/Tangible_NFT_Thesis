@@ -147,6 +147,9 @@ def sunDetection(callback, getHeatStatus, rainBack):
 
                 #Reset counter since there has been activity
                 counter = 0
+            else: 
+                GPIO.output(LED_PINS, GPIO.LOW)
+                GPIO.cleanup()
             #Increment counter because no acitivity
             if counter > 500:
                 #print("Interaction reset - previous pin set to None")
