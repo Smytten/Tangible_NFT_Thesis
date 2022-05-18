@@ -13,7 +13,7 @@ else:
 
 i2c = board.I2C()  # uses board.SCL and board.SDA
 cap = CAP1188_I2C(i2c,c.SUNSENSOR_ADDRESS)
-LED_PINS = 26
+LED_PINS = (26,27,27,27,27,27,27,27)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(LED_PINS, GPIO.OUT)
 def sunDetection(callback, getHeatStatus, rainBack):
@@ -59,10 +59,10 @@ def sunDetection(callback, getHeatStatus, rainBack):
         for i in range(1, 9):
 
             counter +=1
-            if cap[1].value is False:
-                GPIO.output(LED_PINS, GPIO.LOW)
+            if cap[i].value is False:
+                GPIO.output(LED_PINS[i-1], GPIO.LOW)
             else:
-                GPIO.output(LED_PINS,GPIO.HIGH)
+                GPIO.output(LED_PINS[i-1], GPIO.HIGH)
 
 
             # if a pin is touched. cap[i].value is a boolean expression
