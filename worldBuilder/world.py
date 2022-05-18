@@ -389,13 +389,13 @@ class World():
             self._temp += int(math.pow(self._heatSource,1.5))
         
         ## Shrinking of heat source
-        if self._heatSource > 0:
-            if self._prevHeatSource == self._heatSource: 
-                self._shrinkingCounter += 1
-                if self._shrinkingCounter > WORLDCONST.SHRINKING_CYCLES:
-                    self._shrinkingCoutner = 0
-                    self._heatSource -= 1
-        self._prevHeatSource = self._heatSource
+        #if self._heatSource > 0:
+        #    if self._prevHeatSource == self._heatSource: 
+        #        self._shrinkingCounter += 1
+        #        if self._shrinkingCounter > WORLDCONST.SHRINKING_CYCLES:
+        #            self._shrinkingCoutner = 0
+        #            self._heatSource -= 1
+        #self._prevHeatSource = self._heatSource
         
         ## Handle Rainfall
         for i, rd in enumerate(self._rainDuraiton):
