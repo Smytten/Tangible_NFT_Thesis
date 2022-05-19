@@ -6,8 +6,8 @@ from numpy import average
 import inkyphat as i
 import inky_fast
 inky_display = inky_fast.InkyPHATFast("black")
-inky_display.set_border(inky_display.WHITE)
 from PIL import Image, ImageFont, ImageDraw
+import time
 
 from paho.mqtt import client as mqtt_client
 import requests 
@@ -38,6 +38,21 @@ def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
         message = msg.payload.decode()
+        if message[0] == '~':
+            message = message[1:]
+            colours = (i.RED, i.BLACK, i.WHITE)
+            colour_names= ("red", "black", "white")
+            for j, c in enumerate(colours):
+                print("- updating with %s" % colour_names[j])
+                i.set_border(c)
+                for x in range(i.WIDTH):
+                    for y in range(i.HEIGHT):
+                        i.putpixel((x, y), c)
+                i.show()
+                time.sleep(1)
+
+            
+        
         print(message)
         r = requests.get(url=f'https://anrs.dk/mst/{message}')
         data = r.json()
@@ -50,6 +65,7 @@ def subscribe(client: mqtt_client):
             pass
         
 
+        inky_display.set_border(inky_display.WHITE)
         img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype(i.fonts.PressStart2P, 12)
