@@ -1,15 +1,14 @@
 # python3.6
 
 import random
-import inkyphat as inky_display
+
+from numpy import average
+import inkyphat as i
 import inky_fast
+inky_display = inky_fast.InkyPHATFast("black")
 inky_display.set_colour("red")
 inky_display.set_border(inky_display.WHITE)
 from PIL import Image, ImageFont, ImageDraw
-
-
-
-
 
 from paho.mqtt import client as mqtt_client
 import requests 
@@ -45,26 +44,33 @@ def subscribe(client: mqtt_client):
         data = r.json()
         name = data['name'] 
         temp = data['temp']
-        water = data['totalWaterBody']
+        water = 0
+        try:
+            water = data['totalWaterBody']
+        except:
+            pass
+        
 
         img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype(inky_display.fonts.PressStart2P, 12)
         nameFont = ImageFont.truetype(inky_display.fonts.PressStart2P, 14)
         name = f'{name}'
-        avgTemp = f'Avg Temp: {temp}°'
-        poleTemp = f'Pole: {temp-21}°'
-        EquatorTemp = f'Equator: {temp+11}°'
-        
-        hum = f'Water: {water}%'
+        avgTemp =       f'Avg Temp: {temp}°'
+        poleTemp =      f'Pole:     {temp-21}°'
+        EquatorTemp =   f'Equator:  {temp+11}°'
+        hum =           f'Water:    {water}%'
+
         w, h = font.getsize(message)
         x = 10
         y = (inky_display.HEIGHT / 2) - (h / 2)
 
 
-        draw.text((x, y-26), name, inky_display.BLACK, nameFont)
-        draw.text((x, y), message, inky_display.BLACK, font)
-        draw.text((x, y+14), hum, inky_display.BLACK, font)
+        draw.text((x, y-36), name, i.BLACK, nameFont)
+        draw.text((x, y-14), avgTemp, i.BLACK, font)
+        draw.text((x, y), poleTemp, i.BLACK, font)
+        draw.text((x, y+14), EquatorTemp, i.BLACK, font)
+        draw.text((x, y+28), hum, i.BLACK, font)
         inky_display.set_image(img)
         inky_display.show()
         
