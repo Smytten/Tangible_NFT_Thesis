@@ -56,7 +56,7 @@ while True:
 
     draw.text((x, y-36), name, inky_display.BLACK, nameFont)
     draw.text((x, y-12), avgTemp, inky_display.BLACK, font)
-    draw.text((x, y-2), poleTemp, inky_display.BLACK, font)
+    draw.text((x, y+2), poleTemp, inky_display.BLACK, font)
     draw.text((x, y+16), EquatorTemp, inky_display.BLACK, font)
     #draw.text((x, y+28), hum, inky_display.BLACK, font)
     inky_display.set_image(img)
