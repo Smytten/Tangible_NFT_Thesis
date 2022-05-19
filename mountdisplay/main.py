@@ -6,7 +6,6 @@ from numpy import average
 import inkyphat as i
 import inky_fast
 inky_display = inky_fast.InkyPHATFast("black")
-inky_display.set_colour("red")
 inky_display.set_border(inky_display.WHITE)
 from PIL import Image, ImageFont, ImageDraw
 
