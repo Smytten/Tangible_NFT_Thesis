@@ -42,6 +42,7 @@ def subscribe(client: mqtt_client):
             message = message[1:]
             colours = (i.RED, i.BLACK, i.WHITE)
             colour_names= ("red", "black", "white")
+            i.set_colour('red')
             for j, c in enumerate(colours):
                 print("- updating with %s" % colour_names[j])
                 i.set_border(c)
