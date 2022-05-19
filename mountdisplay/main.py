@@ -2,6 +2,7 @@
 
 import random
 import inkyphat as inky_display
+import inky_fast
 inky_display.set_colour("red")
 inky_display.set_border(inky_display.WHITE)
 from PIL import Image, ImageFont, ImageDraw
@@ -44,14 +45,18 @@ def subscribe(client: mqtt_client):
         data = r.json()
         name = data['name'] 
         temp = data['temp']
+        water = data['totalWaterBody']
 
         img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype(inky_display.fonts.PressStart2P, 12)
         nameFont = ImageFont.truetype(inky_display.fonts.PressStart2P, 14)
         name = f'{name}'
-        message = f'Temprature: {temp}°'
-        hum = f'Water: {33}%'
+        avgTemp = f'Avg Temp: {temp}°'
+        poleTemp = f'Pole: {temp-21}°'
+        EquatorTemp = f'Equator: {temp+11}°'
+        
+        hum = f'Water: {water}%'
         w, h = font.getsize(message)
         x = 10
         y = (inky_display.HEIGHT / 2) - (h / 2)

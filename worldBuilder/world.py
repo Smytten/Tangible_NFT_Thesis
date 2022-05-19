@@ -536,12 +536,20 @@ class World():
     def getPaneTileSet(self,id):
         return self._panes[id].getTilesToString()
 
+    def getTotalWater(self):
+        hum = 0
+        for pane in self._panes:
+            for t in pane.getTiles():
+                hum += t.getWaterBody()
+        return hum
+
     def exportJSON(self):
         jf = {}
         jf['name'] = self._name
         jf['id'] = self.__id 
         jf['temp'] = self._temp
-        jf['heatSource'] =self._heatSource
+        jf['heatSource'] = self._heatSource
+        jf['totalWaterBody'] = self.getTotalWater()
         panes = {}
         for pane in self._panes:
             curPane = {}
@@ -618,6 +626,7 @@ if __name__ == "__main__":
     testWorld.attach(realBroker)
 
     # testWorld.notify()
+    print(testWorld.getTotalWater())
 
 
     while(True):
