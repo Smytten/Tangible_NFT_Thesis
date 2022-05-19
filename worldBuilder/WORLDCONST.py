@@ -8,7 +8,7 @@ RockMountain = "7"
 FrozenWater = "8"
 FrozenForrest = "9"
 
-WaterRange = (0,40)
+WaterRange = (0,30)
 IceRange = (-200,-1)
 DesertRange = (26,300)
 ForrestRange = (0,25)
@@ -51,11 +51,11 @@ NEIGHBOURHOOD_CONST_BINDERS = [
 POLARITY_CONST = [
     {
         "location": [(1,3),(6,5),(10,4),(8,3),(8,4),(8,5)],
-        "pol": -38
+        "pol": -31
     },
     {
         "location": [(1,0),(1,1),(1,2),(1,4),(1,5),(10,2),(10,3),(8,2),(3,3),(3,4),(4,2),(4,3),(6,2),(6,3),(6,4)],
-        "pol": -21
+        "pol": -13
     },
     {
         "location": [(0,0),(0,1),(0,2),(0,3),(0,4),(0,5),(6,0),(2,5),(2,4),(7,5),(9,0),(5,1),(5,2),(9,4)],
