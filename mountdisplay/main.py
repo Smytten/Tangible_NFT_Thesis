@@ -52,8 +52,8 @@ def subscribe(client: mqtt_client):
 
         img = Image.new("P", (inky_display.WIDTH, inky_display.HEIGHT))
         draw = ImageDraw.Draw(img)
-        font = ImageFont.truetype(inky_display.fonts.PressStart2P, 12)
-        nameFont = ImageFont.truetype(inky_display.fonts.PressStart2P, 14)
+        font = ImageFont.truetype(i.fonts.PressStart2P, 12)
+        nameFont = ImageFont.truetype(i.fonts.PressStart2P, 14)
         name = f'{name}'
         avgTemp =       f'Avg Temp: {temp}°'
         poleTemp =      f'Pole:     {temp-21}°'
@@ -65,11 +65,11 @@ def subscribe(client: mqtt_client):
         y = (inky_display.HEIGHT / 2) - (h / 2)
 
 
-        draw.text((x, y-36), name, i.BLACK, nameFont)
-        draw.text((x, y-14), avgTemp, i.BLACK, font)
-        draw.text((x, y), poleTemp, i.BLACK, font)
-        draw.text((x, y+14), EquatorTemp, i.BLACK, font)
-        draw.text((x, y+28), hum, i.BLACK, font)
+        draw.text((x, y-36), name, inky_display.BLACK, nameFont)
+        draw.text((x, y-14), avgTemp, inky_display.BLACK, font)
+        draw.text((x, y), poleTemp, inky_display.BLACK, font)
+        draw.text((x, y+14), EquatorTemp, inky_display.BLACK, font)
+        draw.text((x, y+28), hum, inky_display.BLACK, font)
         inky_display.set_image(img)
         inky_display.show()
         
