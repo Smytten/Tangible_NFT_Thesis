@@ -11,19 +11,26 @@ import time
 import requests 
 
 user = sys.argv[1]
+reset = False
+try:
+    reset = sys.argv[2]
+except:
+    pass
+
 
 #Cleaning 
-colours = (i.RED, i.BLACK, i.WHITE)
-colour_names= ("red", "black", "white")
-i.set_colour('red')
-for j, c in enumerate(colours):
-    print("- updating with %s" % colour_names[j])
-    i.set_border(c)
-    for x in range(i.WIDTH):
-        for y in range(i.HEIGHT):
-            i.putpixel((x, y), c)
-    i.show()
-    time.sleep(1)
+if reset:
+    colours = (i.RED, i.BLACK, i.WHITE)
+    colour_names= ("red", "black", "white")
+    i.set_colour('red')
+    for j, c in enumerate(colours):
+        print("- updating with %s" % colour_names[j])
+        i.set_border(c)
+        for x in range(i.WIDTH):
+            for y in range(i.HEIGHT):
+                i.putpixel((x, y), c)
+        i.show()
+        time.sleep(0.3)
 
             
         
@@ -55,9 +62,9 @@ while True:
 
 
     draw.text((x, y-36), name, inky_display.BLACK, nameFont)
-    draw.text((x, y-12), avgTemp, inky_display.BLACK, font)
-    draw.text((x, y+2), poleTemp, inky_display.BLACK, font)
-    draw.text((x, y+16), EquatorTemp, inky_display.BLACK, font)
+    draw.text((x, y-14), avgTemp, inky_display.BLACK, font)
+    draw.text((x, y), poleTemp, inky_display.BLACK, font)
+    draw.text((x, y+14), EquatorTemp, inky_display.BLACK, font)
     #draw.text((x, y+28), hum, inky_display.BLACK, font)
     inky_display.set_image(img)
     inky_display.show()
