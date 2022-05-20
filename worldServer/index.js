@@ -6,6 +6,7 @@ const fs = require('fs');
 app.use(express.json());
 
 let user = 'test';
+let clean = '0';
 
 app.get('/', (req, res) => {
 	res.send('Hello World!');
@@ -17,6 +18,16 @@ app.get('/user', (req, res, next) => {
 
 app.post('/user', (req, res, next) => {
 	user = req.query['id'];
+	console.log(user);
+	res.send('ok');
+});
+
+app.get('/clean', (req, res, next) => {
+	res.send(clean);
+});
+
+app.post('/clean', (req, res, next) => {
+	user = req.query['status'];
 	console.log(user);
 	res.send('ok');
 });
