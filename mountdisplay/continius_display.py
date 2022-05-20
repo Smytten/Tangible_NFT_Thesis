@@ -2,10 +2,10 @@
 
 import random
 import sys
-#import inkyphat as i
-#import inky_fast
-#inky_display = inky_fast.InkyPHATFast("black")
-#from PIL import Image, ImageFont, ImageDraw
+import inkyphat as i
+import inky_fast
+inky_display = inky_fast.InkyPHATFast("black")
+from PIL import Image, ImageFont, ImageDraw
 import time
 import requests 
 
@@ -74,12 +74,12 @@ while True:
         print(c)
         if (c == '1'):
             print('Cleaning...')
-            #clean()
+            clean()
             requests.post(f'https://anrs.dk/mst/clean?status=0')
 
         r = requests.get(url=f"https://anrs.dk/mst/user")
         user = r._content.decode('utf-8')
         print(user)
-#        rerender(user)
+        rerender(user)
 
     time.sleep(10)
