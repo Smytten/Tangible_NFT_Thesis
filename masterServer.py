@@ -73,9 +73,9 @@ def runWorld():
             world.notify()
             headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
             requests.post(f'https://anrs.dk/mst/{user}',data=world.exportJSON(),headers=headers)
+            requests.post(f'https://anrs.dk/mst/user?id={user}',headers=headers)
             print('World Step')
             print(f'Temp is: {world._temp}')
-            realBroker.message("mworld/6dh2/d",user)
 
         pass
 
