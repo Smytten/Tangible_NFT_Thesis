@@ -27,8 +27,8 @@ app.get('/clean', (req, res, next) => {
 });
 
 app.post('/clean', (req, res, next) => {
-	user = req.query['status'];
-	console.log(user);
+	clean = req.query['status'];
+	console.log(clean);
 	res.send('ok');
 });
 
