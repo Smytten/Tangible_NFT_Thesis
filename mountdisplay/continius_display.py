@@ -65,6 +65,7 @@ def rerender(user):
 while True:
     r = requests.get(url="https://anrs.dk/mst/clean")
     c = r._content.decode('utf-8')
+    print(c)
     if (c == '1'):
         print('Cleaning...')
         requests.post(f'https://anrs.dk/mst/clean?status=0')
