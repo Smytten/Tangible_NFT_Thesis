@@ -2,10 +2,10 @@
 
 import random
 import sys
-#import inkyphat as i
-#import inky_fast
-#inky_display = inky_fast.InkyPHATFast("black")
-#from PIL import Image, ImageFont, ImageDraw
+import inkyphat as i
+import inky_fast
+inky_display = inky_fast.InkyPHATFast("black")
+from PIL import Image, ImageFont, ImageDraw
 import time
 import requests 
 
@@ -62,16 +62,24 @@ def rerender(user):
     inky_display.show()
     
 
-while True:
-    r = requests.get(url="https://anrs.dk/mst/clean")
-    c = r._content.decode('utf-8')
-    print(c)
-    if (c == '1'):
-        print('Cleaning...')
-        requests.post(f'https://anrs.dk/mst/clean?status=0')
 
-    r = requests.get(url=f"https://anrs.dk/mst/user")
-    user = r._content.decode('utf-8')
-    print(user)
+## Alway clean when starting.        
+requests.post(f'https://anrs.dk/mst/clean?status=1')
+
+while True:
+    on = requests.get(url="https://anrs.dk/mst/status")._content.decode('utf-8')
+    if on == 1:
+        r = requests.get(url="https://anrs.dk/mst/clean")
+        c = r._content.decode('utf-8')
+        print(c)
+        if (c == '1'):
+            print('Cleaning...')
+            clean()
+            requests.post(f'https://anrs.dk/mst/clean?status=0')
+
+        r = requests.get(url=f"https://anrs.dk/mst/user")
+        user = r._content.decode('utf-8')
+        print(user)
+        rerender(user)
 
     time.sleep(10)

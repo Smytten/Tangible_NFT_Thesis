@@ -7,6 +7,7 @@ app.use(express.json());
 
 let user = 'test';
 let clean = '0';
+let status = '0';
 
 app.get('/', (req, res) => {
 	res.send('Hello World!');
@@ -19,6 +20,16 @@ app.get('/user', (req, res, next) => {
 app.post('/user', (req, res, next) => {
 	user = req.query['id'];
 	console.log(user);
+	res.send('ok');
+});
+
+app.get('/status', (req, res, next) => {
+	res.send(status);
+});
+
+app.post('/status', (req, res, next) => {
+	status = req.query['state'];
+	console.log(status);
 	res.send('ok');
 });
 
