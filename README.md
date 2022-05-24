@@ -33,7 +33,7 @@
     <img src="gfx/planet.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Mst PLANET NFT</h3>
+  <h3 align="center">TerraGon</h3>
 
   <p align="center">
     Master Thesis Project exploring Tangible Non Fugible Tokens
