@@ -389,10 +389,10 @@ class World():
     def worldStep(self):
         # Global Changes
         if self._temp > -273:
-            self._temp -= 5
+            self._temp -= 3
         
         if self._heatSource >= 1:
-            self._temp += 5 + int(math.pow(self._heatSource,1.5))
+            self._temp += 2 + int(math.pow(self._heatSource,1.5))
         
         ## Shrinking of heat source
         #if self._heatSource > 0:
