@@ -70,8 +70,6 @@ def sunDetection(callback, getHeatStatus, rainBack):
                 else:
                     GPIO.output(LED_PINS[i-1], GPIO.HIGH)
             else:
-                if i == 2:
-                    continue
                 if cap[i].value:
                     GPIO.output(LED_PINS[i-1], GPIO.HIGH)
                 else:
@@ -88,7 +86,8 @@ def sunDetection(callback, getHeatStatus, rainBack):
                 #If it is the same pin
                 if previous_captured_pin == i:
                     prev_counter += 1
-                    print(prev_counter)
+                    if prev_counter % 100 == 0:
+                        print(prev_counter)
                     if prev_counter > 1000 and cap[1].value:
                         prev_counter = 0
                         previous_captured_pin = None
@@ -97,6 +96,7 @@ def sunDetection(callback, getHeatStatus, rainBack):
 
                 if cap[3].value and not sunInt:
                     rainBack(5) 
+                    print("rain")
 
 
                 # if cap[1].value == False and cap[2].value == False:
