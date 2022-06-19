@@ -70,7 +70,9 @@ def sunDetection(callback, getHeatStatus, rainBack):
                 else:
                     GPIO.output(LED_PINS[i-1], GPIO.HIGH)
             else:
-                if cap[i].value:
+                if i == 2:
+                    GPIO.output(LED_PINS[i-1], GPIO.LOW)
+                elif cap[i].value:
                     GPIO.output(LED_PINS[i-1], GPIO.HIGH)
                 else:
                     GPIO.output(LED_PINS[i-1], GPIO.LOW)
@@ -96,8 +98,16 @@ def sunDetection(callback, getHeatStatus, rainBack):
 
                 if cap[3].value and not sunInt:
                     rainBack(5) 
-                    print("rain")
-
+                if cap[4].value and not sunInt:
+                    rainBack(4) 
+                if cap[5].value and not sunInt:
+                    rainBack(1) 
+                if cap[6].value and not sunInt:
+                    rainBack(0) 
+                if cap[7].value and not sunInt:
+                    rainBack(3) 
+                if cap[8].value and not sunInt:
+                    rainBack(2) 
 
                 # if cap[1].value == False and cap[2].value == False:
                 #     prevActive[1] = False
