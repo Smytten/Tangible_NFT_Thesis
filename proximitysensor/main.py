@@ -70,6 +70,8 @@ def sunDetection(callback, getHeatStatus, rainBack):
                 else:
                     GPIO.output(LED_PINS[i-1], GPIO.HIGH)
             else:
+                if i == 2:
+                    break
                 if cap[i].value:
                     GPIO.output(LED_PINS[i-1], GPIO.HIGH)
                 else:
@@ -93,23 +95,9 @@ def sunDetection(callback, getHeatStatus, rainBack):
                         sunInt = not sunInt
                     break
 
+                if cap[3].value and not sunInt:
+                    rainBack(5) 
 
-                # if cap[8].value == False and cap[7].value == False:
-                #     prevActive[0] = False
-                #     activations[0] = 0
-                #     released[0] = True
-                # if cap[8].value and cap[7].value and timerArr[0] < time.time():
-                #     if prevActive[0]:
-                #         activations[0] += 1
-                #         if activations[0] == c.ACTIVATION_TIME and released[0]:
-                #             rainBack(1)
-                #             rainBack(2)
-                #             rainBack(3)
-                #             # TODO impl the server call to make it rain :)
-                #             timerArr[0] = time.time() + c.WAIT_DURATION
-                #             released[0] = False
-                #     else:
-                #         prevActive[0] = True
 
                 # if cap[1].value == False and cap[2].value == False:
                 #     prevActive[1] = False
