@@ -97,17 +97,17 @@ def sunDetection(callback, getHeatStatus, rainBack):
                     break
 
                 if cap[3].value and not sunInt:
-                    rainBack(5) 
-                if cap[4].value and not sunInt:
-                    rainBack(4) 
-                if cap[5].value and not sunInt:
-                    rainBack(1) 
-                if cap[6].value and not sunInt:
                     rainBack(0) 
-                if cap[7].value and not sunInt:
-                    rainBack(3) 
-                if cap[8].value and not sunInt:
+                if cap[4].value and not sunInt:
+                    rainBack(1) 
+                if cap[5].value and not sunInt:
                     rainBack(2) 
+                if cap[6].value and not sunInt:
+                    rainBack(3) 
+                if cap[7].value and not sunInt:
+                    rainBack(4) 
+                if cap[8].value and not sunInt:
+                    rainBack(5) 
 
                 # if cap[1].value == False and cap[2].value == False:
                 #     prevActive[1] = False
