@@ -73,9 +73,9 @@ def sunDetection(callback, getHeatStatus, rainBack):
                 if i == 2:
                     GPIO.output(LED_PINS[i-1], GPIO.LOW)
                 elif cap[i].value:
-                    GPIO.output(LED_PINS[i-1], GPIO.HIGH)
-                else:
                     GPIO.output(LED_PINS[i-1], GPIO.LOW)
+                else:
+                    GPIO.output(LED_PINS[i-1], GPIO.HIGH)
 
 
             # if a pin is touched. cap[i].value is a boolean expression
