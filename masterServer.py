@@ -65,7 +65,7 @@ world.notify()
 running = True
 
 def runWorld():
-    WORLD_STEP_SPEED = 1
+    WORLD_STEP_SPEED = 3
     while(True):
         if(running):
             time.sleep(WORLD_STEP_SPEED)
