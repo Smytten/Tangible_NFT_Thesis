@@ -16,6 +16,9 @@ cap = CAP1188_I2C(i2c,c.SUNSENSOR_ADDRESS)
 LED_PINS = (26,13,6,5,16,12,4,19)
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(LED_PINS, GPIO.OUT)
+
+
+
 def sunDetection(callback, getHeatStatus, rainBack):
     sun = sunController()
     sun.update_position()
@@ -35,6 +38,8 @@ def sunDetection(callback, getHeatStatus, rainBack):
 
     previous_captured_pin = None
     counter = 0
+    prev_counter = 0
+    sunInt = True
 
     sunStatus = getHeatStatus()
     sun.set_level(getHeatStatus()+1)
@@ -59,10 +64,16 @@ def sunDetection(callback, getHeatStatus, rainBack):
         for i in range(1, 9):
 
             counter +=1
-            if cap[i].value:
-                GPIO.output(LED_PINS[i-1], GPIO.LOW)
+            if sunInt:
+                if cap[i].value:
+                    GPIO.output(LED_PINS[i-1], GPIO.LOW)
+                else:
+                    GPIO.output(LED_PINS[i-1], GPIO.HIGH)
             else:
-                GPIO.output(LED_PINS[i-1], GPIO.HIGH)
+                if cap[i].value:
+                    GPIO.output(LED_PINS[i-1], GPIO.HIGH)
+                else:
+                    GPIO.output(LED_PINS[i-1], GPIO.LOW)
 
 
             # if a pin is touched. cap[i].value is a boolean expression
@@ -74,6 +85,9 @@ def sunDetection(callback, getHeatStatus, rainBack):
 
                 #If it is the same pin
                 if previous_captured_pin == i:
+                    prev_counter += 1
+                    if prev_counter > 1000 and cap[8].value:
+                        sunInt = not sunInt
                     break
 
 
@@ -119,25 +133,25 @@ def sunDetection(callback, getHeatStatus, rainBack):
                 #     rainBack(3)
 
                 # check if gesture is going up
-                if cap[4].value and cap[5].value:
+                if cap[4].value and cap[5].value and sunInt:
                #     print("Level 1 sensors have activated")
                     callback(0)
                     #sun.set_level(1)
 
                 # check if gesture is going up
-                if cap[3].value and cap[6].value:
+                if cap[3].value and cap[6].value and sunInt:
                #     print("Level 2 sensors have activated")
                     callback(1)
                     #sun.set_level(2)
 
                 # check if gesture is going up
-                if cap[2].value and cap[7].value:
+                if cap[2].value and cap[7].value and sunInt:
                #     print("Level 3 sensors have activated")
                     callback(2)
                     #sun.set_level(3)
 
                 # check if gesture is going up
-                if cap[1].value and cap[8].value:
+                if cap[1].value and cap[8].value and sunInt:
                #     print("Level 4 sensors have activated")
                     callback(3)
                     #sun.set_level(4)
@@ -152,6 +166,7 @@ def sunDetection(callback, getHeatStatus, rainBack):
             if counter > 500:
                 #print("Interaction reset - previous pin set to None")
                 previous_captured_pin = None
+                prev_counter = 0
 
                 #Reset counter after reset
                 counter = 0

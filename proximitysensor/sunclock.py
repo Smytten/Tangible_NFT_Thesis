@@ -16,7 +16,7 @@ class sunController():
         self.pixel_pin = board.D10
 
         # The number of NeoPixels 147 + 1 for some reason
-        self.num_pixels = 88
+        self.num_pixels = 87
         
         #Start position of sun
         self.current_position = 0
@@ -77,7 +77,7 @@ class sunController():
         self.redraw_pixels()
 
         #Create a new thread for non-blocking change of position over time
-        timer = threading.Timer(3.4, self.update_position)
+        timer = threading.Timer(2.4, self.update_position)
         timer.start()
         
     def redraw_pixels(self):
