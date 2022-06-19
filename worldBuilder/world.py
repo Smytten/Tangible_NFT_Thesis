@@ -133,7 +133,7 @@ class Flower(Pane):
         h = ((height / len(self._tiles)) + 90)/2
         a = 0
         if h > 45:
-            a = 110
+            a = 90
         return a 
 
 
@@ -389,7 +389,7 @@ class World():
     def worldStep(self):
         # Global Changes
         if self._temp > -273:
-            self._temp -= 1
+            self._temp -= 5
         
         if self._heatSource >= 1:
             self._temp += int(math.pow(self._heatSource,1.5))

@@ -18,7 +18,7 @@ world = world.World()
 
 world.importJSON(j)
 
-outer = 110
+outer = 90 
 
 flush = (outer,0,0,0,0,0)
 high = (0,outer,outer,outer,outer,outer)
