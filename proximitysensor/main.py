@@ -88,6 +88,8 @@ def sunDetection(callback, getHeatStatus, rainBack):
                     prev_counter += 1
                     print(prev_counter)
                     if prev_counter > 1000 and cap[1].value:
+                        prev_counter = 0
+                        previous_captured_pin = None
                         sunInt = not sunInt
                     break
 
