@@ -71,7 +71,7 @@ def sunDetection(callback, getHeatStatus, rainBack):
                     GPIO.output(LED_PINS[i-1], GPIO.HIGH)
             else:
                 if i == 2:
-                    break
+                    continue
                 if cap[i].value:
                     GPIO.output(LED_PINS[i-1], GPIO.HIGH)
                 else:
