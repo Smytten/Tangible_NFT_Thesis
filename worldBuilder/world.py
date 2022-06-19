@@ -392,7 +392,7 @@ class World():
             self._temp -= 5
         
         if self._heatSource >= 1:
-            self._temp += int(math.pow(self._heatSource,1.5))
+            self._temp += 5 + int(math.pow(self._heatSource,1.5))
         
         ## Shrinking of heat source
         #if self._heatSource > 0:
